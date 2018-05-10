@@ -1,0 +1,36 @@
+.main_content,.main_search,.main_env{
+	width: 1250px;
+	margin:10px auto;
+	position: relative;
+}
+.content{
+	margin-bottom: 20px;
+}
+.main_search{
+	min-height: 70px;
+	margin-bottom: 10px;
+	background-image: url("/static/images/casebg.png");
+	padding-top: 10px;
+}
+.jumbotron{
+	background: none;
+	margin-bottom: 25px;
+	padding: 20px 30px;
+	border:1px solid #f7f7f7;
+	border-left-width: 10px;
+	border-radius: 3px;
+}
+.jumbotron p{
+	margin-bottom: 5px;
+	font-size: 20px;
+}
+.jumbotron h3{
+	margin-top: 0px;
+}
+.api_testcase_btn{
+	width: 100px;
+	margin-top: 15px;
+}
+.center_content_table{
+	min-height: 200px;
+}

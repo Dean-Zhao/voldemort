@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name=”renderer” content=”webkit” />
+<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="keywords" content="">
+<meta name="Description" content="Dean">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=10" />
+<meta charset="utf-8">
+<title>Voldemort</title>
+{% load staticfiles %}
+<link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/api_add.css" rel="stylesheet" type="text/css" />
+</head>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+ <div class="container_all">
+  <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand logo">Voldemort</a>     
+    </div> 
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+          <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
+          <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
+          <p class="navbar-text navbar-right">{{user.username}}</p>
+    </div>
+   </div>
+  </nav>
+  <div class="content">
+    <div class="loading" style="display:none;">
+      <div class="loading_message">
+        <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
+      </div>
+    </div>
+     <div class="main">
+       <div class="main_content" >
+        <div class="add_table"> 
+          <div class="add_table_title"><span>新增接口</span></div> 
+          <div class="add_table_content">
+            <form id="add_table_form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">API名称<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                <input type="text" class="form-control" id="t_api_name" name="name" placeholder="请输入名称" maxlength="40">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">请求路径<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                <input type="text" class="form-control" id="t_api_url" name="path" placeholder="请输入url" maxlength="1000">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">请求方式<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                <select class="form-control" name="method">
+                  <option>post</option>
+                  <option>get</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">所属项目<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                <select class="form-control" name="project">
+                  {% for proj in projs %}
+                    <option value="{{proj.id}}">{{ proj.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">API描述</label>
+                <textarea class="form-control" rows="3" name="description"></textarea>
+              </div>
+              <button type="button" onClick="api_add();" class="btn btn-default">确认提交 <i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
+            </form>
+          </div>        
+          </div>
+       </div>
+     </div>
+   </div>
+  <footer class="bottom">
+    <div class="container">
+      <p>Designed and built by Testing team.</p>
+    </div>
+  </footer>
+ </div>
+ <!-- 消息弹出框 -->
+ <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <span class="modal-title" id="myModalLabel">消息</span>
+      </div>
+      <div class="modal-body">
+        <span id="error_message"></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+ </div> 
+</div>
+<script src="/static/dist/js/jquery2.min.js"></script>
+<script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
+<script src="/static/src/js/common.js"></script>
+<script src="/static/src/js/api_add.js"></script>
+<script type="text/javascript">
+ $(function(){
+  // 初始化界面
+  creatmenu();
+  menu_current(0);
+ });
+ //页面刷新方法
+  $(".refresh_page").click(function(){
+    location.reload();
+  });
+ // 退出登陆
+ $("#logoff").click(function(){
+   log_off();
+ });
+</script>
+</body>
+</html>

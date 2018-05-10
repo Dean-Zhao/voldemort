@@ -1,0 +1,48 @@
+.main_env{
+	min-height: 70px;
+	margin-bottom: 10px;
+	padding-top: 0px 10px;
+}
+.case_info_profile{
+	padding: 10px;
+	display: block;
+	font-weight: 400;
+	font-size: 16px;
+	color: #777;
+}
+.case_info_detail{
+	border:1px solid #f7f7f7;
+	padding: 10px;
+	background-color: #f7f7f7;
+}
+.fa-check-circle{
+	color: #5cb85c;
+	line-height: 30px;
+}
+.fa-tag{
+	color: #5bc0de;
+	line-height: 30px;
+}
+.fa-exclamation-circle{
+	color: #d9534f;
+	line-height: 30px;
+}
+.key_name,.key_value{
+	color:#777;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+.key_value{
+	margin-left: 50px !important;
+	width: 300px;
+}
+.key_result{
+	display: inline-block;
+	width: 300px;
+	height: 30px;
+	margin-top:-34px;
+	margin-left: 50px;
+	color: #222;
+	line-height: 30px;
+}

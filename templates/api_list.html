@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name=”renderer” content=”webkit” />
+<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="keywords" content="">
+<meta name="Description" content="Dean">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=10" />
+<meta charset="utf-8">
+<title>Voldemort</title>
+{% load staticfiles %}
+<link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/api_list.css" rel="stylesheet" type="text/css" />
+</head>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+ <div class="container_all">
+  <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand logo">Voldemort</a>     
+    </div> 
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+          <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
+          <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
+          <p class="navbar-text navbar-right">{{ request.user.username }}</p>
+    </div>
+   </div>
+  </nav>
+  <div class="content">
+    <div class="loading" style="display:none;">
+      <div class="loading_message">
+        <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
+      </div>
+    </div>
+     <div class="main">
+      <div class="main_search">
+        <div class="main_search_content">
+            <ul class="list-inline">
+            <li class="pull-left">
+                <button type="button" class="btn btn-default" onclick="apiAdd()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; 新增接口</button>
+            </li>
+             <li class="pull-right">
+                <form class="form-inline">
+                  <div class="form-group">
+                  <label for="c_main_page_top_left_checkbox_label1">所属项目</label>
+                      <select class="form-control select_api" id="keytypes">
+                        <option value="">请选择</option>
+                        {% for proj in projs %}
+                        <option value="{{proj.id}}">{{ proj.name}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                  <div class="form-group search">
+                    <input type="text" class="form-control search_input" placeholder="请输入接口名称" id="keywords">
+                    <span class="input-group-btn">
+                  </div>
+                  <button class="btn btn-default" type="button" onClick="query(1,10);"><i class="fa fa-search"></i></button>
+                </form>
+             </li>
+           </ul>      
+          </div>
+         </div>
+       <div class="main_content" >
+          <div id="center_content_table" class="center_content_table">          
+          </div>
+          <div class="pagination1">
+       <nav style="text-align: center" id="fenye"></nav></div>
+       </div>
+     </div>
+   </div>
+  <footer class="bottom">
+    <div class="container">
+      <p>Designed and built by Testing team.</p>
+    </div>
+  </footer>
+ </div>
+ <!-- 消息弹出框 -->
+ <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <span class="modal-title" id="myModalLabel">消息</span>
+      </div>
+      <div class="modal-body">
+        <span id="error_message">修改成功！</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+ </div>  
+ <!-- 删除用户弹出框 -->
+ <div class="modal fade bs-example-modal-sm" id="delete_account" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <span class="modal-title" id="myModalLabel">消息</span>
+      </div>
+      <div class="modal-body">
+        <span id="delete_message">是否删除接口？</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" onClick="noticeDelete1()">确认</button>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+<script src="/static/dist/js/jquery2.min.js"></script>
+<script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
+<script src="/static/dist/js/extendPagination.js"></script>
+<script src="/static/src/js/common.js"></script>
+<script src="/static/src/js/api_list.js"></script>
+<script type="text/javascript">
+ $(function(){
+  // 初始化界面
+  loading(0);
+  creatmenu();
+  menu_current(0);
+  query(1,10);
+ });
+ //页面刷新方法
+  $(".refresh_page").click(function(){
+    location.reload();
+  });
+ // 退出登陆
+ $("#logoff").click(function(){
+   log_off();
+ });
+</script>
+</body>
+</html>

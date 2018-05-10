@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name=”renderer” content=”webkit” />
+<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="keywords" content="">
+<meta name="Description" content="Dean">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=10" />
+<meta charset="utf-8">
+<title>Voldemort</title>
+{% load staticfiles %}
+<link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/api_testcase.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/api_testcase_add.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+ <div class="container_all">
+  <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand logo">Voldemort</a>     
+    </div> 
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+          <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
+          <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
+          <p class="navbar-text navbar-right">{{ request.user.username }}</p>
+    </div>
+   </div>
+  </nav>
+  <div class="content">
+    <div class="loading" style="display:none;">
+      <div class="loading_message">
+        <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
+      </div>
+    </div>
+    <div class="main">
+      <div class="main_search">
+        <div class="jumbotron">
+         <h3 id="api_id" data-id={{api.id}}>{{api.name}} <span class="label label-default">{{api.proj}}</span></h3>
+          <p>{{api.method}}</p>
+          <p>{{api.path}}</p>
+          <p>{{api.description}}</p>
+          <a class="btn btn-warning api_testcase_btn" href="/api/{{api.id}}/cases/" role="button">返回</a> <a class="btn btn-default api_testcase_btn" href="javascript:void(0)" onclick="case_getpams()" role="button">保存</a> 
+        </div>
+      </div>
+      <div class="main_content" >
+        <div class="main_content_tab">
+          <ul id="myTabs" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab_profile" id="profile-tab" role="tab" data-toggle="tab" aria-controls="tab_profile" aria-expanded="true">基本信息</a></li>
+            <li role="presentation"><a href="#tab_headers" role="tab" id="headers-tab" data-toggle="tab" aria-controls="tab_headers">headers</a></li>
+            <li role="presentation"><a href="#tab_cookies" role="tab" id="cookies-tab" data-toggle="tab" aria-controls="tab_cookies">cookies</a></li>
+            <li role="presentation"><a href="#tab_pams" role="tab" id="pams-tab" data-toggle="tab" aria-controls="tab_pams">输入参数设置</a></li>
+            <li role="presentation"><a href="#tab_validations" role="tab" id="validations-tab" data-toggle="tab" aria-controls="tab_validations">结果返回验证</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+              <div role="tabpanel" class="tab-pane fade in active" id="tab_profile" aria-labelledby="profile-tab"> 
+              <form id="tab_profile_form">            
+                <div class="form-group">
+                  <label for="t_case_name">用例名称<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                  <input type="text" class="form-control" id="t_case_name" name="name" placeholder="请输入名称" maxlength="40">
+                </div>
+                <div class="form-group">
+                  <label for="case_type">标签</label>
+                  <div class="radio" id="case_type">
+                      {% for tag in tags %}
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="case_type1" value="1" {% ifequal forloop.counter 1 %}checked="checked"{% endifequal %}> {{ tag.name }}
+                    </label>
+                      {% endfor %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="case_proj">用例类型</label>
+                  <div class="radio" id="case_proj">
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="0" checked="checked"> 不加密
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"> 风云诀加密
+                    </label>
+                      <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="2"> API加密
+                    </label>
+                  </div>
+                </div>
+               </form>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab_headers" aria-labelledby="headers-tab">
+               <form id="tab_headers_form" tct="1">
+                <div class="form-group pam_value" id="headers_area1">
+                 <div class="pull-left">
+                  <input type="text" class="form-control key_name" id="header_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                  <input type="text" class="form-control key_value" id="header_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                </div>
+                <div class="pam_button pull-right">
+                  <button type="button" class="btn btn-default btn-circle" onclick="header_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="header_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                </div>
+              </div>
+             </form>
+            </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab_cookies" aria-labelledby="cookies-tab">
+                <form id="tab_cookies_form" tct="1">
+                  <div class="form-group pam_value" id="cookies_area1">
+                   <div class="pull-left">
+                    <input type="text" class="form-control key_name" id="cookies_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                    <input type="text" class="form-control key_value" id="cookies_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                  </div>
+                  <div class="pam_button pull-right">
+                    <button type="button" class="btn btn-default btn-circle" onclick="cookies_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="cookies_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+             </form>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab_pams" aria-labelledby="pams-tab">
+                <form id="tab_pams_form" tct="1">
+                  <div class="form-group pam_value" id="pams_area1">
+                   <div class="pull-left">
+                    <input type="text" class="form-control key_name" id="pams_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                    <input type="text" class="form-control key_value" id="pams_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                  </div>
+                  <div class="pam_button pull-right">
+                    <button type="button" class="btn btn-default btn-circle" onclick="pams_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="pams_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+             </form>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab_validations" aria-labelledby="validations-tab">
+                <form id="tab_validations_form" tct="1">
+                  <div class="form-group pam_value" id="validations_area1">
+                   <div class="pull-left">
+                    <input type="text" class="form-control key_name" id="validations_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                    <input type="text" class="form-control key_value" id="validations_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                  </div>
+                  <div class="pam_button pull-right">
+                    <button type="button" class="btn btn-default btn-circle" onclick="validations_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="validations_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+              </form>
+              </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bottom">
+    <div class="container">
+      <p>Designed and built by Testing team.</p>
+    </div>
+  </footer>
+ </div>
+ <!-- 消息弹出框 -->
+ <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <span class="modal-title" id="myModalLabel">消息</span>
+      </div>
+      <div class="modal-body">
+        <span id="error_message">修改成功！</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+ </div>  
+</div>
+<script src="/static/dist/js/jquery2.min.js"></script>
+<script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
+<script src="/static/dist/js/extendPagination.js"></script>
+<script src="/static/src/js/common.js"></script>
+<script src="/static/src/js/api_testcase.js"></script>
+<script src="/static/src/js/api_testcase_add.js"></script>
+<!-- <script src="/static/src/js/tokencreat.js"></script>
+ -->
+<script type="text/javascript">
+ $(function(){
+  // 初始化界面
+  // loading(0);
+  creatmenu();
+  menu_current(0);
+});
+ //页面刷新方法
+ $(".refresh_page").click(function(){
+  location.reload();
+ });
+ // 退出登陆
+ $("#logoff").click(function(){
+   log_off();
+ });
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8">
+    <title>邮件发送成功</title>
+    <script language="javascript" type="text/javascript">
+        var i = 5;
+        var intervalid;
+        intervalid = setInterval("fun()", 1000);
+        function fun() {
+            if (i == 0) {
+                window.location.href = "../api";
+                clearInterval(intervalid);
+            }
+            document.getElementById("mes").innerHTML = i;
+            i--;
+        }
+    </script>
+    <style>
+       .content {
+           margin-top: 100px;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 800px;
+			background: #F8F8F8;
+			padding: 30px 30px 20px 30px;
+			font: 12px Arial, Helvetica, sans-serif;
+			color: #666;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+		}
+        .content h1 {
+			font: 24px "Trebuchet MS", Arial, Helvetica, sans-serif;
+			padding: 20px 0px 20px 40px;
+			display: block;
+			margin: -30px -30px 10px -30px;
+			color: #FFF;
+			background: #9DC45F;
+			text-shadow: 1px 1px 1px #949494;
+			border-radius: 5px 5px 0px 0px;
+			-webkit-border-radius: 5px 5px 0px 0px;
+			-moz-border-radius: 5px 5px 0px 0px;
+			border-bottom: 1px solid #89AF4C;
+		}
+        .content p{
+            font: 16px "Trebuchet MS", Arial, Helvetica, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+<h1>保存成功</h1>
+<p>保存成功，系统将在<span id="mes">5</span>秒后自动跳转至新建页...</p>
+</div>
+</body>
+</html>

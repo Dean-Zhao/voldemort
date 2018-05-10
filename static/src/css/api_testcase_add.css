@@ -1,0 +1,45 @@
+.main_content_tab{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border:1px solid #f7f7f7;
+	border-radius: 3px;
+	padding: 35px 20px;
+}
+#myTabContent{
+	margin-top: 25px;
+}
+.fa-asterisk{
+	font-size: 10px;
+	color: red;
+}
+.pam_value{
+	position: relative;
+	width: 100%;
+	height: 34px;
+	margin-bottom:15px;
+}
+.key_name{
+	width: 200px;
+	height: 34px;
+}
+.key_value{
+	width: 650px;
+	height: 34px;
+	margin-top:-34px;
+	margin-left: 250px;
+}
+.pam_button{
+	position: relative;
+	width: 100px;
+	height: 34px;
+}
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 1px;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="display:{% if not user %}none{% else %}block{% endif %}">
+    <h3>用户：{{ user.username }}</h3>
+</div>
+<div class="btn">
+    <a class="fr" href="{% url 'logout' %}">退出</a>
+</div>
+<div class="content">
+    <form id="form1" autocomplete="off">
+        <div class="form-group marb20 {% if api_form.errors.path %}errorput{% endif %}">
+            <label>路径</label>
+            <input name="path" id="path" type="text" value="{{ api_form.path.value }}" placeholder="请求路径"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.method %}errorput{% endif %}">
+            <label>请求方式</label>
+            <input name="method" id="method" type="text" value="{{ api_form.method.value }}" placeholder="请求方式"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.headers %}errorput{% endif %}">
+            <label>请求头</label>
+            <input name="headers" id="headers" type="text" value="{{ api_form.headers.value }}" placeholder="请求头"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.parameter %}errorput{% endif %}">
+            <label>参数</label>
+            <input name="parameter" id="parameter" type="text" value="{{ api_form.parameter.value }}" placeholder="参数"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.tag %}errorput{% endif %}">
+            <label>标签</label>
+            <input name="tag" id="tag" type="text" value="{{ api_form.tag.value }}" placeholder="标签"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.name %}errorput{% endif %}">
+            <label>api名称</label>
+            <input name="name" id="name" type="text" value="{{ api_form.name.value }}" placeholder="api名称"/>
+        </div>
+        <div class="form-group marb20 {% if api_form.errors.description %}errorput{% endif %}">
+            <label>api描述</label>
+            <input name="description" id="description" type="text" value="{{ api_form.description.value }}" placeholder="api描述"/>
+        </div>
+        <div class="error btns login-form-tips" id="jsLoginTips">{% if msg %}{{ msg }}{% else %}{% for key,error in api_form.errors.items %}{{ error }}{% endfor %}{% endif %}</div>
+
+        <button class="btn btn-green" id="btnSave" type="button" >保 存</button>
+    </form>
+    <button type="button" class="btn btn-default" ">test</button>
+    <div class="panel panel-default">
+      <div class="panel-heading">Test Result</div>
+        <div class="panel-body" id="test1">
+
+        </div>
+    </div>
+</div>
+<script src="/static/dist/js/jquery2.min.js"></script>
+<script type="text/javascript">
+$('#btnSave').click(function(event) {
+
+    $.ajax({
+        url: 'http://172.19.162.104:8000/api/',
+        type: "POST",
+        data: $("#form1").serialize(),
+        dataType: "json",
+        success: function (data)
+        {
+            alert(data["msg"]);
+        },
+        error: function (data) {
+            alert("系统异常");
+        }
+    });
+});
+{#  $("button").click(function (){#}
+{#  $.ajax({#}
+{#    url:'http://127.0.0.1:8000/api/black_api/',#}
+{#    type : "Get",#}
+{#    data: {"type":0},#}
+{#    dataType : "json",#}
+{#    success:function(data)#}
+{#    {#}
+{#      if(data.status===0){#}
+{#        var data1="";#}
+{#        data1 = JSON.stringify(data);#}
+{#        $("#test1").text(data1);#}
+{#      }else{#}
+{#        $("#test1").text("查询失败");#}
+{#      }#}
+{##}
+{#    },#}
+{#    error:function(data)#}
+{#    {#}
+{#      $("#test1").text("查询失败");#}
+{#    }#}
+{#  });#}
+{#} )#}
+</script>
+</body>
+</html>

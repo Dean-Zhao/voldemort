@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>api列表页</title>
+    <script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    type:"GET",
+                    url:'/api/cases',
+                    dateType:"json",
+                    data:$('#apiId').serialize(),
+                    success:function (result){
+                        var tbody = document.getElementsByTagName('tbody')[0];
+                        var num = result["data"]["list"].length;
+                        for(var i=0;i<num;i++){
+                            var tr = document.createElement("tr");
+                            var td0 = document.createElement("td");
+                            var tdcontent0 = document.createTextNode(result["data"]["list"][i]["id"]);
+                            td0.appendChild(tdcontent0);
+                            tr.appendChild(td0);
+                            var td = document.createElement("td");
+                            var tdcontent = document.createTextNode(result["data"]["list"][i]["name"]);
+                            td.appendChild(tdcontent);
+                            tr.appendChild(td);
+                            {#var td1 = document.createElement("td");#}
+                            {#var tdcontent1 = document.createTextNode(result["data"]["list"][i]["headers"]);#}
+                            {#td1.appendChild(tdcontent1);#}
+                            {#tr.appendChild(td1);#}
+                            {#var td2 = document.createElement("td");#}
+                            {#var tdcontent2 = document.createTextNode(result["data"]["list"][i]["cookies"]);#}
+                            {#td2.appendChild(tdcontent2);#}
+                            {#tr.appendChild(td2);#}
+                            var td3 = document.createElement("td");
+                            var tdcontent3 = document.createTextNode(result["data"]["list"][i]["parameter"]);
+                            td3.appendChild(tdcontent3);
+                            tr.appendChild(td3);
+                            tbody.appendChild(tr);
+                        }
+                    }
+                })
+            })
+    </script>
+</head>
+<body>
+<div class="content">
+    <h2>Api</h2>
+
+    <div id="apiInfo">
+        <form id="apiId">
+        <input name="apiId" id="apinum" type="hidden" value="{{ api.id }}" />
+        </form>
+        <form>
+            <div class="form-group marb20">
+            <label>name</label>
+            <input name="headers" id="headers" type="text" value="{{ api.name }}" placeholder="请求头"/>
+        </div>
+        <div class="form-group marb20">
+            <label>path</label>
+            <input name="cookies" id="cookies" type="text" value="{{ api.path }}" placeholder="cookies"/>
+        </div>
+        <div class="form-group marb20 ">
+            <label>method</label>
+            <input name="parameter" id="parameter" type="text" value="{{ api.method }}" placeholder="参数"/>
+        </div>
+
+        {% csrf_token %}
+    </form>
+    </div>
+<h3>case list</h3>
+  	<div id="list">
+        <table class="table table_default table_choose">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th class="cols_name">case名称</th>
+                    <th class="cols_method">参数信息</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+   </div>
+</div>
+
+</body>
+</html>

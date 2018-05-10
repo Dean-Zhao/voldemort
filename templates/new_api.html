@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main_bd">
+    <div class="form_wrap">
+        <form id="form1" novalidate="novalidate">
+            <ul class="form searchbar_list">
+               <li class="field_wrap">
+                <label class="form_text"><em class="form_required">*</em>api：</label>
+                <input type="text" class="field" name="name" value="" maxlength="101">
+            </li>
+            <li class="field_wrap">
+                <label class="form_text"><em class="form_required">*</em>描述：</label>
+                <input type="text" class="field" name="description" value="" maxlength="41">
+            </li>
+            <li class="field_wrap">
+                <label class="form_text"><em class="form_required">*</em>url：</label>
+                <input type="text" class="field" name="path" value="" maxlength="41">
+            </li>
+            <li class="field_wrap">
+                <label class="form_text"><em class="form_required">*</em>method：</label>
+                <select name="method" id="method" class="field">
+                    <option value="">请选择</option>
+                                        <option value="get">get</option>
+                                        <option value="post">post</option>
+                                    </select>
+            </li>
+            <li class="field_wrap">
+                <label class="form_text"><em class="form_required">*</em>项目：</label>
+                <select name="project" id="project" class="field">
+                    <option value="">请选择</option>
+                    {% for proj in projs %}
+                        <option value="{{ proj.id }}">{{ proj.name }}</option>
+                    {% endfor %}
+                </select>
+            </li>
+
+        </ul>
+                <div class="btns">
+            <a class="btn btn_cancel" href="/riskData/trics/plan/toQueryPlan" id="btn_cancel">取 消</a>
+            <div type="button" class="btn" id="btnSave">确定</div>
+        </div>
+    </form>
+</div>
+</div>
+<script src="/static/dist/js/jquery2.min.js"></script>
+<script>
+    $('#btnSave').click(function(event) {
+
+    $.ajax({
+        url: "/api/addApi/",
+        type: "POST",
+        data: $("#form1").serialize(),
+        dataType: "json",
+        {#beforeSend:function(xhr, settings){#}
+        {#    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");#}
+        {#},#}
+        success: function (data)
+        {
+            alert(data["msg"]);
+        },
+        error: function (data) {
+            alert("系统异常");
+        }
+    });
+});
+</script>
+</body>
+</html>

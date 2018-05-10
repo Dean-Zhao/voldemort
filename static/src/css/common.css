@@ -1,0 +1,134 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: montserrat, arial, verdana;
+}
+.container_all{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	padding-bottom:70px;
+	position: relative;	
+	min-width: 1350px;
+	min-height: 100%;
+}
+.logo{
+	font-size: 30px;
+	margin-left: 10px !important;
+}
+.menu_list{
+	margin-left: 30px;
+}
+.navbar-right{
+	margin-right: 20px !important;
+}
+.content{
+	position: relative;
+	width: 100%;
+	padding-top: 55px;
+	overflow: hidden;
+	overflow-y:auto;
+}
+label{
+	font-weight: 400 !important;
+}
+/*界面整体结构样式*/
+.main{
+	width: 100%;
+	position: relative;
+}
+/*加载图标*/
+.loading{
+	height: 500px;
+	padding-top: 200px;
+}
+.loading_message{
+	text-align: center;
+}
+.fa-spinner{
+	color: #ff9900;
+}
+/*重新定义框架内 页码样式*/
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
+	color: #5e5e5e;
+	background-color:#f7f7f7;
+	border-color:#ddd;
+}
+.pagination>li>a, .pagination>li>span{
+    color:#000;
+}
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus{
+	color: #000;
+}
+.btn-link:hover, .btn-link:focus{
+    color: #ff9900;
+}
+
+/*表格样式*/
+.center_content_table{
+	min-height: 441px;
+	margin-bottom: 20px;
+}
+.center_content_table table{
+	position: relative;
+	font-size: 14px;
+	font-weight: normal;
+	border: none;
+	width: 100%;
+	margin-top: 0px;
+	table-layout: fixed;
+	border-collapse:collapse;
+	table-layout: fixed;
+}
+.center_content_table table tr{
+	width: 100%;
+	height: 100%;
+}
+.center_content_table table th,.center_content_table table td{
+	text-align: center;
+	font-weight: normal;
+	font-family: "Helvetica Neue,Helvetica,Arial,sans-serif" !important;
+	padding: 10px;
+    border: 1px solid #F2F2F2;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    display: table-cell;
+    vertical-align: inherit;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.center_content_table table td{
+	height: 35px;
+}
+.center_content_table table th{
+	height: 40px;
+	background: #f7f7f7;
+	border-bottom: none !important;
+}
+.pagination1{
+    width: 100%;
+    height: 50px;
+
+}
+#fenye{
+	/*width: 480px;*/
+	height: 100%;
+}
+/*页面底部样式*/
+.bottom{
+	position: absolute;
+	width: 100%;
+	height: 70px;
+	bottom:0px;
+	z-index: 9999;
+	margin-bottom: 0px;
+	padding-top: 20px;
+    padding-bottom: 20px;
+    color: #99979c;
+    text-align: center;
+    background-color: #2a2730;
+}
+.container{
+	padding-top: 5px;
+}

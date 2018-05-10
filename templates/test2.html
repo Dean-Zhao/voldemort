@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        function save() {
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url:"saveconf",
+                data:$('#myForm').serialize(),
+                success: function (data) {
+                    alert(data["message"])
+                },
+                error: function () {
+                    alert("error")
+                },
+            });
+        }
+        function testSubmit() {
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url:"testapi",
+                data:$('#myForm').serialize(),
+                success: function (data) {
+                    {#console.log(result);//打印服务端返回的数据(调试用)#}
+                    if (data.status == 0) {
+                        alert("SUCCESS");
+                        $('#text').text(data.result.text);
+                        $('#cookies').text(data.result.c);
+                        $('#headers').text(data.result.h);
+
+                        {#$('#test2').text(data.req);#}
+                    }
+                    else{
+                        alert("Fail");
+                    };
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+<div class="content">
+{#    <form action="{% url 'testapi' %}" method="post" autocomplete="off">#}
+    <form id="myForm">
+        <input name="apiId" id="apinum" type="hidden" value="{{ api.id }}" />
+        <div class="form-group marb20">
+            <label>请求头</label>
+            <input name="headers" id="headers" type="text"  placeholder="请求头"/>
+        </div>
+        <div class="form-group marb20">
+            <label>cookies</label>
+            <input name="cookies" id="cookies" type="text"  placeholder="cookies"/>
+        </div>
+        <div class="form-group marb20 ">
+            <label>参数</label>
+            <input name="parameter" id="parameter" type="text"  placeholder="参数"/>
+        </div>
+        <div class="form-group marb20">
+            <label>特性</label>
+            <input name="tag" id="tag" type="text"  placeholder="特性"/>
+        </div>
+        <div class="error btns login-form-tips" id="jsLoginTips">{% if msg %}{{ msg }}{% else %}{% for key,error in api.errors.items %}{{ error }}{% endfor %}{% endif %}</div>
+        <button class="btn btn-green" id="testBtn" type="button" onclick="save();">保存</button>
+        <button class="btn btn-green" id="testBtn" type="button" onclick="testSubmit();">测试</button>
+
+        {% csrf_token %}
+    </form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Test Result
+        </div>
+        <p>text</p>
+        <div class="panel-body" id="text"></div>
+        <p>cookies</p>
+        <div class="panel-body" id="cookies"></div>
+        <p>headers</p>
+        <div class="panel-body" id="headers"></div>
+
+        <div class="panel-heading">
+            Test request
+        </div>
+        <div class="panel-body" id="test2"></div>
+
+    </div>
+</div>
+
+</body>
+</html>
