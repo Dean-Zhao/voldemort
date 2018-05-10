@@ -6,9 +6,8 @@ import requests
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
-from .forms import *
 from task.models import runtime_env
-from .models import Api, Tag, Case, Proj, Result
+from .models import Api, Tag, Case, Proj, Result,verification
 from users.views import login_required, LoginRequiredView
 import hashlib
 
@@ -38,6 +37,7 @@ def save_exception(e, case, task_id):
     result.task_id = task_id
     result.desp = e.message
     result.save()
+    return result.id
 
 
 def enctype_1(env, para):
@@ -113,6 +113,51 @@ def test_case(env_id, case):
     return r
 
 
+def verify(result_id,valids):
+    result = Result.objects.get(id=int(result_id))
+    if result.desp != '':
+        return
+    try:
+        response = json.loads(result.response)
+    except ValueError:
+        return
+
+    for item in valids.keys():
+        l = item.split('.')
+        key = 'response["'+'"]["'.join(l)+'"]'
+        try:
+            value = eval(key)
+        except KeyError:
+            value = 'NULL'
+
+        exp_value = valids[item]
+        if value == 'NULL':
+            is_pass = -1
+        else:
+            try:
+                if value == float(exp_value):
+                    is_pass = 1
+                else:
+                    is_pass = -1
+            except ValueError:
+                if value == exp_value:
+                    is_pass = 1
+                else:
+                    is_pass = -1
+
+        val = verification()
+        val.Result = result
+        val.case = result.case
+        val.key = item
+        val.exp_value = exp_value
+        val.value = value
+        val.is_pass = is_pass
+        val.save()
+
+
+
+
+
 class CaseTestView(LoginRequiredView, View):
     def get(self, request, case_id):
         case = Case.objects.filter(id=int(case_id), is_deleted=0)[0]
@@ -151,12 +196,21 @@ class CaseTestView(LoginRequiredView, View):
         else:
             task_id = 0
         case = Case.objects.get(id=int(case_id))
+        if case.validation == '':
+            valids = json.loads('{}')
+        else:
+            valids = json.loads(case.validation)
         try:
             r = test_case(2, case)
-            save_result(r, case, task_id)
+            result_id = save_result(r, case, task_id)
 
         except Exception as e:
-            save_exception(e, case, task_id)
+            result_id = save_exception(e, case, task_id)
+
+        finally:
+            if len(valids.keys()) > 0:
+                verify(result_id,valids)
+
         if r.status_code == 200:
             return JsonResponse({"status": 0, "message": u"测试成功",
                                  "result": {"status_code": r.status_code, "url": r.url, "text": r.json(),
