@@ -166,6 +166,7 @@ function case_getpams(){
 	map["parameters"]=pams_getpams();
 	map["validations"]=validations_getpams();
 	map["api_id"]=$("#api_id").attr("data-id");
+	map["case_id"]=$("#case_id").attr("data-id");
 	let res=JSON.stringify(map);
 	console.log(res);
 	$.ajax({
