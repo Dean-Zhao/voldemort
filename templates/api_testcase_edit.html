@@ -83,7 +83,10 @@
                       <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="0" {% ifequal case.encryption_type 0 %}checked="checked"{% endifequal %}> 不加密
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"{% ifequal case.encryption_type 1 %}checked="checked"{% endifequal %} > token_key加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"{% ifequal case.encryption_type 1 %}checked="checked"{% endifequal %} > 风云诀加密
+                    </label>
+                      <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"{% ifequal case.encryption_type 2 %}checked="checked"{% endifequal %} > API加密
                     </label>
                   </div>
                 </div>
@@ -166,7 +169,7 @@
                   </div>
                   <div class="pam_button pull-right">
                     <button type="button" class="btn btn-default btn-circle" onclick="pams_addpam(this)" ct="{{ forloop.counter }}"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                      <button type="button" class="btn btn-default btn-circle" onclick="pams_delpam(this)" ct="{{ forloop.counter }}" ><i class="fa fa-remove" aria-hidden="true" {% ifequal counts.para_count 1 %}disabled="disabled" {% endifequal %} ></i></button>
+                      <button type="button" class="btn btn-default btn-circle" onclick="pams_delpam(this)" ct="{{ forloop.counter }}" {% ifequal counts.para_count 1%} disabled="disabled" {% endifequal %}><i class="fa fa-remove" aria-hidden="true"></i></button>
                   </div>
                 </div>
                     {% endfor %}
@@ -194,7 +197,7 @@
                   </div>
                   <div class="pam_button pull-right">
                     <button type="button" class="btn btn-default btn-circle" onclick="validations_addpam(this)" ct="{{ forloop.counter }}"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                      <button type="button" class="btn btn-default btn-circle" onclick="validations_delpam(this)" ct="{{ forloop.counter }}"><i class="fa fa-remove" aria-hidden="true" {% ifequal counts.valids_count 1 %}disabled="disabled" {% endifequal %} ></i></button>
+                      <button type="button" class="btn btn-default btn-circle" onclick="validations_delpam(this)" ct="{{ forloop.counter }}" {% ifequal counts.valids_count 1 %}disabled="disabled" {% endifequal %}><i class="fa fa-remove" aria-hidden="true"></i></button>
                   </div>
                 </div>
                     {% endfor %}
