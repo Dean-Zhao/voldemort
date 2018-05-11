@@ -55,7 +55,7 @@
                 <form class="form-inline">
                   <div class="form-group">
                   <label for="c_main_page_top_left_checkbox_label1">所属项目</label>
-                      <select class="form-control select_api" id="keytypes">
+                      <select class="form-control selectpicker select_api" data-live-search="true" id="keytypes">
                         <option value="">请选择</option>
                         {% for proj in projs %}
                         <option value="{{proj.id}}">{{ proj.name}}</option>

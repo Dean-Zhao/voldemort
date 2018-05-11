@@ -41,13 +41,16 @@
       </div>
     </div>
     <div class="main">
-      <div class="main_search">
-        <div class="jumbotron">
+      <div class="main_search" id="accordion">
+       <a role="button" data-toggle="collapse" data-parent="#accordion" href="#api_info" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-tasks fa-1x" aria-hidden="true"></i></a>
+      <div class="collapse in jumbotron1" id="api_info">
+       <div class="jumbotron2">
          <h3 id="api_id" data-id={{api.id}}>{{api.name}} <span class="label label-default">{{api.proj}}</span></h3>
           <p>{{api.method}}</p>
           <p>{{api.path}}</p>
           <p>{{api.description}}</p>
           <a class="btn btn-warning api_testcase_btn" href="/api/{{api.id}}/cases/" role="button">返回</a> <a class="btn btn-default api_testcase_btn" href="javascript:void(0)" onclick="case_getpams()" role="button">保存</a> 
+        </div>
         </div>
       </div>
       <div class="main_content" >

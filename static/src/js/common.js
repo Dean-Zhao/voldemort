@@ -51,4 +51,7 @@ function log_off(){
     }
   });
 }
-  
+//卷起内容
+function colls(){
+  $("#colls").html('<i class="fa fa-caret-down fa-1x" aria-hidden="true"></i>');
+}

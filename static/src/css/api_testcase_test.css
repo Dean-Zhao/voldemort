@@ -30,7 +30,7 @@ span{
 	color: #d9534f;
 	line-height: 30px;
 }
-.key_name,.key_value,.key_result{
+.key_name,.key_value,.key_result,.case_response{
 	color:#777;
 	display: inline-block;
 	min-height: 30px;
@@ -50,15 +50,9 @@ span{
 .key_value{
 	margin-top:0px;
 }
-/*{
-	display: inline-block;
-	width: 300px;
-	height: 30px;
-	margin-top:-34px;
-	margin-left: 50px;
-	color: #222;
-	line-height: 30px;
-}*/
+.case_response{
+	width: 100%;
+}
 .dropdown-menu{
 	z-index: 99999 !important;
 }

@@ -42,14 +42,17 @@
     </div>
   </div>
   <div class="main">
-    <div class="main_search">
-      <div class="jumbotron">
+    <div class="main_search" id="accordion">
+       <a role="button" data-toggle="collapse" data-parent="#accordion" href="#api_info" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-tasks fa-1x" aria-hidden="true"></i></a>
+      <div class="collapse in jumbotron1" id="api_info">
+       <div class="jumbotron2">
         <h3 id="api_id" data-id={{api.id}}>{{api.name}} <span class="label label-default">{{api.proj}}</span></h3>
           <p>{{api.method}}</p>
           <p>{{api.path}}</p>
           <p>{{api.description}}</p>
         <a class="btn btn-warning api_testcase_btn" href="/api/{{api.id}}/cases/" role="button">返回</a>
         <button type="button" id="testButton" data-loading-text="测试中..." class="btn btn-primary api_testcase_btn" autocomplete="off" onclick="api_testcase_test()">测试</button>
+        </div>
       </div>
     </div>
     <div class="main_env">
@@ -90,7 +93,8 @@
           <li role="presentation"><a href="#tab_headers" role="tab" id="headers-tab" data-toggle="tab" aria-controls="tab_headers">headers</a></li>
           <li role="presentation"><a href="#tab_cookies" role="tab" id="cookies-tab" data-toggle="tab" aria-controls="tab_cookies">cookies</a></li>
           <li role="presentation"><a href="#tab_pams" role="tab" id="pams-tab" data-toggle="tab" aria-controls="tab_pams">输入参数设置</a></li>
-          <li role="presentation" class="active"><a href="#tab_validations" role="tab" id="validations-tab" data-toggle="tab" aria-controls="tab_validations" aria-expanded="true">结果返回验证</a></li>
+          <li role="presentation" class="active"><a href="#tab_validations" role="tab" id="validations-tab" data-toggle="tab" aria-controls="tab_validations" >结果返回验证</a></li>
+          <li role="presentation"><a href="#tab_response" role="tab" id="response-tab" data-toggle="tab" aria-controls="tab_response" >response</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
           <div role="tabpanel" class="tab-pane fade " id="tab_profile" aria-labelledby="profile-tab"> 
@@ -151,6 +155,13 @@
         {% endfor %}
       </form>
     </div>
+    <div role="tabpanel" class="tab-pane fade" id="tab_response" aria-labelledby="response-tab">
+      <form id="tab_response_form" >
+        <div class="form-group case_info_detail" id="response_area">
+          <span class="case_response" id="case_response"></span>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 </div>
@@ -192,6 +203,7 @@
   // loading(0);
   creatmenu();
   menu_current(0);
+  // $("#api_info").collapse({toggle: false;});
 });
  //页面刷新方法
  $(".refresh_page").click(function(){
