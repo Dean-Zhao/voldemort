@@ -7,9 +7,9 @@ function api_testcase_test(){
 	let interval = setInterval(function(){
 		$.ajax({
 			type : "Post",
-			url : "/api/addCase/",
-			data : res,
-			dataType : "json",
+			url : "/api/casetest/"+case_no+"/",
+			// data : res,
+			// dataType : "json",
 			async : false,
 			success : function(data) {
 				if(data["status"] === 0){

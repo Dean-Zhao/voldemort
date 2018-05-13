@@ -16,15 +16,15 @@ class GlobalSettings(object):
     menu_style = "accordion"
 
 class planAdmin(object):
-    list_display = ['name','description','cases','create_time']
+    list_display = ['id','name','description','cases','create_time']
     search_fields = ['name','create_time']
     list_filter = ['name','create_time']
 
 class runtime_envAdmin(object):
-    list_display = ['name','uri','is_deleted']
+    list_display = ['id','name','uri','Proj','app_id','token_id','is_deleted']
 
 class taskAdmin(object):
-    list_display = ['plan','status','runtime_env']
+    list_display = ['id','plan','status','runtime_env']
 
 xadmin.site.register(plan,planAdmin)
 xadmin.site.register(runtime_env,runtime_envAdmin)

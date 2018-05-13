@@ -17,6 +17,9 @@ class Proj(models.Model):
     def natural_key(self):
         return self.name
 
+    def get_all_env(self):
+        return self.runtime_env_set.filter(is_deleted=0)
+
     def __unicode__(self):
         return self.name
 

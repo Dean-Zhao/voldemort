@@ -4,7 +4,7 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
-from api.models import Case
+from api.models import Case,Proj
 
 
 # Create your models here.
@@ -59,6 +59,7 @@ class runtime_env(models.Model):
     uri = models.CharField(max_length=50,verbose_name=u'环境路径')
     app_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'appId')
     token_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'tokenId')
+    Proj = models.ForeignKey(Proj,verbose_name=u'所属项目')
     is_deleted = models.IntegerField(default=0, verbose_name=u"是否删除")
 
     class Meta:

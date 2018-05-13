@@ -161,6 +161,10 @@ def verify(result_id,valids):
 class CaseTestView(LoginRequiredView, View):
     def get(self, request, case_id):
         case = Case.objects.filter(id=int(case_id), is_deleted=0)[0]
+        env1 = Proj.objects.get(id=1).get_all_env()
+        env2 = Proj.objects.get(id=2).get_all_env()
+        env3 = Proj.objects.get(id=3).get_all_env()
+        env = {"风云诀":env1,"爱奇艺":env2,"信用百科":env3}
         if case:
             api = case.api
             tags = Tag.objects.filter(is_deleted=0).order_by("id")
@@ -183,7 +187,7 @@ class CaseTestView(LoginRequiredView, View):
 
             return render(request, 'api_testcase_test.html',
                           {"api": api, "tags": tags, "case": case, "para": para, "headers": headers,
-                           "cookies": cookies, "valids": valids})
+                           "cookies": cookies, "valids": valids,"environments":{"env1":env1,"env2":env2,"env3":env3}})
         else:
             return render(request, 'wrong.html')
 
