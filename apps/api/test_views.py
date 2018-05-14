@@ -216,6 +216,8 @@ class CaseTestView(LoginRequiredView, View):
                 result = Result.objects.get(id=int(result_id))
                 validations = result.get_all_valids()
                 vals = list(validations.values("key","exp_value","value","is_pass"))
+            else:
+                vals = []
 
         if r.status_code == 200:
             return JsonResponse({"status": 0, "message": u"测试成功",
