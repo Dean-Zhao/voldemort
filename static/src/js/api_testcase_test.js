@@ -8,35 +8,58 @@ function api_testcase_test(){
 		$.ajax({
 			type : "Post",
 			url : "/api/casetest/"+case_no+"/",
-			// data : ,
 			dataType : "json",
 			async : false,
 			success : function(data) {
+				let result = data["result"];
+				let mes = data["message"];
+				let count = result["count"];
+				let response = JSON.stringify(data["result"]["response"]);
+				let html = [];
+				let mainObj = $('#tab_validations_form');
 				if(data["status"] === 0){
 					clearInterval(interval);
 					//处理测试结果；
-					var result = data["result"];
-					var count = result["count"];
-					console.log(result);
-					$("#case_response").html(result);
-					// for (var i = 1; i <= count; i++) {
-					// 	if (result["val"][i]["is_pass"]===1) {
-					// 		// $("#key_name"+i).html(result["vals"][i]["key"]);
-					// 		// $("#va_value"+i).html(result["vals"][i]["exp_value"]);
-					// 		// $("#va_result"+i).html(result["vals"][i]["value"]);
-					// 		// $("#va_check"+data["?"][i]).html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
-					// 	}
-					// 	else{
-					// 		$("#key_name"+i).html(result["vals"][i]["key"]);
-					// 		$("#va_value"+i).html(result["vals"][i]["exp_value"]);
-					// 		$("#va_result"+i).html(result["vals"][i]["value"]);
-					// 		$("#va_check"+data["?"][i]).html('<i class="fa fa-exclamation-circle" aria-hidden="true"></i>');
-					// 	}
-				 	// }
-
-
+					$("#case_response").html(response);
+					for (var i = 0; i < count; i++) {
+						let desc = result["vals"][i]["is_pass"];
+						if (desc == 1) {
+							html.push('<div class="form-group case_info_detail" id="validations_area">');
+							html.push('<span class="key_name">'+result["vals"][i]["key"]+'</span>');
+							html.push('<span class="key_value">'+result["vals"][i]["exp_value"]+'</span>');
+							html.push('<span class="key_result">'+result["vals"][i]["value"]+'</span>');
+							html.push('<span class="pull-right"><i class="fa fa-check-circle" aria-hidden="true"></i></span>');
+							html.push('</div>');
+						}
+						else{
+							html.push('<div class="form-group case_info_detail" id="validations_area">');
+							html.push('<span class="key_name">'+result["vals"][i]["key"]+'</span>');
+							html.push('<span class="key_value">'+result["vals"][i]["exp_value"]+'</span>');
+							html.push('<span class="key_result">'+result["vals"][i]["value"]+'</span>');
+							html.push('<span class="pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>');
+							html.push('</div>');
+						}
+				 	}
 					$btn.button('reset');
+					mainObj.empty();
+					mainObj.html(html.join(''));
 				} 
+				else {
+					clearInterval(interval);
+					//处理测试结果；
+					$("#case_response").html(JSON.stringify(data));
+					for (var i = 0; i < count; i++) {
+						html.push('<div class="form-group case_info_detail" id="validations_area">');
+						html.push('<span class="key_name">'+result["vals"][i]["key"]+'</span>');
+						html.push('<span class="key_value">'+result["vals"][i]["exp_value"]+'</span>');
+						html.push('<span class="key_result">'+mes+'</span>');
+						html.push('<span class="pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>');
+						html.push('</div>');
+				 	}
+					$btn.button('reset');
+					mainObj.empty();
+					mainObj.html(html.join(''));
+				}
 			},
 			error : function(data) {
 				 clearInterval(interval);
@@ -47,5 +70,5 @@ function api_testcase_test(){
 				 $btn.button('reset');
 			}
 		});
-	}, 10);
+	}, 100);
 }
