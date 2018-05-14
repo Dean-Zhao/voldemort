@@ -20,6 +20,7 @@ function api_testcase_test(){
 				let html = [];
 				let mainObj = $('#tab_validations_form');
 				if(data["status"] === 0){
+					console.log("111");
 					clearInterval(interval);
 					//处理测试结果；
 					$("#case_response").html(response);
