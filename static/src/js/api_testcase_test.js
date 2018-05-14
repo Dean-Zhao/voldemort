@@ -2,12 +2,14 @@
 function api_testcase_test(){
 	let api_no = $("#api_id").attr("data-id");
 	let case_no = $("#case_id").attr("data-id");
+	let env = $("#get_env option:selected").attr("value");
 	let count = $("#tab_validations_form").attr("tct");
 	let $btn = $("#testButton").button('loading');
 	let interval = setInterval(function(){
 		$.ajax({
 			type : "Post",
-			url : "/api/casetest/"+case_no+"/",
+			url : "/api/casetest/",
+			data: {"case_no":case_no,"env":env},
 			dataType : "json",
 			async : false,
 			success : function(data) {

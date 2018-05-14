@@ -58,20 +58,20 @@
     <div class="main_env">
       <div class="jumbotron">
       <label for="t_case_name" style="margin-right: 10px;">所选环境</label>
-        <select class="selectpicker" data-live-search="true" >
+        <select class="selectpicker" data-live-search="true" id="get_env">
            <optgroup label="风云诀">
                {% for v in environments.env1 %}
-                <option value="1">{{ v.name }}</option>
+                <option value="{{ v.id }}">{{ v.name }}</option>
                {% endfor %}
          </optgroup>
           <optgroup label="爱奇艺">
               {% for v in environments.env2 %}
-                <option value="1">{{ v.name }}</option>
+                <option value="{{ v.id }}">{{ v.name }}</option>
                {% endfor %}
            </optgroup>  
            <optgroup label="信用百科">
                    {% for v in environments.env3 %}
-                <option value="1">{{ v.name }}</option>
+                <option value="{{ v.id }}">{{ v.name }}</option>
                {% endfor %}
              </optgroup>                            
         </select>
