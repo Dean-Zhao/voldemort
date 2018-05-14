@@ -10,6 +10,7 @@ from task.models import runtime_env
 from .models import Api, Tag, Case, Proj, Result,verification
 from users.views import login_required, LoginRequiredView
 import hashlib
+from time import sleep
 
 def dealParam(para):
     data = '&'.join([item + '=' + str(para[item]) for item in para.iterkeys()])
@@ -44,14 +45,20 @@ def enctype_1(env, para):
     s = []
 
     # temp_para = {}
-    para["appId"] = env.app_id
+    if env.app_id:
+        para["appId"] = env.app_id
+    else:
+        para["appId"] = ''
     # for key,value in para.items():
     #     para[key] = value
     for key in sorted(para.keys()):
         s.append(key+'='+para[key])
     p = '&'.join(s)
     md5 = hashlib.md5()
-    md5.update(p+env.token_id)
+    if env.token_id:
+        md5.update(p+env.token_id)
+    else:
+        md5.update(p)
     res = md5.hexdigest()
     para["sign"]=res.upper()
 
@@ -194,17 +201,22 @@ class CaseTestView(LoginRequiredView, View):
         if not Case.objects.get(id=int(case_id)):
             return JsonResponse({"msg": u"不存在"})
         task_id = request.POST.get("task_id", '')
+        env_id = request.POST.get("env",'')
         if task_id:
             task_id = int(task_id)
         else:
             task_id = 0
+
+        if env_id == '':
+            return JsonResponse({"status": 1, "message": u"未选择环境"})
+
         case = Case.objects.get(id=int(case_id))
         if case.validation == '':
             valids = json.loads('{}')
         else:
             valids = json.loads(case.validation)
         try:
-            r = test_case(2, case)
+            r = test_case(env_id, case)
             result_id = save_result(r, case, task_id)
 
         except Exception as e:
@@ -224,4 +236,4 @@ class CaseTestView(LoginRequiredView, View):
                                  "result": {"status_code": r.status_code, "url": r.url, "response": r.json(),"count":len(vals),
                                             "vals": vals }})
         else:
-            return JsonResponse({"status": 1, "message": u"测试失败"})
+            return JsonResponse({"status": 1, "message": result.desp})
