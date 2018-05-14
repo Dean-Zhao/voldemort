@@ -8,23 +8,33 @@ function api_testcase_test(){
 		$.ajax({
 			type : "Post",
 			url : "/api/casetest/"+case_no+"/",
-			// data : res,
-			// dataType : "json",
+			// data : ,
+			dataType : "json",
 			async : false,
 			success : function(data) {
 				if(data["status"] === 0){
 					clearInterval(interval);
 					//处理测试结果；
-					for (var i = 1; i <= count; i++) {
-						if (data["?"][i]===0) {
-							$("#va_result"+data["?"][i]).html(data["?"][i]);
-							$("#va_check"+data["?"][i]).html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
-						}
-						else{
-							$("#va_result"+data["?"][i]).html(data["?"][i]);
-							$("#va_check"+data["?"][i]).html('<i class="fa fa-exclamation-circle" aria-hidden="true"></i>');							
-						}
-				 	}
+					var result = data["result"];
+					var count = result["count"];
+					console.log(result);
+					$("#case_response").html(result);
+					// for (var i = 1; i <= count; i++) {
+					// 	if (result["val"][i]["is_pass"]===1) {
+					// 		// $("#key_name"+i).html(result["vals"][i]["key"]);
+					// 		// $("#va_value"+i).html(result["vals"][i]["exp_value"]);
+					// 		// $("#va_result"+i).html(result["vals"][i]["value"]);
+					// 		// $("#va_check"+data["?"][i]).html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
+					// 	}
+					// 	else{
+					// 		$("#key_name"+i).html(result["vals"][i]["key"]);
+					// 		$("#va_value"+i).html(result["vals"][i]["exp_value"]);
+					// 		$("#va_result"+i).html(result["vals"][i]["value"]);
+					// 		$("#va_check"+data["?"][i]).html('<i class="fa fa-exclamation-circle" aria-hidden="true"></i>');
+					// 	}
+				 	// }
+
+
 					$btn.button('reset');
 				} 
 			},

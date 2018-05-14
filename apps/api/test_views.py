@@ -164,7 +164,6 @@ class CaseTestView(LoginRequiredView, View):
         env1 = Proj.objects.get(id=1).get_all_env()
         env2 = Proj.objects.get(id=2).get_all_env()
         env3 = Proj.objects.get(id=3).get_all_env()
-        env = {"风云诀":env1,"爱奇艺":env2,"信用百科":env3}
         if case:
             api = case.api
             tags = Tag.objects.filter(is_deleted=0).order_by("id")
@@ -214,10 +213,13 @@ class CaseTestView(LoginRequiredView, View):
         finally:
             if len(valids.keys()) > 0:
                 verify(result_id,valids)
+                result = Result.objects.get(id=int(result_id))
+                validations = result.get_all_valids()
+                vals = list(validations.values("key","exp_value","value","is_pass"))
 
         if r.status_code == 200:
             return JsonResponse({"status": 0, "message": u"测试成功",
-                                 "result": {"status_code": r.status_code, "url": r.url, "text": r.json(),
-                                            "c": r.cookies.__str__(), "h": r.headers.__str__()}})
+                                 "result": {"status_code": r.status_code, "url": r.url, "response": r.json(),"count":len(vals),
+                                            "vals": vals }})
         else:
             return JsonResponse({"status": 1, "message": u"测试失败"})

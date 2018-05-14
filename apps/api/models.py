@@ -141,9 +141,15 @@ class Result(models.Model):
     task_id = models.IntegerField(default=0,verbose_name=u'0：测试，其他：任务id')
     create_time = models.DateTimeField(default=datetime.datetime.now,verbose_name=u"创建时间")
 
+    def get_all_valids(self):
+        return self.verification_set.all()
+
+
     class Meta:
         verbose_name = u"测试"
         verbose_name_plural = verbose_name
+
+
 
     def __unicode__(self):
         return self.id
