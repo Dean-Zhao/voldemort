@@ -4,8 +4,8 @@
 function creatmenu(){
 	let html=[];
 	html.push('<li class="active"><a href="/api/apiList/">API接口管理</a></li>');
-	html.push('<li><a href="/Voldemort/index">测试数据管理</a></li>');
-	html.push('<li><a href="http://www.sougou.com">测试任务管理</a></li>');
+	html.push('<li><a href="#">测试数据管理</a></li>');
+	html.push('<li><a href="#">测试任务管理</a></li>');
 	html.push('<li><a href="#">统计</a></li>');
 	let mainObj = $("#menu_area");
 	mainObj.empty();
