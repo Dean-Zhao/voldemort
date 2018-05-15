@@ -200,14 +200,14 @@ class CaseNewView(LoginRequiredView,View): #todo 增加权限LoginRequiredView
                 case_encryption_type = int(data["profile"]["case_enctype"])
             else:
                 case_encryption_type = 0
-            if data["profile"].has_key("case_id"):
-                case_id = int(data["profile"]["case_id"])
+            if data.has_key("case_id"):
+                case_id = int(data["case_id"])
             else:
                 case_id = 0
             if  case_id != 0: #修改已存在的case
                 if Case.objects.filter(name=case_name,api=case_api).exclude(id=case_id):
                     return JsonResponse({"msg":u"该用例已存在","status":2})
-                case = Case.objects.filter(id=int(request.POST.get("case_id")),is_deleted=0)[0]
+                case = Case.objects.filter(id=case_id,is_deleted=0)[0]
                 if not case:
                     return JsonResponse({"msg":u"该用例不存在","status":3})
             else:
