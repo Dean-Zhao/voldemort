@@ -4,7 +4,7 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
-from api.models import Case,Proj
+from api.models import Case,Proj,runtime_env
 
 
 # Create your models here.
@@ -54,17 +54,7 @@ class plan(models.Model):
             _dict[field] = _value
         return _dict
 
-class runtime_env(models.Model):
-    name = models.CharField(max_length=20,verbose_name=u'环境名')
-    uri = models.CharField(max_length=50,verbose_name=u'环境路径')
-    app_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'appId')
-    token_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'tokenId')
-    Proj = models.ForeignKey(Proj,verbose_name=u'所属项目')
-    is_deleted = models.IntegerField(default=0, verbose_name=u"是否删除")
 
-    class Meta:
-        verbose_name = u'执行环境'
-        verbose_name_plural = verbose_name
 
 class task(models.Model):
     headers = models.TextField(default='', verbose_name=u'头信息')

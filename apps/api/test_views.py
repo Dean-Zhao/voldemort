@@ -6,8 +6,7 @@ import requests
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
-from task.models import runtime_env
-from .models import Api, Tag, Case, Proj, Result,verification
+from .models import Api, Tag, Case, Proj, Result,verification,runtime_env
 from users.views import login_required, LoginRequiredView
 import hashlib
 from time import sleep
@@ -17,7 +16,7 @@ def dealParam(para):
     return data
 
 
-def save_result(r, case, task_id):
+def save_result(r, case, task_id, env_id):
     result = Result()
     result.case = case
     result.request_headers = r.headers.__str__()
@@ -27,15 +26,17 @@ def save_result(r, case, task_id):
     result.request_headers = r.request.headers.__str__()
     result.url = r.url
     result.task_id = task_id
+    result.runtime_env = runtime_env.objects.get(id=(env_id))
     result.save()
     return result.id
 
 
-def save_exception(e, case, task_id):
+def save_exception(e, case, task_id, env_id):
     result = Result()
     result.case = case
     result.status_code = 0
     result.task_id = task_id
+    result.runtime_env = runtime_env.objects.get(id=(env_id))
     result.desp = e.message
     result.save()
     return result.id
@@ -122,47 +123,47 @@ def test_case(env_id, case):
 
 def verify(result_id,valids):
     result = Result.objects.get(id=int(result_id))
-    if result.desp != '':
-        return
-    try:
-        response = json.loads(result.response)
-    except ValueError:
-        return
-
+    result.is_pass = 1
     for item in valids.keys():
-        l = item.split('.')
-        key = 'response["'+'"]["'.join(l)+'"]'
-        try:
-            value = eval(key)
-        except KeyError:
-            value = 'NULL'
-
-        exp_value = valids[item]
-        if value == 'NULL':
-            is_pass = -1
-        else:
-            try:
-                if value == float(exp_value):
-                    is_pass = 1
-                else:
-                    is_pass = -1
-            except ValueError:
-                if value == exp_value:
-                    is_pass = 1
-                else:
-                    is_pass = -1
-
         val = verification()
         val.Result = result
         val.case = result.case
         val.key = item
-        val.exp_value = exp_value
-        val.value = value
-        val.is_pass = is_pass
+        if valids[item]:
+            val.exp_value = valids[item]
+        else:
+            val.exp_value = ''
+        val.value = 'NULL'
+        val.is_pass = -1
         val.save()
 
+    if result.desp != '' or result.status_code != 200:
+        result.is_pass = -1
 
+    try:
+        response = json.loads(result.response)
+        v = result.get_all_valids()
+        for item in v:
+            l = item.key.split('.')
+            key = 'response["' + '"]["'.join(l) + '"]'
+            try:
+                value = eval(key)
+                if value == float(item.exp_value):
+                    item.is_pass = 1
+            except KeyError:
+                value = 'NULL'
+            except ValueError:
+                if value == item.exp_value:
+                    item.is_pass = 1
+            item.value = value
+            if item.is_pass == -1:
+                result.is_pass = -1
+            item.save()
 
+    except ValueError:
+        result.is_pass = -1
+
+    result.save()
 
 
 class CaseTestView(LoginRequiredView, View):
@@ -217,10 +218,12 @@ class CaseTestView(LoginRequiredView, View):
             valids = json.loads(case.validation)
         try:
             r = test_case(env_id, case)
-            result_id = save_result(r, case, task_id)
+            result_id = save_result(r, case, task_id, env_id)
 
         except Exception as e:
-            result_id = save_exception(e, case, task_id)
+            result_id = save_exception(e, case, task_id,env_id)
+            result = Result.objects.get(id=int(result_id))
+            return JsonResponse({"status": 1, "message": result.desp})
 
         finally:
             if len(valids.keys()) > 0:
@@ -236,4 +239,5 @@ class CaseTestView(LoginRequiredView, View):
                                  "result": {"status_code": r.status_code, "url": r.url, "response": r.json(),"count":len(vals),
                                             "vals": vals }})
         else:
-            return JsonResponse({"status": 1, "message": result.desp})
+            return JsonResponse({"status": 0, "message":u"测试失败","result":{"status_code": r.status_code, "url": r.url, "response": r.text.decode("unicode-escape"),"count":len(vals),
+                                            "vals": vals }})
