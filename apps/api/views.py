@@ -89,7 +89,7 @@ class ApiView(View):
         data["cases"]=allcase
         return JsonResponse(data)
 
-class ApiNewView(View): #todo 添加权限验证
+class ApiNewView(LoginRequiredView,View):
     def get(self,request):
         projs = Proj.objects.all()
         return render(request,"api_add.html",{"user":request.user,"projs":projs})
