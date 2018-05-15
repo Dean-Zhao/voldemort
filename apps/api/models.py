@@ -5,7 +5,6 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
-
 # Create your models here
 
 class Proj(models.Model):
@@ -127,10 +126,22 @@ class Case(models.Model):
     def __unicode__(self):
         return self.name
 
+class runtime_env(models.Model):
+    name = models.CharField(max_length=20,verbose_name=u'环境名')
+    uri = models.CharField(max_length=50,verbose_name=u'环境路径')
+    app_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'appId')
+    token_id = models.CharField(null=True,blank=True,max_length=100,verbose_name=u'tokenId')
+    Proj = models.ForeignKey(Proj,verbose_name=u'所属项目')
+    is_deleted = models.IntegerField(default=0, verbose_name=u"是否删除")
+
+    class Meta:
+        verbose_name = u'执行环境'
+        verbose_name_plural = verbose_name
 
 class Result(models.Model):
     case = models.ForeignKey(Case,verbose_name=u"测试用例")
     url = models.CharField(max_length=200,verbose_name=u'请求url',default='')
+    runtime_env = models.ForeignKey(runtime_env,verbose_name=u'运行环境')
     status_code = models.IntegerField(verbose_name=u"响应状态码")
     response = models.TextField(verbose_name=u'响应结果')
     request_headers = models.TextField(default='',verbose_name=u'请求头信息')
@@ -165,4 +176,6 @@ class verification(models.Model):
     class Meta:
         verbose_name = u"验证"
         verbose_name_plural = verbose_name
+
+
 

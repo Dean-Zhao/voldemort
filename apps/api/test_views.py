@@ -6,8 +6,7 @@ import requests
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
-from task.models import runtime_env
-from .models import Api, Tag, Case, Proj, Result,verification
+from .models import Api, Tag, Case, Proj, Result,verification,runtime_env
 from users.views import login_required, LoginRequiredView
 import hashlib
 from time import sleep
@@ -17,7 +16,7 @@ def dealParam(para):
     return data
 
 
-def save_result(r, case, task_id):
+def save_result(r, case, task_id, env_id):
     result = Result()
     result.case = case
     result.request_headers = r.headers.__str__()
@@ -27,15 +26,17 @@ def save_result(r, case, task_id):
     result.request_headers = r.request.headers.__str__()
     result.url = r.url
     result.task_id = task_id
+    result.runtime_env = runtime_env.objects.get(id=(env_id))
     result.save()
     return result.id
 
 
-def save_exception(e, case, task_id):
+def save_exception(e, case, task_id, env_id):
     result = Result()
     result.case = case
     result.status_code = 0
     result.task_id = task_id
+    result.runtime_env = runtime_env.objects.get(id=(env_id))
     result.desp = e.message
     result.save()
     return result.id
@@ -217,10 +218,10 @@ class CaseTestView(LoginRequiredView, View):
             valids = json.loads(case.validation)
         try:
             r = test_case(env_id, case)
-            result_id = save_result(r, case, task_id)
+            result_id = save_result(r, case, task_id, env_id)
 
         except Exception as e:
-            result_id = save_exception(e, case, task_id)
+            result_id = save_exception(e, case, task_id,env_id)
 
         finally:
             if len(valids.keys()) > 0:
@@ -228,6 +229,19 @@ class CaseTestView(LoginRequiredView, View):
                 result = Result.objects.get(id=int(result_id))
                 validations = result.get_all_valids()
                 vals = list(validations.values("key","exp_value","value","is_pass"))
+                val = 0
+                for v in vals:
+                    if v["is_pass"] == -1:
+                        result.is_pass = -1
+                        result.save()
+                        break
+                    else:
+                        val += v["is_pass"]
+
+                if val == len(vals):
+                    result.is_pass = 1
+                    result.save()
+
             else:
                 vals = []
 
