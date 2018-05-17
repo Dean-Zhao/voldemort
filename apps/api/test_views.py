@@ -20,9 +20,12 @@ def dealParam(para):
 def save_result(r, case, task_id, env_id):
     result = Result()
     result.case = case
-    result.request_headers = r.headers.__str__()
-    result.response_cookies = r.cookies.__str__()
-    result.response = r.text.decode("unicode-escape")
+    result.response_headers = r.headers.__str__()
+    # result.response_cookies = r.cookies.__str__()
+    if r.headers._store['content-type'][1] == 'application/json':
+        result.response = r.text.decode("unicode-escape")
+    else:
+        result.response = r.text
     result.status_code = r.status_code
     result.request_headers = r.request.headers.__str__()
     result.url = r.url
@@ -215,7 +218,7 @@ class CaseTestView(LoginRequiredView, View):
             task_id = 0
 
         if env_id == '':
-            return JsonResponse({"status": 1, "message": u"未选择环境"})
+            return JsonResponse({"status": -1, "message": u"未选择环境"})
 
         case = Case.objects.get(id=int(case_id))
         if case.validation == '':
@@ -232,9 +235,9 @@ class CaseTestView(LoginRequiredView, View):
             return JsonResponse({"status": 1, "message": result.desp})
 
         finally:
+            result = Result.objects.get(id=int(result_id))
             if len(valids.keys()) > 0:
                 verify(result_id,valids)
-                result = Result.objects.get(id=int(result_id))
                 validations = result.get_all_valids()
                 vals = list(validations.values("key","exp_value","value","is_pass"))
             else:
@@ -245,5 +248,5 @@ class CaseTestView(LoginRequiredView, View):
                                  "result": {"status_code": r.status_code, "url": r.url, "response": r.json(),"count":len(vals),
                                             "vals": vals }})
         else:
-            return JsonResponse({"status": 0, "message":u"测试失败","result":{"status_code": r.status_code, "url": r.url, "response": r.text.decode("unicode-escape"),"count":len(vals),
+            return JsonResponse({"status": 0, "message":u"测试失败","result":{"status_code": r.status_code, "url": r.url, "response": r.text,"count":len(vals),
                                             "vals": vals }})
