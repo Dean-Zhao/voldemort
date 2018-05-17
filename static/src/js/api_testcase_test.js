@@ -15,8 +15,6 @@ function api_testcase_test(){
 			success : function(data) {
 				let result = data["result"];
 				let mes = data["message"];
-				let count = result["count"];
-				let response = JSON.stringify(data["result"]["response"]);
 				let html = [];
 				let mainObj = $('#tab_validations_form');
 				if(data["status"] === 0){
@@ -24,6 +22,8 @@ function api_testcase_test(){
 					clearInterval(interval);
 					//处理测试结果；
 					$("#case_response").html(response);
+					let count = result["count"];
+					let response = JSON.stringify(data["result"]["response"]);
 					for (var i = 0; i < count; i++) {
 						let desc = result["vals"][i]["is_pass"];
 						if (desc == 1) {
