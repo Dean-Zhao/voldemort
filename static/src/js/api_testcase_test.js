@@ -21,9 +21,9 @@ function api_testcase_test(){
 					console.log("111");
 					clearInterval(interval);
 					//处理测试结果；
-					$("#case_response").html(response);
 					let count = result["count"];
 					let response = JSON.stringify(data["result"]["response"]);
+					$("#case_response").html(response);
 					for (var i = 0; i < count; i++) {
 						let desc = result["vals"][i]["is_pass"];
 						if (desc == 1) {
