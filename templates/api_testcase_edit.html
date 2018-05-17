@@ -96,7 +96,7 @@
                </form>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="tab_headers" aria-labelledby="headers-tab">
-               <form id="tab_headers_form" tct="{{ counts.headers_count }}">
+               <form id="tab_headers_form" tct="{%ifequal counts.headers_count 0 %}1{%else%}{{ counts.headers_count }}{%endifequal%}">
                    {% ifequal counts.headers_count 0%}
                    <div class="form-group pam_value" id="headers_area1">
                    <div class="pull-left">
@@ -124,7 +124,7 @@
              </form>
             </div>
               <div role="tabpanel" class="tab-pane fade" id="tab_cookies" aria-labelledby="cookies-tab">
-                <form id="tab_cookies_form" tct="{{ counts.cookies_count }}">
+                <form id="tab_cookies_form" tct="{%ifequal counts.cookies_count 0 %}1{%else%}{{ counts.cookies_count }}{%endifequal%}">
                     {% ifequal counts.cookies_count 0%}
                    <div class="form-group pam_value" id="cookies_area1">
                    <div class="pull-left">
@@ -152,7 +152,7 @@
              </form>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="tab_pams" aria-labelledby="pams-tab">
-                <form id="tab_pams_form" tct="{{ counts.para_count }}">
+                <form id="tab_pams_form" tct="{{%ifequal counts.para_count 0 %}1{%else%}{{ counts.para_count }}{%endifequal%}">
                     {% ifequal counts.para_count 0%}
                    <div class="form-group pam_value" id="pams_area1">
                    <div class="pull-left">
@@ -180,7 +180,7 @@
              </form>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="tab_validations" aria-labelledby="validations-tab">
-                <form id="tab_validations_form" tct="{{ counts.valids_count }}">
+                <form id="tab_validations_form" tct="{%ifequal counts.valids_count 0 %}1{%else%}{{ counts.valids_count }}{%endifequal%}">
                     {% ifequal counts.valids_count 0%}
                    <div class="form-group pam_value" id="validations_area1">
                    <div class="pull-left">
