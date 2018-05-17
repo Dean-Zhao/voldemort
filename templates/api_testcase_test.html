@@ -185,8 +185,13 @@
       </div>
     </div>
   </div>
-</div>  
-</div>
+</div> 
+<div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+    &times;
+  </button> 
+  <strong id="error_mess"></strong>
+</div> 
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
@@ -209,6 +214,9 @@
  $("#logoff").click(function(){
    log_off();
  });
+ function close_pop(){
+    $(".error_message").slideUp();
+ } 
 </script>
 </body>
 </html>

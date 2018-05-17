@@ -3,7 +3,7 @@ function api_testcase_test(){
 	let api_no = $("#api_id").attr("data-id");
 	let case_no = $("#case_id").attr("data-id");
 	let env = $("#get_env option:selected").attr("value");
-	let count = $("#tab_validations_form").attr("tct");
+	// let v_count = $("#tab_validations_form").children("div").length;
 	let $btn = $("#testButton").button('loading');
 	let interval = setInterval(function(){
 		$.ajax({
@@ -49,27 +49,15 @@ function api_testcase_test(){
 				} 
 				else {
 					clearInterval(interval);
-					//处理测试结果；
-					$("#case_response").html(JSON.stringify(data));
-					for (var i = 0; i < count; i++) {
-						html.push('<div class="form-group case_info_detail" id="validations_area">');
-						html.push('<span class="key_name">'+result["vals"][i]["key"]+'</span>');
-						html.push('<span class="key_value">'+result["vals"][i]["exp_value"]+'</span>');
-						html.push('<span class="key_result">'+mes+'</span>');
-						html.push('<span class="pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>');
-						html.push('</div>');
-				 	}
+					$("#error_mess").html(mes);
+					$("#confirm_error").slideDown();
 					$btn.button('reset');
-					mainObj.empty();
-					mainObj.html(html.join(''));
 				}
 			},
 			error : function(data) {
 				 clearInterval(interval);
-				 for (var i = 1; i <= count; i++) {
-				 	$("#va_result"+i).html("系统错误");
-				 	$("#va_check"+i).html('<i class="fa fa-exclamation-circle" aria-hidden="true"></i>');
-				 }
+				 $("#error_mess").html("Oops!系统异常了");
+				 $("#confirm_error").slideDown();
 				 $btn.button('reset');
 			}
 		});

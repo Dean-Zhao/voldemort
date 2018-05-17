@@ -88,6 +88,11 @@ $('#login-button').click(function(event){
     }
   });
 });
+$(document).keyup(function(event){
+  if(event.keyCode ==13){
+    $("#login-button").trigger("click");
+  }
+});
 </script>
 </body>
 </html>
