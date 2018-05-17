@@ -167,8 +167,8 @@ class Result(models.Model):
 
 class verification(models.Model):
     key = models.CharField(max_length=50,verbose_name=u'验证键名')
-    exp_value = models.CharField(max_length=100,verbose_name=u"期望值")
-    value = models.CharField(max_length=100,verbose_name=u"实际值")
+    exp_value = models.TextField(verbose_name=u"期望值")
+    value = models.TextField(verbose_name=u"实际值")
     is_pass = models.IntegerField(default=0,verbose_name=u"验证是否通过，0：waiting，1：pass，-1：fail")
     case = models.ForeignKey(Case,verbose_name=u"caseId")
     Result = models.ForeignKey(Result,verbose_name=u"请求id")

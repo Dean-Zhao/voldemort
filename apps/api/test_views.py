@@ -9,6 +9,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Api, Tag, Case, Proj, Result,verification,runtime_env
 from users.views import login_required, LoginRequiredView
 import hashlib
+import urllib
 from time import sleep
 
 def dealParam(para):
@@ -53,7 +54,7 @@ def enctype_1(env, para):
     # for key,value in para.items():
     #     para[key] = value
     for key in sorted(para.keys()):
-        s.append(key+'='+para[key])
+        s.append(urllib.urlencode({key:para[key]}))
     p = '&'.join(s)
     md5 = hashlib.md5()
     if env.token_id:
