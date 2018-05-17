@@ -74,22 +74,22 @@
                   <div class="radio" id="case_type">
                       {% for tag in tags %}
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions" id="case_type1" value="1" {% ifequal case.tag tag  %}checked="checked" {% endifequal %}> {{ tag.name }}
+                      <input type="radio" name="inlineRadioOptions" id="case_type1" value="{{forloop.counter}}" {% ifequal case.tag tag  %}checked="checked" {% endifequal %}> {{ tag.name }}
                     </label>
                     {% endfor %}
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="case_proj">用例类型</label>
+                  <label for="case_proj">加密类型</label>
                   <div class="radio" id="case_proj">
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="0" {% ifequal case.encryption_type 0 %}checked="checked"{% endifequal %}> 不加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj0" value="0" {% ifequal case.encryption_type 0 %}checked="checked"{% endifequal %}> 不加密
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"{% ifequal case.encryption_type 1 %}checked="checked"{% endifequal %} > 风云诀加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="1"{% ifequal case.encryption_type 1 %}checked="checked"{% endifequal %} > 风云诀加密
                     </label>
                       <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"{% ifequal case.encryption_type 2 %}checked="checked"{% endifequal %} > API加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="2"{% ifequal case.encryption_type 2 %}checked="checked"{% endifequal %} > API加密
                     </label>
                   </div>
                 </div>
@@ -126,13 +126,13 @@
               <div role="tabpanel" class="tab-pane fade" id="tab_cookies" aria-labelledby="cookies-tab">
                 <form id="tab_cookies_form" tct="{{ counts.cookies_count }}">
                     {% ifequal counts.cookies_count 0%}
-                   <div class="form-group pam_value" id="headers_area1">
+                   <div class="form-group pam_value" id="cookies_area1">
                    <div class="pull-left">
-                   <input type="text" class="form-control key_name" id="header_name1" placeholder="请输入参数key" value="" maxlength="1000">
-                   <input type="text" class="form-control key_value" id="header_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                   <input type="text" class="form-control key_name" id="cookies_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                   <input type="text" class="form-control key_value" id="cookies_value1" placeholder="请输入参数value" value="" maxlength="1000">
                    </div>
                    <div class="pam_button pull-right">
-                   <button type="button" class="btn btn-default btn-circle" onclick="header_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="header_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                   <button type="button" class="btn btn-default btn-circle" onclick="cookies_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="cookies_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
                    </div>
                    </div>
                    {% else %}
@@ -154,13 +154,13 @@
               <div role="tabpanel" class="tab-pane fade" id="tab_pams" aria-labelledby="pams-tab">
                 <form id="tab_pams_form" tct="{{ counts.para_count }}">
                     {% ifequal counts.para_count 0%}
-                   <div class="form-group pam_value" id="headers_area1">
+                   <div class="form-group pam_value" id="pams_area1">
                    <div class="pull-left">
-                   <input type="text" class="form-control key_name" id="header_name1" placeholder="请输入参数key" value="" maxlength="1000">
-                   <input type="text" class="form-control key_value" id="header_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                   <input type="text" class="form-control key_name" id="pams_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                   <input type="text" class="form-control key_value" id="pams_value1" placeholder="请输入参数value" value="" maxlength="1000">
                    </div>
                    <div class="pam_button pull-right">
-                   <button type="button" class="btn btn-default btn-circle" onclick="header_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="header_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                   <button type="button" class="btn btn-default btn-circle" onclick="pams_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="pams_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
                    </div>
                    </div>
                    {% else %}
@@ -182,13 +182,13 @@
               <div role="tabpanel" class="tab-pane fade" id="tab_validations" aria-labelledby="validations-tab">
                 <form id="tab_validations_form" tct="{{ counts.valids_count }}">
                     {% ifequal counts.valids_count 0%}
-                   <div class="form-group pam_value" id="headers_area1">
+                   <div class="form-group pam_value" id="validations_area1">
                    <div class="pull-left">
-                   <input type="text" class="form-control key_name" id="header_name1" placeholder="请输入参数key" value="" maxlength="1000">
-                   <input type="text" class="form-control key_value" id="header_value1" placeholder="请输入参数value" value="" maxlength="1000">
+                   <input type="text" class="form-control key_name" id="validations_name1" placeholder="请输入参数key" value="" maxlength="1000">
+                   <input type="text" class="form-control key_value" id="validations_value1" placeholder="请输入参数value" value="" maxlength="1000">
                    </div>
                    <div class="pam_button pull-right">
-                   <button type="button" class="btn btn-default btn-circle" onclick="header_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="header_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
+                   <button type="button" class="btn btn-default btn-circle" onclick="validations_addpam(this)" ct="1"><i class="fa fa-plus" aria-hidden="true"></i></button> <button type="button" class="btn btn-default btn-circle" onclick="validations_delpam(this)" ct="1" disabled="disabled"><i class="fa fa-remove" aria-hidden="true"></i></button>
                    </div>
                    </div>
                    {% else %}

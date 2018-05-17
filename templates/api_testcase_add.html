@@ -74,19 +74,19 @@
                   <div class="radio" id="case_type">
                       {% for tag in tags %}
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions" id="case_type1" value="1" {% ifequal forloop.counter 1 %}checked="checked"{% endifequal %}> {{ tag.name }}
+                      <input type="radio" name="inlineRadioOptions" id="case_type1" value="{{forloop.counter}}" {% ifequal forloop.counter 1 %}checked="checked"{% endifequal %}> {{ tag.name }}
                     </label>
                       {% endfor %}
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="case_proj">用例类型</label>
+                  <label for="case_proj">加密类型</label>
                   <div class="radio" id="case_proj">
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="0" checked="checked"> 不加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj0" value="0" checked="checked"> 不加密
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="1"> 风云诀加密
+                      <input type="radio" name="inlineRadioOptions1" id="case_proj1" value="1"> 风云诀加密
                     </label>
                       <label class="radio-inline">
                       <input type="radio" name="inlineRadioOptions1" id="case_proj2" value="2"> API加密
