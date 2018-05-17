@@ -9,6 +9,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Api, Tag, Case, Proj, Result,verification,runtime_env
 from users.views import login_required, LoginRequiredView
 import hashlib
+import urllib
 from time import sleep
 
 def dealParam(para):
@@ -53,7 +54,7 @@ def enctype_1(env, para):
     # for key,value in para.items():
     #     para[key] = value
     for key in sorted(para.keys()):
-        s.append(key+'='+para[key])
+        s.append(urllib.urlencode({key:para[key]}))
     p = '&'.join(s)
     md5 = hashlib.md5()
     if env.token_id:
@@ -65,20 +66,23 @@ def enctype_1(env, para):
 
     return para
 
-def enctype_2(env, para):
+def enctype_2(env, para,url):
     s = []
 
     # temp_para = {}
-    para["appId"] = env.app_id
     # for key,value in para.items():
     #     para[key] = value
     for key in sorted(para.keys()):
         s.append(key+'='+para[key])
     p = ','.join(s)
     md5 = hashlib.md5()
-    md5.update(p+env.token_id)
+    if env.token_id:
+        md5.update(url+env.token_id+p)
+    else:
+        md5.update(url+p)
     res = md5.hexdigest()
-    para["sign"]=res.upper()
+    para["tokenKey"]=res
+    para["appId"] = env.app_id
 
     return para
 
@@ -94,6 +98,8 @@ def test_case(env_id, case):
     headers = case.headers
     cookies = case.cookies
     parameter = case.parameter
+    api = case.api
+    url = env.uri + api.path
     if headers:
         headers = json.loads(headers)
     if cookies:
@@ -104,10 +110,10 @@ def test_case(env_id, case):
     if enctype == 1:
         parameter = enctype_1(env,parameter)
     elif enctype == 2:
-        parameter = enctype_2(env,parameter)
+        parameter = enctype_2(env,parameter,url)
 
-    api = case.api
-    url = env.uri + api.path
+
+
     method = api.method
     if method == 'post':
         r = requests.post(url, data=parameter, headers=headers, cookies=cookies)
