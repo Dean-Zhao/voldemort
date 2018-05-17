@@ -115,8 +115,6 @@ def test_case(env_id, case):
     elif enctype == 2:
         parameter = enctype_2(env,parameter,url)
 
-
-
     method = api.method
     if method == 'post':
         r = requests.post(url, data=parameter, headers=headers, cookies=cookies)
@@ -232,7 +230,7 @@ class CaseTestView(LoginRequiredView, View):
         except Exception as e:
             result_id = save_exception(e, case, task_id,env_id)
             result = Result.objects.get(id=int(result_id))
-            return JsonResponse({"status": 1, "message": result.desp})
+            return JsonResponse({"status": 1, "message": e.message})
 
         finally:
             result = Result.objects.get(id=int(result_id))
