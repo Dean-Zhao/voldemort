@@ -3,6 +3,7 @@ function api_testcase_test(){
 	let api_no = $("#api_id").attr("data-id");
 	let case_no = $("#case_id").attr("data-id");
 	let env = $("#get_env option:selected").attr("value");
+	console.log(env);
 	// let v_count = $("#tab_validations_form").children("div").length;
 	let $btn = $("#testButton").button('loading');
 	let interval = setInterval(function(){
