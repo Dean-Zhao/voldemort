@@ -1,4 +1,6 @@
 // import {loading} from "./common.js"
+var $me = $("#error_message");
+var $mess = $('#process_message');
 // 解码  
 function decodeUnicode(str) {  
     str = str.replace(/\\/g, "%");  
@@ -17,8 +19,10 @@ function case_query(id) {
             case_createTable(data);
           },
           error : function(data) {
-             $("#error_mess").html("系统异常！");
-             $("#confirm_error").slideDown(); 
+           $me.html("系统异常！");
+           $mess.modal({
+             keyboard: true
+           }); 
           }
         });
   }  
@@ -36,7 +40,7 @@ function case_createTable(data) {
         html.push('<td>'+data.cases[i].parameter+'</td>');
         html.push('<td>'+data.cases[i].validation+'</td>');
         html.push('<td>'+data.cases[i].user+'</td>');
-        html.push('<td><button type="button" class="btn btn-link " id="account_pwd_reset'+i+'" style="outline:none;width:38px;height:23px; padding:0px;" onClick="caseEdit(this)">编辑</button><button type="button" class="btn btn-link process_delete" id="delete_account'+i+'" style="outline:none;width:65px;height:23px; padding:0px;" onClick="caseTest(this)">测试</button></td>');
+        html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset'+i+'" onClick="caseEdit(this)">编辑</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account'+i+'" onClick="caseTest(this)">测试</button></td>');
         html.push('</tr>');
     }
     html.push('</tbody></table>');

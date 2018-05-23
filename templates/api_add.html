@@ -15,14 +15,10 @@
 {% load staticfiles %}
 <link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/bootstrap3.3.0/css/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/api_add.css" rel="stylesheet" type="text/css" />
-</head>
-<style type="text/css">
-</style>
-<script type="text/javascript">
-</script>
 </head>
 <body>
  <div class="container_all">
@@ -60,14 +56,14 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">请求方式<i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                <select class="form-control" name="method">
+                <select class="form-control selectpicker" name="method">
                   <option>post</option>
                   <option>get</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">所属项目<i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                <select class="form-control" name="project">
+                <select class="form-control selectpicker" data-live-search="true" name="project">
                   {% for proj in projs %}
                     <option value="{{proj.id}}">{{ proj.name}}</option>
                   {% endfor %}
@@ -102,7 +98,7 @@
         <span id="error_message"></span>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
       </div>
     </div>
   </div>
@@ -110,6 +106,7 @@
 </div>
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/static/bootstrap3.3.0/js/bootstrapValidator.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
 <script src="/static/src/js/common.js"></script>
 <script src="/static/src/js/api_add.js"></script>
@@ -118,14 +115,32 @@
   // 初始化界面
   creatmenu();
   menu_current(0);
- });
- //页面刷新方法
-  $(".refresh_page").click(function(){
-    location.reload();
-  });
- // 退出登陆
- $("#logoff").click(function(){
-   log_off();
+  $("#add_table_form").bootstrapValidator({  
+          message:'',  
+          feedbackIcons:{
+            valid:'glyphicon glyphicon-ok',
+            invalid:'glyphicon glyphicon-remove',
+            validating:'glyphicon glyphicon-refresh'
+          },
+          fields:{
+            name:{     //用户名校验
+              message:'',
+              validators:{
+                notEmpty:{
+                  message:'API名称不能为空'
+                         }
+                         }
+                     },
+              path:{     //密码校验
+              message:'',
+              validators:{
+                notEmpty:{
+                  message:'请求路径不能为空'
+                         }
+                         }
+                         }                   
+                     }        
+        });
  });
 </script>
 </body>

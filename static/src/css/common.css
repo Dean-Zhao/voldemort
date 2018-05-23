@@ -107,6 +107,17 @@ label{
 	background: #f7f7f7;
 	border-bottom: none !important;
 }
+.table_btn_lef,.table_btn_mid{
+	outline:none !important;
+	height:23px; 
+	padding:0px;
+}
+.table_btn_lef{
+	width:38px;
+}
+.table_btn_mid{
+	width:65px;
+}
 .pagination1{
     width: 100%;
     height: 50px;
@@ -135,4 +146,8 @@ label{
 }
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus{
 	background-color:#888;
+}
+.jumbotron2 :nth-child(2){
+	color: #555;
+	font-weight: 500;
 }

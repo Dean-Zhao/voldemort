@@ -1,3 +1,5 @@
+var $me = $("#error_message");
+var $mess = $('#process_message');
 // 操作key value 的新增与删除
 //获取profile内容
 function profile_getpams(){
@@ -159,35 +161,51 @@ function validations_getpams(){
 }
 //获取用例的整体内容并提交
 function case_getpams(){
-	let map={},result={};
-	map["profile"]=profile_getpams();
-	map["headers"]=headers_getpams();
-	map["cookies"]=cookies_getpams();
-	map["parameters"]=pams_getpams();
-	map["validations"]=validations_getpams();
-	map["api_id"]=$("#api_id").attr("data-id");
-	map["case_id"]=$("#case_id").attr("data-id");
-	let res=JSON.stringify(map);
-	console.log(res);
-	$.ajax({
-      type : "Post",
-      url : "/api/addCase/",
-      data : res,
-      dataType : "json",
-      async : false,
-      success : function(data) {
-        $("#error_message").html(data["msg"]);
-        $('#process_message').modal({
-         keyboard: true
-         }); 
-      },
-      error : function(data) {
-        $("#error_message").html("系统异常");
-        $('#process_message').modal({
-         keyboard: true
-         });  
-      }
-    });
+	let $b = $("#tab_profile_form");
+	$b.data("bootstrapValidator").validate();  
+	let flag = $b.data("bootstrapValidator").isValid();
+	if(flag){
+		let map={},result={};
+		let a=$("#t_case_name").val();
+		map["profile"]=profile_getpams();
+		map["headers"]=headers_getpams();
+		map["cookies"]=cookies_getpams();
+		map["parameters"]=pams_getpams();
+		map["validations"]=validations_getpams();
+		map["api_id"]=$("#api_id").attr("data-id");
+		map["case_id"]=$("#case_id").attr("data-id");
+		let res=JSON.stringify(map);
+		console.log(res);
+		console.log(a);
+		if(a!=""){	
+			$.ajax({
+				type : "Post",
+				url : "/api/addCase/",
+				data : res,
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					$mess.children().children().children().eq(2).children().attr("onclick","reloadpage()");
+					$me.html(data["msg"]);
+					$mess.modal({
+						keyboard: true
+					}); 
+				},
+				error : function(data) {
+					$me.html("系统异常");
+					$mess.modal({
+						keyboard: true
+					});  
+				}
+			});
+		}
+		else{
+			$me.html("必填项未填写");
+			$mess.modal({
+				keyboard: true
+			}); 
+		}
+	}
 }
 
 
