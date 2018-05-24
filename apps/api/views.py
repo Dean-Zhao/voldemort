@@ -190,11 +190,11 @@ class CaseNewView(LoginRequiredView,View): #todo 增加权限LoginRequiredView
             api_id = data["api_id"]
             if not Api.objects.filter(id=int(api_id),is_deleted=0):
                 return JsonResponse({"msg":u"该api不存在","status":1})
-            case_headers = json.dumps(data["headers"])
-            case_cookies = json.dumps(data["cookies"])
+            case_headers = json.dumps(data["headers"],encoding='UTF-8',ensure_ascii=False)
+            case_cookies = json.dumps(data["cookies"],encoding='UTF-8',ensure_ascii=False)
             case_api = Api.objects.get(id=int(api_id))
-            case_validation = json.dumps(data["validations"])
-            case_parameter = json.dumps(data["parameters"])
+            case_validation = json.dumps(data["validations"],encoding='UTF-8',ensure_ascii=False)
+            case_parameter = json.dumps(data["parameters"],encoding='UTF-8',ensure_ascii=False)
             case_tag_id = int(data["profile"]["case_type"])
             if data["profile"].has_key("case_enctype"):
                 case_encryption_type = int(data["profile"]["case_enctype"])
