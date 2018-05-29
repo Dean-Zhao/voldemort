@@ -1,11 +1,14 @@
 /**
 插入菜单
 **/
+var $me = $("#error_mess");
+var $mess = $('#confirm_error');
 function creatmenu(){
 	let html=[];
 	html.push('<li class="active"><a href="/api/apiList/">API接口管理</a></li>');
-	html.push('<li><a href="#">测试数据管理</a></li>');
-	html.push('<li><a href="#">测试任务管理</a></li>');
+	html.push('<li><a href="javascript:void(0)" disabled="disabled">测试数据管理</a></li>');
+	html.push('<li><a href="#">测试计划管理</a></li>');
+  html.push('<li><a href="#">测试任务 <span class="badge" id="task_num"></span></a></li>');
 	html.push('<li><a href="#">统计</a></li>');
 	let mainObj = $("#menu_area");
 	mainObj.empty();
@@ -13,7 +16,9 @@ function creatmenu(){
 }
 // 为菜单插入active
 function menu_current(i){
-	$("#menu_area").children().eq(i).addClass("active");
+  $b=$("#menu_area").children();
+  $b.removeClass("active");
+  $("#menu_area").children().eq(i).addClass("active");
 }
 //加载方法
 function loading(id){
@@ -40,14 +45,14 @@ function log_off(){
        }
 
       else{
-        $("#error_mess").html("系统异常！");
-      $("#confirm_error").slideDown();
+        $me.html("系统异常！");
+        $mess.slideDown();
       }        
     },
     error:function(data)
     {
-      $("#error_mess").html("系统异常！");
-      $("#confirm_error").slideDown();
+      $me.html("系统异常！");
+      $mess.slideDown();
     }
   });
 }
@@ -55,3 +60,15 @@ function log_off(){
 function colls(){
   $("#colls").html('<i class="fa fa-caret-down fa-1x" aria-hidden="true"></i>');
 }
+ //页面刷新方法
+  $(".refresh_page").click(function(){
+    location.reload();
+  });
+//页面刷新
+function reloadpage(){
+  location.reload();
+}
+ // 退出登陆
+ $("#logoff").click(function(){
+   log_off();
+ });

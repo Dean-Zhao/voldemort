@@ -1,8 +1,11 @@
+var $me = $("#error_message");
+var $mess = $('#process_message');
 // 点击测试按钮轮询方法
 function api_testcase_test(){
 	let api_no = $("#api_id").attr("data-id");
 	let case_no = $("#case_id").attr("data-id");
 	let env = $("#get_env option:selected").attr("value");
+	console.log(env);
 	// let v_count = $("#tab_validations_form").children("div").length;
 	let $btn = $("#testButton").button('loading');
 	let interval = setInterval(function(){
@@ -49,15 +52,15 @@ function api_testcase_test(){
 				} 
 				else {
 					clearInterval(interval);
-					$("#error_mess").html(mes);
-					$("#confirm_error").slideDown();
+					$me.html(mes);
+					$mess.slideDown();
 					$btn.button('reset');
 				}
 			},
 			error : function(data) {
 				 clearInterval(interval);
-				 $("#error_mess").html("Oops!系统异常了");
-				 $("#confirm_error").slideDown();
+				 $me.html("Oops!系统异常了");
+				 $mess.slideDown();
 				 $btn.button('reset');
 			}
 		});

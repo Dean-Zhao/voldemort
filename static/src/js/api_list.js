@@ -1,3 +1,5 @@
+var $me = $("#error_message");
+var $mess = $('#process_message');
 // 解码
 function decodeUnicode(str) {  
     str = str.replace(/\\/g, "%");  
@@ -47,23 +49,26 @@ function query(currPage, limit) {
                     createTable(currPage,limit,totalCount,data_content);
                   },
                   error : function(data) {
-                    $("#error_mess").html("系统异常！");
-                    $("#confirm_error").slideDown();
+                    $me.html("系统异常！");
+                    $mess.modal({
+                     keyboard: true
+                   });
                   }
                 });
               }
             });
           },
           error : function(data) {
-             $("#error_mess").html("系统异常！");
-             $("#confirm_error").slideDown(); 
+           $me.html("系统异常！");
+           $mess.modal({
+             keyboard: true
+           });
           }
         });
   }  
 // 创建列表
 function createTable(currPage,limit, totalCount, data) {
     let html = [], showNum = limit;
-    console.log(data);
     if (totalCount - (currPage * limit) < 0) {
       showNum = totalCount - ((currPage - 1) * limit);  
     }                          
@@ -76,7 +81,7 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('<td>'+data[i].method+'</td>');
         html.push('<td>'+data[i].path+'</td>');
         html.push('<td>'+data[i].update_time+'</td>');
-        html.push('<td><button type="button" class="btn btn-link " style="outline:none;width:38px;height: 23px; padding:0px;" onClick="apiEdit(this)">编辑</button><button type="button" class="btn btn-link process_delete" style="outline:none;width:38px;height: 23px; padding:0px;" onClick="apiDelete(this)">删除</button><button type="button" class="btn btn-link process_delete" style="outline:none;width:38px;height: 23px; padding:0px;" onClick="apiTestCase(this)">用例管理</button></td>');
+        html.push('<td><button type="button" class="btn btn-link table_btn_lef" onClick="apiEdit(this)">编辑</button><button type="button" class="btn btn-link table_btn_lef" onClick="apiDelete(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" onClick="apiTestCase(this)">用例管理</button></td>');
         html.push('</tr>');
       }
     }
@@ -92,11 +97,11 @@ function apiAdd(){
 }
 //跳转编辑界面
 function apiEdit(id){
-    var api_id = $(id).parent().parent().children().eq(0).attr("id");
+    let api_id = $(id).parent().parent().children().eq(0).attr("id");
       window.location.href = "/api/"+api_id+"/edit/";
 }
 //跳转用例管理界面
 function apiTestCase(id){
-    var api_id = $(id).parent().parent().children().eq(0).attr("id");
+    let api_id = $(id).parent().parent().children().eq(0).attr("id");
       window.location.href = "/api/"+api_id+"/cases/";
 }

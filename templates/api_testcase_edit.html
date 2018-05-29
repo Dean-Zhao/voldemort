@@ -15,6 +15,7 @@
 {% load staticfiles %}
 <link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/bootstrap3.3.0/css/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/api_testcase.css" rel="stylesheet" type="text/css" />
@@ -231,7 +232,7 @@
         <span id="error_message">修改成功！</span>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
       </div>
     </div>
   </div>
@@ -239,6 +240,7 @@
 </div>
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/static/bootstrap3.3.0/js/bootstrapValidator.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
 <script src="/static/dist/js/extendPagination.js"></script>
 <script src="/static/src/js/common.js"></script>
@@ -252,15 +254,25 @@
   // loading(0);
   creatmenu();
   menu_current(0);
+  $("#tab_profile_form").bootstrapValidator({  
+    message:'',  
+    feedbackIcons:{
+      valid:'glyphicon glyphicon-ok',
+      invalid:'glyphicon glyphicon-remove',
+      validating:'glyphicon glyphicon-refresh'
+    },
+    fields:{
+            name:{     //用户名校验
+              message:'',
+              validators:{
+                notEmpty:{
+                  message:'用例名称不能为空'
+                }
+              }
+            }                  
+          }        
+        });
 });
- //页面刷新方法
- $(".refresh_page").click(function(){
-  location.reload();
- });
- // 退出登陆
- $("#logoff").click(function(){
-   log_off();
- });
 </script>
 </body>
 </html>
