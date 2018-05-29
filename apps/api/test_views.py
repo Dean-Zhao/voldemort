@@ -230,7 +230,7 @@ class CaseTestView(LoginRequiredView, View):
         except Exception as e:
             result_id = save_exception(e, case, task_id,env_id)
             result = Result.objects.get(id=int(result_id))
-            return JsonResponse({"status": 1, "message": e.message})
+            return JsonResponse({"status": 1, "message": u"系统异常！"})
 
         finally:
             result = Result.objects.get(id=int(result_id))

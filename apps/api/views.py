@@ -138,7 +138,7 @@ class ApiNewView(LoginRequiredView,View):
 class ApiQueryView(View):
     def get(self,request):
         api_all = Api.objects.filter(is_deleted=0)
-        count = Api.objects.count()
+        count = api_all.count()
         sortType = request.GET.get("sortType","desc")
         pj = request.GET.get("project","")
         kw = request.GET.get("kw","")
@@ -190,11 +190,11 @@ class CaseNewView(LoginRequiredView,View): #todo 增加权限LoginRequiredView
             api_id = data["api_id"]
             if not Api.objects.filter(id=int(api_id),is_deleted=0):
                 return JsonResponse({"msg":u"该api不存在","status":1})
-            case_headers = json.dumps(data["headers"],encoding='UTF-8',ensure_ascii=False)
-            case_cookies = json.dumps(data["cookies"],encoding='UTF-8',ensure_ascii=False)
+            case_headers = json.dumps(data["headers"])
+            case_cookies = json.dumps(data["cookies"])
             case_api = Api.objects.get(id=int(api_id))
-            case_validation = json.dumps(data["validations"],encoding='UTF-8',ensure_ascii=False)
-            case_parameter = json.dumps(data["parameters"],encoding='UTF-8',ensure_ascii=False)
+            case_validation = json.dumps(data["validations"])
+            case_parameter = json.dumps(data["parameters"])
             case_tag_id = int(data["profile"]["case_type"])
             if data["profile"].has_key("case_enctype"):
                 case_encryption_type = int(data["profile"]["case_enctype"])
@@ -303,6 +303,39 @@ def get_case(request,case_id):
         return render(request,'api_testcase_edit.html',{"api":api,"tags":tags,"case":case,"counts":counts,"para":para,"headers":headers,"cookies":cookies,"valids":valids})
     else:
         return render(request, 'wrong.html')
+
+
+class CaseQueryView(View):
+    def get(self,request):
+        sortType = request.GET.get("sortType","desc")
+        pj = request.GET.get("project","")
+        kw = request.GET.get("kw","")
+        page = request.GET.get('currPage',1)
+        tag = request.GET.get('tag',"")
+        api = request.GET.get('api',"")
+        if pj!= "":
+            proj = Proj.objects.get(id=int(pj))
+            apis = Api.objects.filter(proj=proj,is_deleted=0)
+            case_all = Case.objects.filter(api__in=apis)
+        else:
+            case_all = Case.objects.filter(is_deleted=0)
+        # count = case_all.count()
+        if sortType == 'desc':
+            case_all = case_all.order_by("-update_time")
+        elif sortType == 'asc':
+            case_all = case_all.order_by("update_time")
+        if tag != "":
+            case_all = case_all.filter(tag=int(tag))
+        if api != "":
+            case_all = case_all.filter(api=int(api))
+        if kw:
+            case_all = case_all.filter(name__contains=kw)
+        sum = case_all.count()
+        low,high = get_slice(sum,int(page))
+        cases = case_all[low:high]
+        data1 = [ i.get_values('id','name','parameter','api','tag','user','update_time') for i in cases]
+        return JsonResponse({"count":sum,"currentPage":page,"data":data1})
+
 
 
 

@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^casetest/(?P<case_id>\w+)/$',CaseTestView.as_view(),name="doTest"),
     url(r'^(?P<api_id>\w+)/addTestCase$',CaseNewView.as_view(),name="addTestCase"),
     url(r'^addCase/$',CaseNewView.as_view(),name="addCase"),
-    url(r'^tags/$',get_tags)
+    url(r'^tags/$',get_tags),
+    url(r'^cases/query$',CaseQueryView.as_view(),name="case_query"),
 
 ]

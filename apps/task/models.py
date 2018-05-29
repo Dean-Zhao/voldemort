@@ -13,6 +13,7 @@ class plan(models.Model):
     name = models.CharField(max_length=50,verbose_name=u'计划名称')
     description = models.CharField(max_length=200,verbose_name=u"计划描述",null=True,blank=True)
     cases = models.ManyToManyField(Case, verbose_name=u'用例')
+    proj = models.ForeignKey(Proj,verbose_name=u'所属模块')
     user = models.ForeignKey(User, verbose_name=u"创建人")
     task_count = models.IntegerField(default=0,verbose_name=u'执行次数')
     create_time = models.DateTimeField(default=datetime.datetime.now, verbose_name=u"创建时间")
