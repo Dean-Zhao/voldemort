@@ -103,6 +103,7 @@ class PlanQueryView(View):
         pj = request.GET.get("project", "")
         kw = request.GET.get("kw", "")
         page = request.GET.get('currPage', 1)
+        userId = request.GET.get('userId','')
         plan_all = plan.objects.filter(is_deleted=0)
         if kw != '':
             plan_all = plan_all.filter(name__contains=kw)
@@ -110,11 +111,18 @@ class PlanQueryView(View):
             plan_all = plan_all.order_by("-update_time")
         elif sortType == 'asc':
             plan_all = plan_all.order_by("update_time")
+        if userId != '':
+            user = User.objects.filter(id=int(userId))
+        if user:
+            plan_all = plan_all.filter(user=user[0])
         sum = plan_all.count()
         low, high = get_slice(sum, int(page))
         plans = plan_all[low:high]
-        data1 = [i.get_values('id', 'name','description', 'user', 'update_time') for i in plans]
+        data1 = [i.get_values('id', 'name','proj','description', 'user', 'update_time') for i in plans]
         return JsonResponse({"count": sum, "currentPage": page, "data": data1})
+
+
+
 
 
 @login_required
@@ -166,4 +174,27 @@ class ExecTask(View):
         task_id = save_task(request,plan_id)
         execute.delay(task_id)
         return JsonResponse({"status":"sucess","task_id":task_id})
+
+@login_required
+def plan_list(request):
+    if request.method == 'GET':
+        return render(request,"plan_list.html")
+    else:
+        return render(request,"403.html")
+
+
+@login_required
+def plan_addinfo(request):
+    if request.method == 'GET':
+        return render(request,"plan_addinfo.html")
+    else:
+        return render(request,"403.html")
+
+
+@login_required
+def plan_addcase(request):
+    if request.method == 'GET':
+        return render(request,"plan_addcase.html")
+    else:
+        return render(request,"403.html")
 

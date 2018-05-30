@@ -56,7 +56,7 @@ def saveParam(parameter):
 
 def get_projects(request):
     if request.method == 'GET':
-        proj = Proj.objects.filter(deleted=0)
+        proj = Proj.objects.filter(father_id=0,deleted=0)
         sum = proj.count()
         return JsonResponse(dict(count=sum,projs=list(proj.values('id', 'name'))))
 
@@ -131,7 +131,7 @@ class ApiNewView(LoginRequiredView,View):
             try:
                 api.save()
                 return JsonResponse({"msg":u"保存成功","status":0})
-            except Exception:
+            except Exception as e:
                 return JsonResponse({"msg":u"保存失败","status":-1})
         else:
             return JsonResponse({"msg":u"验证失败","status":3})
@@ -376,3 +376,9 @@ def case_delete(request,case_id):
     case.save()
     return JsonResponse({"status":0,"msg":"delete sucess"})
 
+def get_users(request):
+    if request.method != 'GET':
+        return JsonResponse({"status":-1,"msg":u"请求方式错误！"})
+    else:
+        users = User.objects.all()
+        return JsonResponse({"status":0,"data":list(users.values('id','username'))})

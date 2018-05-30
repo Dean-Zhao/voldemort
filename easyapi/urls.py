@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls import url,include
 # from django.contrib import admin
 from users.views import LoginView,LogoutView
-from api.views import get_projects
+from api.views import get_projects,get_users
 import xadmin
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^logout/$',LogoutView.as_view(),name="logout"),
     url(r'^projs/$',get_projects),
     url(r'^plan/',include("task.urls",namespace='plan')),
+    url(r'^users/$',get_users),
 
 ]
 
