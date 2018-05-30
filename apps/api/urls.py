@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^addApi/$',ApiNewView.as_view(),name="addapi"),
     url(r'(?P<api_id>\w+)/edit/',edit_api,name='edit_api'),
     url(r'^cases/(?P<case_id>\w+)/',get_case),
+    url(r'^case/copy/(?P<case_id>\w+)$',CaseCopyView.as_view()), #复制用例
+    url(r'^case/delete/(?P<case_id>\w+)$',case_delete),#删除用例
     url(r'^casetest/(?P<case_id>\w+)/$',CaseTestView.as_view(),name="doTest"),
     url(r'^(?P<api_id>\w+)/addTestCase$',CaseNewView.as_view(),name="addTestCase"),
     url(r'^addCase/$',CaseNewView.as_view(),name="addCase"),

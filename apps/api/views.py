@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import json
+import time
 
 from users.views import login_required,LoginRequiredView
 from django.shortcuts import render
@@ -337,6 +338,41 @@ class CaseQueryView(View):
         return JsonResponse({"count":sum,"currentPage":page,"data":data1})
 
 
+class CaseCopyView(LoginRequiredView,View):
+    def get(self,request,case_id):
+        return render(request,'wrong.html')
+
+    def post(self,request,case_id):
+        cases = Case.objects.filter(id=int(case_id))
+        if not cases:
+            return JsonResponse({"status":-1,"msg":"wrong case id"})
+        case = cases[0]
+        name = case.name+str(int(time.time()))
+        if Case.objects.filter(name=name,is_deleted=0):
+            return JsonResponse({"status":1,"msg":"try again later"})
+        c = Case()
+        c.name = name
+        c.cookies = case.cookies
+        c.headers = case.headers
+        c.parameter = case.parameter
+        c.encryption_type = case.encryption_type
+        c.validation = case.validation
+        c.api = case.api
+        c.tag = case.tag
+        c.user = request.user
+        c.save()
+        return JsonResponse({"status":0,"msg":"copy sucess"})
 
 
+@login_required
+def case_delete(request,case_id):
+    if request.method == 'GET':
+        return JsonResponse({"status":-1,"msg":"wrong request method"})
+    cases = Case.objects.filter(id=int(case_id))
+    if not cases:
+        return JsonResponse({"status":1,"msg":"wrong case id"})
+    case = cases[0]
+    case.is_deleted = 1
+    case.save()
+    return JsonResponse({"status":0,"msg":"delete sucess"})
 

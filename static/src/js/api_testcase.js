@@ -40,7 +40,7 @@ function case_createTable(data) {
         html.push('<td>'+data.cases[i].parameter+'</td>');
         html.push('<td>'+data.cases[i].validation+'</td>');
         html.push('<td>'+data.cases[i].user+'</td>');
-        html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset'+i+'" onClick="caseEdit(this)">编辑</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account'+i+'" onClick="caseTest(this)">测试</button></td>');
+        html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset'+i+'" onClick="caseEdit(this)">编辑</button><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset\'+i+\'" onClick="caseCopy(this)"> 复制</button><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset\'+i+\'" onClick="caseDelete(this)"> 删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account'+i+'" onClick="caseTest(this)">测试</button></td>');
         html.push('</tr>');
     }
     html.push('</tbody></table>');
@@ -54,6 +54,53 @@ function caseEdit(id){
   let case_id = $(id).parent().parent().children().eq(0).attr("id");
   window.location.href = "/api/cases/"+case_id+"/";
 }
+
+//复制
+function caseCopy(id){
+    let case_id = $(id).parent().parent().children().eq(0).attr("id");
+    $.ajax({
+    url:"/api/case/copy/"+case_id,
+    type : "Post",
+    success:function(data)
+    {
+        var Status = data["status"];
+        var msg = data["msg"];
+        if (Status==0){
+        $("#sucess_mess").html(msg);
+        $("#confirm_sucess").slideDown();
+        }
+      else{
+      	$("#error_mess").html(msg);
+        $("#confirm_error").slideDown();
+      }
+      location.reload();
+    },
+  });
+}
+
+//删除
+function caseDelete(id){
+    let case_id = $(id).parent().parent().children().eq(0).attr("id");
+    $.ajax({
+    url:"/api/case/delete/"+case_id,
+    type : "Post",
+    success:function(data)
+    {
+      var Status = data["status"];
+        var msg = data["msg"];
+        if (Status==0){
+        $("#sucess_mess").html(msg);
+        $("#confirm_sucess").slideDown();
+        }
+      else{
+      	$("#error_mess").html(msg);
+        $("#confirm_error").slideDown();
+      }
+      location.reload();
+    },
+  });
+}
+
 //进入用例测试界面方法
 function caseTest(id){
     let case_id = $(id).parent().parent().children().eq(0).attr("id");
