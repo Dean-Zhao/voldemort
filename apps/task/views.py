@@ -116,8 +116,9 @@ class PlanQueryView(View):
         if user:
             plan_all = plan_all.filter(user=user[0])
 
-        proj = Proj.objects.filter(id=int(pj), deleted=0)
-        if pj and proj:
+        if pj != '':
+            proj = Proj.objects.filter(id=int(pj), deleted=0)
+        if proj:
             plan_all = plan_all.filter(proj=proj[0])
         sum = plan_all.count()
         low, high = get_slice(sum, int(page))
