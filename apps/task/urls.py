@@ -17,6 +17,6 @@ urlpatterns = [
     url(r'^$',plan_list),
     #dean 修改路由配置2018-05-30 -- start --
     url(r'^addinfo/$',plan_addinfo),
-    url(r'^addcase/$', plan_addcase),
+    url(r'^(?P<plan_id>\w+)/addcase/$', plan_addcase),
     #dean 修改路由配置2018-05-30 -- end --
 ]

@@ -199,9 +199,13 @@ def plan_addinfo(request):
 
 
 @login_required
-def plan_addcase(request):
+def plan_addcase(request,plan_id):
     if request.method == 'GET':
-        return render(request,"plan_addcase.html")
+        #dean 修改渲染界面配置2018-05-31 新增渲染plan_id 之后render 用例的时候建议优化下 -- start --
+        context = {}
+        context['plan_id'] = plan_id
+        return render(request,"plan_addcase.html",context)
+        #dean 修改渲染界面配置2018-05-31 新增渲染plan_id -- end --
     else:
         return render(request,"403.html")
 
