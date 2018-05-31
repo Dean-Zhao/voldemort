@@ -75,23 +75,19 @@
     </div>
   </footer>
  </div>
- <!-- 消息弹出框 -->
- <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <span class="modal-title" id="myModalLabel">消息</span>
-      </div>
-      <div class="modal-body">
-        <span id="error_message"></span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-      </div>
-    </div>
-  </div>
- </div> 
+</div>
+<!-- 消息提示 -->
+<div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+    &times;
+  </button>
+  <strong id="error_mess"></strong>
+</div>
+<div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+    &times;
+  </button>
+  <strong id="sucess_mess"></strong>
 </div>
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>

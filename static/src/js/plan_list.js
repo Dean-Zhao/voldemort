@@ -1,6 +1,3 @@
-//渲染界面的
-var $me = $("#error_message");
-var $mess = $('#process_message');
 // 查询方法
 function query(currPage, limit) {
     var currPage = 1;
@@ -44,20 +41,17 @@ function query(currPage, limit) {
                     createTable(currPage,limit,totalCount,data_content);
                   },
                   error : function(data) {
-                    $me.html("系统异常！");
-                    $mess.modal({
-                     keyboard: true
-                   }); 
+                    $me1.html("系统异常！");
+                    $mess1.slideDown(); 
+                    // query(currPage,limit);
                   }
                 });
               }
             });
           },
           error : function(data) {
-           $me.html("系统异常！");
-           $mess.modal({
-             keyboard: true
-           }); 
+           $me1.html("系统异常！");
+           $mess1.slideDown();  
           }
         });
   }  
@@ -78,11 +72,11 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('<td>'+data[i].update_time+'</td>');
         if(data[i].plan_status===0){
           html.push('<td><span class="label label-primary">闲置</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="apiDelete(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         else{
           html.push('<td><span class="label label-warning">任务中</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="apiDelete(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         html.push('</tr>');
       }
@@ -126,22 +120,55 @@ function plan_addinfo(){
       var Data = data["msg"];
       var Status = data["status"];
       if (Status===0){
-        window.location.href = "/plan/"+data["data"]["plan"]+"/addcase"; 
+        window.location.href = "/plan/"+data["data"]["plan"]+"/addcase/"; 
       }
       else{
-        $me.html(Data);
-        $mess.modal({
-         keyboard: true
-       }); 
+        $me1.html(Data);
+        $mess1.slideDown();
       }           
     },
     error:function(data)
     {
-      $me.html("系统异常！");
-      $mess.modal({
-       keyboard: true
-     });
+      $me1.html("系统异常！");
+      $mess1.slideDown();  
     }
   });
  }
+}
+//删除计划弹出框
+function plan_delete_pop(id){
+  let plan_id = $(id).parent().parent().children().eq(0).attr("id");
+  $me3.attr("data",plan_id);
+  $mess3.slideDown();
+}
+//删除计划
+function plan_delete(){
+  $mess3.slideUp();
+  let plan_id = $me3.attr("data");
+  $.ajax({
+  url:"/plan/delete/",
+  type : "Post",
+  data:{
+    "project":plan_id
+  },
+  success:function(data)
+  {
+    var Status = data["status"];
+    var msg = data["msg"];
+    if (Status==0){
+      $me2.html(msg);
+      $mess2.slideDown();
+      query(1,10);
+    }
+    else{
+     $me1.html(msg);
+     $mess1.slideDown();
+   }
+ },
+ error:function(data) 
+ {
+  $me1.html("系统异常！");
+  $mess1.slideDown(); 
+}
+});
 }

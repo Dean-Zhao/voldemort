@@ -3,6 +3,9 @@ html,body{
 	height: 100%;
 	font-family: montserrat, arial, verdana;
 }
+button{
+	outline: none !important;
+}
 .container_all{
 	width: 100%;
 	margin: 0px;
@@ -150,4 +153,12 @@ label{
 .jumbotron2 :nth-child(2){
 	color: #555;
 	font-weight: 500;
+}
+/*重写弹出框信息样式*/
+.alert{
+	z-index: 99999;
+	width: 100%;
+	position: fixed;
+	top:50px;
+	margin-top: 0px !important;
 }

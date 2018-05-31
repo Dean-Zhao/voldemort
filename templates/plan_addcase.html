@@ -15,7 +15,6 @@
 {% load staticfiles %}
 <link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="/static/bootstrap3.3.0/css/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/api_add.css" rel="stylesheet" type="text/css" />
@@ -47,10 +46,12 @@
           <div class="add_table_title"><span>添加测试用例</span></div> 
           <div class="add_table_content">
           <div class="add_table_content_btn">
-           <button class="btn btn-default" type="button" onclick="plan_addcase()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-           <button class="btn btn-default" type="button"><i class="fa fa-remove" aria-hidden="true"></i></button>
+           <button class="btn btn-default" type="button" onclick="plan_addcase_pop()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+           <button class="btn btn-default" type="button" onclick="delete_cases()"><i class="fa fa-remove" aria-hidden="true"></i></button>
+            <button class="btn btn-info pull-right" type="button" onclick="add_cases()" id="add_cases_btn">提交</button>
            </div>
-          <div class="center_content_table">
+           </div>
+          <div class="center_content_table" style="min-height: 0px;">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -60,20 +61,7 @@
                   <th style="width:30%;">接口名称</th>
                 </tr>
               </thead>
-              <tbody id="cases_list">
-                 <tr>
-                   <td><input type="checkbox" id="checkone1" name="checkone" /></td>
-                   <td>监控测试</td>
-                   <td>正向</td>
-                   <td>赵伟测试风云诀2.3</td>
-                 </tr>
-                 <tr>
-                   <td><input type="checkbox" id="checkone1" name="checkone" /></td>
-                   <td>监控测试</td>
-                   <td>正向</td>
-                   <td>赵伟测试风云诀2.3</td>
-                 </tr>
-                  
+              <tbody id="addcases_list" count="0">
               </tbody>
               </table>
               </div>
@@ -81,13 +69,13 @@
           </div>
        </div>
      </div>
-   </div>
   <footer class="bottom">
     <div class="container">
       <p>Designed and built by Testing team.</p>
     </div>
   </footer>
  </div>
+</div>
  <!-- 新增用例弹出框 -->
   <div class="modal fade bs-example-modal-lg" id="plan_addcase_pop" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -97,29 +85,44 @@
         <span class="modal-title" id="myModalLabel">选择用例</span>
       </div>
       <div class="modal-body">
-       <div class="center_content_table">
+       <div class="center_content_search">
+         <form class="form-inline">
+              <div class="form-group popinner_search">
+                <label for="apis">Api</label>
+                <select class="form-control selectpicker popinner_selects" data-live-search="true" id="apis" name="apis">
+                  <option value="0">请选择</option>
+                       <!--  {% for api in apis %}
+                        <option value="{{api.id}}">{{ api.name}}</option>
+                        {% endfor %} -->
+                  </select>
+              </div>
+              <div class="form-group popinner_search">
+                <label for="tags">Tag</label>
+                <select class="form-control selectpicker popinner_selects" data-live-search="true" id="tags" name="tags">
+                  <option value="0">请选择</option>
+                    <!--     {% for tag in tags %}
+                        <option value="{{tag.id}}">{{ tag.name}}</option>
+                        {% endfor %} -->
+                  </select>
+              </div>
+              <div class="form-group ">
+                  <input type="text" class="form-control search_input" placeholder="请输入用例名称" id="keywords">
+                  <span class="input-group-btn">
+              </div>
+              <button class="btn btn-default" type="button" onClick="query(1,10);"><i class="fa fa-search"></i></button>
+          </form>
+       </div>
+       <div class="center_content_table popinner_table">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th style="width:10%;"><input type="checkbox" id="checkAll" name="checkAll" /></th>
+              <th style="width:10%;"><input type="checkbox" id="checkAll1" name="checkAlls" /></th>
               <th style="width:30%;">用例名称</th>
               <th style="width:30%;">标签</th>
               <th style="width:30%;">接口名称</th>
             </tr>
           </thead>
-          <tbody>
-           <tr>
-             <td><input type="checkbox" id="checkone1" name="checkone1"/></td>
-             <td>监控测试1</td>
-             <td>正向</td>
-             <td>赵伟测试风云诀2.3</td>
-           </tr>
-           <tr>
-             <td><input type="checkbox" id="checkone2" name="checkone1"/></td>
-             <td>监控测试1</td>
-             <td>正向</td>
-             <td>赵伟测试风云诀2.3</td>
-           </tr>        
+          <tbody id="cases_list" plan_id="{{plan_id}}" proj="{{projs}}">       
          </tbody>
        </table>
      </div>
@@ -128,43 +131,39 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">添加</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancle_select()">取消</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="select_cases()">添加</button>
       </div>
     </div>
   </div>
  </div> 
+</div> 
 </div>
- <!-- 消息弹出框 -->
- <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <span class="modal-title" id="myModalLabel">消息</span>
-      </div>
-      <div class="modal-body">
-        <span id="error_message"></span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
-      </div>
-    </div>
-  </div>
- </div> 
+<!-- 消息提示 -->
+<div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+    &times;
+  </button>
+  <strong id="error_mess"></strong>
+</div>
+<div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop1()">
+    &times;
+  </button>
+  <strong id="sucess_mess"></strong>
 </div>
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
-<script src="/static/bootstrap3.3.0/js/bootstrapValidator.min.js" charset="utf-8"></script>
+<script src="/static/dist/js/extendPagination.js"></script>
 <script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>
 <script src="/static/src/js/common.js"></script>
-<script src="/static/src/js/plan_list.js"></script>
 <script src="/static/src/js/plan_addcase.js"></script>
 <script type="text/javascript">
  $(function(){
   // 初始化界面
   creatmenu();
   menu_current(2);
+  query(1,10);
 });
 
 </script>

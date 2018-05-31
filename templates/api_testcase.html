@@ -72,42 +72,9 @@
     </div>
   </footer>
  </div>
- <!-- 消息弹出框 -->
- <div class="modal fade bs-example-modal-sm" id="process_message" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <span class="modal-title" id="myModalLabel">消息</span>
-      </div>
-      <div class="modal-body">
-        <span id="error_message">修改成功！</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
-      </div>
-    </div>
-  </div>
- </div>  
- <!-- 删除用户弹出框 -->
- <div class="modal fade bs-example-modal-sm" id="delete_account" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <span class="modal-title" id="myModalLabel">消息</span>
-      </div>
-      <div class="modal-body">
-        <span id="delete_message">是否删除接口？</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default refresh_page" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-warning" data-dismiss="modal" onClick="apiDelete1()">确认</button>
-      </div>
-    </div>
-  </div>
- </div>
- <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
+</div>
+<!-- 消息提示 -->
+<div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
   <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
     &times;
   </button>
@@ -119,6 +86,12 @@
   </button>
   <strong id="sucess_mess"></strong>
 </div>
+<div class="alert alert-warning collapse fade in sucess_message" id="confirm_warning" style="display: none;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop()" style="padding-top: 5px;">
+    &times;
+  </button>
+  <strong id="warning_mess">你确定要删除吗？</strong>
+  <button class="btn" type="button" onclick="caseDelete()">确定</button>
 </div>
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
@@ -135,6 +108,7 @@
   var id=$("#api_id").attr("data-id");
   case_query(id);
  });
+
 </script>
 </body>
 </html>

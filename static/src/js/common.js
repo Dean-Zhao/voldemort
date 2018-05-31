@@ -3,6 +3,13 @@
 **/
 var $me = $("#error_mess");
 var $mess = $('#confirm_error');
+var $me1 = $("#error_mess");
+var $mess1 = $('#confirm_error');
+var $me2 = $("#sucess_mess");
+var $mess2 = $('#confirm_sucess');
+var $me3 = $("#warning_mess");
+var $mess3 = $('#confirm_warning');
+
 function creatmenu(){
 	let html=[];
 	html.push('<li class="active"><a href="/api/apiList/">API接口管理</a></li>');
@@ -68,6 +75,16 @@ function colls(){
 function reloadpage(){
   location.reload();
 }
+//关闭pop
+function close_pop(){
+    $(".alert").slideUp();
+    // location.reload();
+ } 
+ //关闭pop only for 新增计划
+function close_pop1(){
+    $(".alert").slideUp();
+    window.location.href="/plan";
+ } 
  // 退出登陆
  $("#logoff").click(function(){
    log_off();

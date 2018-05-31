@@ -2,6 +2,27 @@
 	width: 100%;
 	margin-bottom: 20px;
 }
-.center_content_table{
+.center_content_table,.center_content_search{
 	width: 100%;
+}
+.center_content_search{
+	height: 50px;
+}
+.popinner_search{
+	width: 250px;
+}
+.popinner_selects{
+/*	display: inline-block;
+*/	width: 200px !important;
+	position: relative;
+	float: right;
+}
+.popinner_table,.center_content_table {
+	min-height: 411px !important;
+}
+.modal-lg{
+	top: -20px;
+}
+.pagination1{
+	margin-top: -30px;
 }
