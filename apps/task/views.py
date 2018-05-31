@@ -25,7 +25,7 @@ def new_plan(request):
         return JsonResponse({"msg": u"名称为空", "status": 1})
     elif plan.objects.filter(name=name):
         return JsonResponse({"msg":u"名称重复","status":2})
-    desp = request.POST.get("description",'')
+    desp = request.POST.get("desp",'')
     proj_id = request.POST.get("project",'')
     if proj_id == '' :
         return JsonResponse({"msg": u"模块为空", "status": 1})
@@ -36,7 +36,7 @@ def new_plan(request):
     p.user = request.user
     p.name = name
     p.proj = Proj.objects.get(id=int(proj_id),deleted=0)
-    p.desp = desp
+    p.description = desp
     p.save()
     return JsonResponse({"status":0,"data":{"msg":"sucess","plan":p.id}})
 
@@ -115,6 +115,10 @@ class PlanQueryView(View):
             user = User.objects.filter(id=int(userId))
         if user:
             plan_all = plan_all.filter(user=user[0])
+
+        proj = Proj.objects.filter(id=int(pj), deleted=0)
+        if pj and proj:
+            plan_all = plan_all.filter(proj=proj[0])
         sum = plan_all.count()
         low, high = get_slice(sum, int(page))
         plans = plan_all[low:high]
