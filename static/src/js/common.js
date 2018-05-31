@@ -7,7 +7,7 @@ function creatmenu(){
 	let html=[];
 	html.push('<li class="active"><a href="/api/apiList/">API接口管理</a></li>');
 	html.push('<li><a href="javascript:void(0)" disabled="disabled">测试数据管理</a></li>');
-	html.push('<li><a href="#">测试计划管理</a></li>');
+	html.push('<li><a href="/plan">测试计划管理</a></li>');
   html.push('<li><a href="#">测试任务 <span class="badge" id="task_num"></span></a></li>');
 	html.push('<li><a href="#">统计</a></li>');
 	let mainObj = $("#menu_area");

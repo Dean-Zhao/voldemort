@@ -2,11 +2,11 @@
 // api新增界面提交方法
 var $me = $("#error_message");
 var $mess = $('#process_message');
-var $b = $("#add_table_form");
+var $b2 = $("#add_table_form");
 var $b1 = $("#edit_table_form");
 function api_add(){ 
-  $b.data("bootstrapValidator").validate();  
-  let flag = $b.data("bootstrapValidator").isValid();
+  $b2.data("bootstrapValidator").validate();  
+  let flag = $b2.data("bootstrapValidator").isValid();
   if(flag){
    let pam = decodeURIComponent($("#add_table_form").serialize());
    console.log(pam);
