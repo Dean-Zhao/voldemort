@@ -178,7 +178,11 @@ class ExecTask(View):
 @login_required
 def plan_list(request):
     if request.method == 'GET':
-        return render(request,"plan_list.html")
+        #dean 修改渲染界面配置2018-05-30 -- start --
+        projs = Proj.objects.filter(deleted=0)
+        users = User.objects.all()
+        return render(request,"plan_list.html",{"projs":projs,"users":users})
+        #dean 修改渲染界面配置2018-05-30 -- end --
     else:
         return render(request,"403.html")
 
@@ -186,7 +190,10 @@ def plan_list(request):
 @login_required
 def plan_addinfo(request):
     if request.method == 'GET':
-        return render(request,"plan_addinfo.html")
+        #dean 修改渲染界面配置2018-05-30 -- start --
+        projs = Proj.objects.filter(deleted=0)
+        return render(request,"plan_addinfo.html",{"projs":projs})
+        #dean 修改渲染界面配置2018-05-30 -- end --
     else:
         return render(request,"403.html")
 
