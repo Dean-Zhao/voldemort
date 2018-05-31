@@ -21,21 +21,24 @@ def new_plan(request):
     if request.method == 'GET':
         return JsonResponse({"msg":u"请求方式错误","status":-1})
     name = request.POST.get('name','')
-    if name == '':
-        return JsonResponse({"msg": u"名称为空", "status": 1})
-    elif plan.objects.filter(name=name):
-        return JsonResponse({"msg":u"名称重复","status":2})
-    desp = request.POST.get("desp",'')
     proj_id = request.POST.get("project",'')
+
     if proj_id == '' :
         return JsonResponse({"msg": u"模块为空", "status": 1})
-    if not Proj.objects.filter(id=int(proj_id),deleted=0):
+    pj = Proj.objects.filter(id=int(proj_id),deleted=0)[0]
+    if not pj:
         return JsonResponse({"msg": u"模块错误", "status": 2})
+    if name == '':
+        return JsonResponse({"msg": u"名称为空", "status": 1})
+    elif plan.objects.filter(name=name,is_deleted=0,proj=pj):
+        return JsonResponse({"msg":u"名称重复","status":2})
+    desp = request.POST.get("desp",'')
+
 
     p = plan()
     p.user = request.user
     p.name = name
-    p.proj = Proj.objects.get(id=int(proj_id),deleted=0)
+    p.proj = pj
     p.description = desp
     p.save()
     return JsonResponse({"status":0,"data":{"msg":"sucess","plan":p.id}})

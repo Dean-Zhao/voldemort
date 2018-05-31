@@ -112,15 +112,16 @@ class ApiNewView(LoginRequiredView,View):
             api_id = int(request.POST.get("api_id",-1))
 
             if api_id != -1:
-                if Api.objects.filter(path=api_path,proj=project).exclude(id=api_id):
+                if Api.objects.filter(path=api_path,is_deleted=0,proj=project).exclude(id=api_id) or Api.objects.filter(name=api_name,is_deleted=0,proj=project).exclude(id=api_id):
                     return JsonResponse({"msg":u"该api已存在","status":1})
                 api = Api.objects.filter(id=int(request.POST.get("api_id")),is_deleted=0)[0]
                 if not api:
                     return JsonResponse({"msg":u"该api不存在","status":2})
-            elif Api.objects.filter(path=api_path,proj=project):
+            elif Api.objects.filter(path=api_path,proj=project,is_deleted=0) or Api.objects.filter(name=api_name,proj=project,is_deleted=0):
                     return JsonResponse({"msg":u"该api已存在","status":1})
             else:
                 api = Api()
+
             api.description = api_description
             api.path = api_path
             api.method = api_method.lower()
@@ -206,13 +207,13 @@ class CaseNewView(LoginRequiredView,View): #todo 增加权限LoginRequiredView
             else:
                 case_id = 0
             if  case_id != 0: #修改已存在的case
-                if Case.objects.filter(name=case_name,api=case_api).exclude(id=case_id):
+                if Case.objects.filter(name=case_name,api=case_api,is_deleted=0).exclude(id=case_id):
                     return JsonResponse({"msg":u"该用例已存在","status":2})
                 case = Case.objects.filter(id=case_id,is_deleted=0)[0]
                 if not case:
                     return JsonResponse({"msg":u"该用例不存在","status":3})
             else:
-                if Case.objects.filter(name=case_name,api=case_api):
+                if Case.objects.filter(name=case_name,api=case_api,is_deleted=0):
                     return JsonResponse({"msg":u"该用例已存在","status":2})
                 case = Case()
             case.name = case_name
