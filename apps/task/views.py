@@ -139,10 +139,13 @@ class PlanQueryView(View):
         low, high = get_slice(sum, int(page))
         plans = plan_all[low:high]
         data1 = [i.get_values('id', 'name','proj','description', 'user', 'update_time') for i in plans]
+        #dean 传出接口附带task_count 2018-06-01 -- start --
+        for i in range(len(data1)):
+            t = task.objects.filter(plan=int(data1[i]['id']),status=0) 
+            task_cout = t.count()
+            data1[i]['task_count'] = task_cout
+        #dean 传出接口附带task_count 2018-06-01 -- end --
         return JsonResponse({"count": sum, "currentPage": page, "data": data1})
-
-
-
 
 
 @login_required
@@ -198,11 +201,12 @@ class ExecTask(View):
 @login_required
 def plan_list(request):
     if request.method == 'GET':
-        #dean 修改渲染界面配置2018-05-30 -- start --
+        #dean 修改渲染界面配置2018-06-01 -- start --
         projs = Proj.objects.filter(deleted=0)
         users = User.objects.all()
-        return render(request,"plan_list.html",{"projs":projs,"users":users})
-        #dean 修改渲染界面配置2018-05-30 -- end --
+        envs = runtime_env.objects.filter(is_deleted=0)
+        return render(request,"plan_list.html",{"projs":projs,"users":users,"envs":envs})
+        #dean 修改渲染界面配置2018-06-01 -- end --
     else:
         return render(request,"403.html")
 

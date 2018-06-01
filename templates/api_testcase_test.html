@@ -47,9 +47,9 @@
       <div class="collapse in jumbotron1" id="api_info">
        <div class="jumbotron2">
         <h3 id="api_id" data-id={{api.id}}>{{api.name}} <span class="label label-default">{{api.proj}}</span></h3>
-          <p>{{api.method}}</p>
-          <p>{{api.path}}</p>
-          <p>{{api.description}}</p>
+          <p><span class="board_info">请求方式:</span> {{api.method}}</p>
+          <p><span class="board_info">URL:</span> {{api.path}}</p>
+          <p><span class="board_info">说明:</span> {{api.description}}</p>
         <a class="btn btn-warning api_testcase_btn" href="/api/{{api.id}}/cases/" role="button">返回</a>
         <button type="button" id="testButton" data-loading-text="测试中..." class="btn btn-primary api_testcase_btn" autocomplete="off" onclick="api_testcase_test()">测试</button>
         </div>
@@ -172,13 +172,13 @@
 </div> 
 <!-- 消息提示 -->
 <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()">
     &times;
   </button>
   <strong id="error_mess"></strong>
 </div>
 <div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_success()">
     &times;
   </button>
   <strong id="sucess_mess"></strong>

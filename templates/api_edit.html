@@ -80,7 +80,7 @@
                 <textarea class="form-control" rows="3" name="description">{{api.description}}</textarea>
               </div>
               <button type="button" class="btn btn-default refresh_page">取消 </button>
-              <button type="button" onClick="api_edit();" class="btn btn-default">确认提交 <i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
+              <button type="button" onClick="api_edit();" class="btn btn-default" id="api_add_btn">确认提交 <i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
             </form>
           </div>        
           </div>
@@ -95,13 +95,13 @@
  </div>
  <!-- 消息提示 -->
 <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()">
     &times;
   </button>
   <strong id="error_mess"></strong>
 </div>
 <div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_success()">
     &times;
   </button>
   <strong id="sucess_mess"></strong>

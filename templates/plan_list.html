@@ -27,9 +27,9 @@
       <a class="navbar-brand logo">Voldemort</a>     
     </div> 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-          <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
-          <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
-          <p class="navbar-text navbar-right">{{ request.user.username }}</p>
+      <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
+      <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
+      <p class="navbar-text navbar-right">{{ request.user.username }}</p>
     </div>
    </div>
   </nav>
@@ -92,24 +92,51 @@
  </div>
  <!-- 消息提示 -->
 <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()">
     &times;
   </button>
   <strong id="error_mess"></strong>
 </div>
 <div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_success()">
     &times;
   </button>
   <strong id="sucess_mess"></strong>
 </div>
 <div class="alert alert-warning collapse fade in sucess_message" id="confirm_warning" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()" style="padding-top: 5px;">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()" style="padding-top: 5px;">
     &times;
   </button>
   <strong id="warning_mess">删除计划同时会删除其所属的历史任务信息,确定这样做吗？</strong>
   <button class="btn" type="button" onclick="plan_delete()">确定</button>
 </div>
+<!-- 创建任务弹出框 -->
+<div class="modal fade bs-example-modal-sm" id="plan_createtask_pop" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <span class="modal-title" id="myModalLabel">创建测试任务</span>
+      </div>
+      <div class="modal-body">
+         <form >
+              <div class="form-group">
+                <label for="tags">测试环境</label>
+                <select class="form-control selectpicker" data-live-search="true" id="envs" name="envs">
+                        {% for env in envs %}
+                        <option value="{{env.id}}">{{ env.name}}</option>
+                        {% endfor %}
+                  </select>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="create_task()"><i class="fa fa-bicycle" aria-hidden="true"></i> 创建</button>
+      </div>
+    </div>
+  </div>
+ </div> 
 <script src="/static/dist/js/jquery2.min.js"></script>
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/bootstrap-select.js" charset="UTF-8"></script>

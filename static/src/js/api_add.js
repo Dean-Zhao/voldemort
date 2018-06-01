@@ -19,7 +19,12 @@ function api_add(){
       var Data = data["msg"];
       var Status = data["status"];
       if (Status===0){
-        pop_success(Data);  
+        $("#api_add_btn").attr("disabled","disabled");
+        pop_success(Data); 
+        let hehe2=function(){
+          location.reload();
+        }
+        setTimeout(hehe2,2000);  
       }
       else{
         pop_error(Data); 
@@ -50,7 +55,12 @@ function api_edit(){
       var Data = data["msg"];
       var Status = data["status"];
       if (Status===0){
-        pop_success(Data);  
+        $("#api_add_btn").attr("disabled","disabled");
+        pop_success(Data); 
+        let hehe2=function(){
+          location.reload();
+        }
+        setTimeout(hehe2,2000);  
       }
       else{
         pop_error(Data); 

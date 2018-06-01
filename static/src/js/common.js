@@ -79,7 +79,7 @@ function reloadpage(){
 function pop_error(mes){
   $me1.html(mes);
   $mess1.slideDown(); 
-  var hehe=function(){
+  let hehe=function(){
     $mess1.slideUp();
   }
   setTimeout(hehe,2000);
@@ -88,27 +88,19 @@ function pop_error(mes){
 function pop_success(mes){
   $me2.html(mes);
   $mess2.slideDown(); 
-  var hehe1=function(){
+  let hehe1=function(){
     $mess2.slideUp(); 
-    var hehe2=function(){
-      console.log("refresh");
-    location.reload();
-  }
-  console.log("upup");
-  setTimeout(hehe2,1000); 
   }
   setTimeout(hehe1,2000);
 }
 //关闭pop
-function close_pop(){
+function close_pop_error(){
     $(".alert").slideUp();
-    // location.reload();
  } 
- //关闭pop only for 新增计划
-function close_pop1(){
+ function close_pop_success(){
     $(".alert").slideUp();
-    window.location.href="/plan";
- } 
+    location.reload();
+ }  
  // 退出登陆
  $("#logoff").click(function(){
    log_off();

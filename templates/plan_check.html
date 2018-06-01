@@ -49,10 +49,10 @@
          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#api_info" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-tasks fa-1x" aria-hidden="true"></i></a>
          <div class="collapse in jumbotron1" id="api_info">
            <div class="jumbotron2">
-            <h3 id="api_id" data-id={{api.id}}>{{plan.name}} <span class="label label-default">{{plan.proj}}</span></h3>
-            <p>{{plan.user}}</p>
-            <p>{{plan.update_time}}</p>
-            <p>{{plan.description}}</p>
+            <h3 id="api_id" data-id={{plan.id}}>{{plan.name}} <span class="label label-default">{{plan.proj}}</span></h3>
+            <p><span class="board_info">创建者:</span> {{plan.user}}</p>
+            <p><span class="board_info">最近修改时间:</span> {{plan.update_time}}</p>
+            <p><span class="board_info">说明:</span> {{plan.description}}</p>
             <a class="btn btn-warning api_testcase_btn" href="/plan" role="button">返回</a>
           </div>
         </div>
@@ -68,9 +68,12 @@
                   <th style="width:30%;">接口名称</th>
                 </tr>
               </thead>
-              <tbody id="addcases_list" count="0">
+              <tbody id="addcases_list">
               </tbody>
               </table>
+              </div>
+              <div class="pagination1">
+                 <nav style="text-align: center" id="fenye"></nav>
               </div>
           </div>        
        </div>
@@ -84,13 +87,13 @@
 </div>
 <!-- 消息提示 -->
 <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()">
     &times;
   </button>
   <strong id="error_mess"></strong>
 </div>
 <div class="alert alert-success collapse fade in sucess_message" id="confirm_sucess" style="display: none;">
-  <button  type="button" class="close" aria-label="Close" onclick="close_pop1()">
+  <button  type="button" class="close" aria-label="Close" onclick="close_pop_success()">
     &times;
   </button>
   <strong id="sucess_mess"></strong>
@@ -99,13 +102,13 @@
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/extendPagination.js"></script>
 <script src="/static/src/js/common.js"></script>
-<!-- <script src="/static/src/js/plan_list.js"></script>
- --><script type="text/javascript">
+<script src="/static/src/js/plan_list.js"></script>
+<script type="text/javascript">
  $(function(){
   // 初始化界面
   creatmenu();
   menu_current(2);
-  // query(1,10);
+  plan_view();
 });
 
 </script>

@@ -185,7 +185,12 @@ function case_getpams(){
 				dataType : "json",
 				async : false,
 				success : function(data) {
-					pop_success(data["msg"]);
+					$("#case_add_btn").attr("disabled","disabled");
+					pop_success(data["msg"]); 
+					let hehe2=function(){
+						location.reload();
+					}
+					setTimeout(hehe2,2000); 
 				},
 				error : function(data) {
 					pop_error("系统异常！");  

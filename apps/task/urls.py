@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^(?P<plan_id>\w+)/exec$',TaskView.as_view(),name='execTask'),
     url(r'^(?P<plan_id>\w+)/task$',ExecTask.as_view()),
     url(r'^check/(?P<plan_id>\w+)/$',plan_check),#plan查看url
-    url(r'$',plan_list),
+    url(r'^$',plan_list),
     #dean 修改路由配置2018-05-30 -- start --
     url(r'^addinfo/$',plan_addinfo),
     url(r'^(?P<plan_id>\w+)/addcase/$', plan_addcase),

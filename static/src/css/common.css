@@ -163,3 +163,8 @@ label{
 	top:50px;
 	margin-top: 0px !important;
 }
+.board_info{
+	font-size: 14px !important;
+	color: #959595 !important;
+	font-weight: 700 !important;
+}
