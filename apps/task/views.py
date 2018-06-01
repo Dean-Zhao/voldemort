@@ -103,9 +103,9 @@ def get_plan(request,plan_id):
 def plan_check(request,plan_id):
     if request.method == 'GET':
         #dean 修改渲染界面配置2018-05-30 -- start --
-        plan = plan.objects.filter(id=int(plan_id),is_deleted=0)
-        if plan:
-            return render(request,"plan_check.html",{"plan":plan[0]})
+        p = plan.objects.filter(id=int(plan_id),is_deleted=0)
+        if p:
+            return render(request,"plan_check.html",{"plan":p[0]})
         else:
             return render(request,"404.html")
         #dean 修改渲染界面配置2018-05-30 -- end --
@@ -210,6 +210,7 @@ def plan_list(request):
 @login_required
 def plan_addinfo(request):
     if request.method == 'GET':
+        print "1111"
         #dean 修改渲染界面配置2018-05-30 -- start --
         projs = Proj.objects.filter(deleted=0)
         return render(request,"plan_addinfo.html",{"projs":projs})

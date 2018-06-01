@@ -185,25 +185,15 @@ function case_getpams(){
 				dataType : "json",
 				async : false,
 				success : function(data) {
-					$mess.children().children().children().eq(2).children().attr("onclick","reloadpage()");
-					$me.html(data["msg"]);
-					$mess.modal({
-						keyboard: true
-					}); 
+					pop_success(data["msg"]);
 				},
 				error : function(data) {
-					$me.html("系统异常");
-					$mess.modal({
-						keyboard: true
-					});  
+					pop_error("系统异常！");  
 				}
 			});
 		}
 		else{
-			$me.html("必填项未填写");
-			$mess.modal({
-				keyboard: true
-			}); 
+			pop_error("必填项未填写！");
 		}
 	}
 }

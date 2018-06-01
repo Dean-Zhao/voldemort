@@ -58,16 +58,14 @@ function query(currPage, limit) {
                     createTable(currPage,limit,totalCount,data_content);
                   },
                   error : function(data) {
-                    $me1.html("系统异常！");
-                    $mess1.slideDown();  
+                    pop_error("系统异常！");  
                   }
                 });
               }
             });
           },
           error : function(data) {
-             $me1.html("系统异常！");
-             $mess1.slideDown(); 
+             pop_error("系统异常！"); 
           }
         });
   }  
@@ -168,19 +166,16 @@ function add_cases(){
     var Status = data["status"];
     var msg = data["msg"];
     if (Status==0){
-      $me2.html(msg);
-      $mess2.slideDown();
+      pop_success(msg);
       $("#add_cases_btn").prop("disabled","disabled");
     }
     else{
-     $me1.html(msg);
-     $mess1.slideDown();
+     pop_error(msg); 
    }
  },
  error:function(data) 
  {
-  $me1.html("系统异常！");
-  $mess1.slideDown(); 
+  pop_error("系统异常！");  
 }
 });  
 }

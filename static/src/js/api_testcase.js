@@ -18,8 +18,7 @@ function case_query(id) {
       case_createTable(data);
     },
     error : function(data) {
-      $me1.html("系统异常！");
-      $mess1.slideDown(); 
+      pop_error("系统异常！");
     }
   });
 }  
@@ -63,19 +62,16 @@ function caseCopy(id){
       var Status = data["status"];
       var msg = data["msg"];
       if (Status==0){
-        $me2.html(msg);
-        $mess2.slideDown();
+        pop_success(msg);
         case_query(api_id);
       }
       else{
-      	$me1.html(msg);
-        $mess1.slideDown();
+      	pop_error(msg);
       }
     },
     error:function(data) 
     {
-      $me1.html("系统异常！");
-      $mess1.slideDown(); 
+      pop_error("系统异常！");
     }
   });
 }
@@ -97,19 +93,16 @@ function caseDelete(id){
     var Status = data["status"];
     var msg = data["msg"];
     if (Status==0){
-      $me2.html(msg);
-      $mess2.slideDown();
+      pop_success(msg);
       case_query(api_id);
     }
     else{
-     $me1.html(msg);
-     $mess1.slideDown();
+     pop_error(msg);
    }
  },
  error:function(data) 
  {
-  $me1.html("系统异常！");
-  $mess1.slideDown(); 
+  pop_error("系统异常！");
 }
 });
 }

@@ -75,6 +75,30 @@ function colls(){
 function reloadpage(){
   location.reload();
 }
+//弹出错误提示框并且自动三秒关闭
+function pop_error(mes){
+  $me1.html(mes);
+  $mess1.slideDown(); 
+  var hehe=function(){
+    $mess1.slideUp();
+  }
+  setTimeout(hehe,2000);
+}
+//弹出成功提示框并且自动三秒关闭
+function pop_success(mes){
+  $me2.html(mes);
+  $mess2.slideDown(); 
+  var hehe1=function(){
+    $mess2.slideUp(); 
+    var hehe2=function(){
+      console.log("refresh");
+    location.reload();
+  }
+  console.log("upup");
+  setTimeout(hehe2,1000); 
+  }
+  setTimeout(hehe1,2000);
+}
 //关闭pop
 function close_pop(){
     $(".alert").slideUp();

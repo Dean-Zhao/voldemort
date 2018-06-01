@@ -1,7 +1,5 @@
 //表单必填校验
 // api新增界面提交方法
-var $me = $("#error_message");
-var $mess = $('#process_message');
 var $b2 = $("#add_table_form");
 var $b1 = $("#edit_table_form");
 function api_add(){ 
@@ -21,25 +19,15 @@ function api_add(){
       var Data = data["msg"];
       var Status = data["status"];
       if (Status===0){
-        $me.html(Data);
-        $mess.children().children().children().eq(2).children().attr("onclick","reloadpage()");
-        $mess.modal({
-         keyboard: true
-       }); 
+        pop_success(Data);  
       }
       else{
-        $me.html(Data);
-        $mess.modal({
-         keyboard: true
-       }); 
+        pop_error(Data); 
       }           
     },
     error:function(data)
     {
-      $me.html("系统异常！");
-      $mess.modal({
-       keyboard: true
-     });
+      pop_error("系统异常！");
     }
   });
  }
@@ -62,25 +50,15 @@ function api_edit(){
       var Data = data["msg"];
       var Status = data["status"];
       if (Status===0){
-        $me.html(Data);
-        $mess.children().children().children().eq(2).children().attr("onclick","reloadpage()");
-        $mess.modal({
-         keyboard: true
-       }); 
+        pop_success(Data);  
       }
       else{
-        $me.html(Data);
-        $mess.modal({
-         keyboard: true
-       }); 
+        pop_error(Data); 
       }           
     },
     error:function(data)
     {
-      $me.html("系统异常！");
-      $mess.modal({
-       keyboard: true
-     });
+      pop_error("系统异常！");
     }
   });
 }

@@ -41,8 +41,7 @@ function query(currPage, limit) {
                     createTable(currPage,limit,totalCount,data_content);
                   },
                   error : function(data) {
-                    $me1.html("系统异常！");
-                    $mess1.slideDown(); 
+                    pop_error("系统异常！");
                     // query(currPage,limit);
                   }
                 });
@@ -50,8 +49,7 @@ function query(currPage, limit) {
             });
           },
           error : function(data) {
-           $me1.html("系统异常！");
-           $mess1.slideDown();  
+           pop_error("系统异常！");  
           }
         });
   }  
@@ -72,15 +70,15 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('<td>'+data[i].update_time+'</td>');
         if(data[i].plan_status===0){
           html.push('<td><span class="label label-primary">闲置</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         else if(data[i].plan_status===1){
           html.push('<td><span class="label label-warning">任务中</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         else{
           html.push('<td><span class="label label-warning"></span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         html.push('</tr>');
       }
@@ -98,7 +96,8 @@ function planAdd(){
 //跳转查看界面
 function planView(id){
     let plan_id = $(id).parent().parent().children().eq(0).attr("id");
-     window.location.href = "/plan/"+plan_id+"/view/";
+     window.location.href = "/plan/check/"+plan_id+"/"; 
+    // console.log("1");
 }
 //跳转历史任务界面
 function planTaskList(id){
@@ -127,14 +126,12 @@ function plan_addinfo(){
         window.location.href = "/plan/"+data["data"]["plan"]+"/addcase/"; 
       }
       else{
-        $me1.html(Data);
-        $mess1.slideDown();
+        pop_error(Data);
       }           
     },
     error:function(data)
     {
-      $me1.html("系统异常！");
-      $mess1.slideDown();  
+      pop_error("系统异常！");
     }
   });
  }
@@ -160,19 +157,16 @@ function plan_delete(){
     var Status = data["status"];
     var msg = data["msg"];
     if (Status==0){
-      $me2.html(msg);
-      $mess2.slideDown();
+      pop_success(msg);
       query(1,10);
     }
     else{
-     $me1.html(msg);
-     $mess1.slideDown();
+     pop_error(msg);
    }
  },
  error:function(data) 
  {
-  $me1.html("系统异常！");
-  $mess1.slideDown(); 
+  pop_error("系统异常！"); 
 }
 });
 }

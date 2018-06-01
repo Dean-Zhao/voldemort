@@ -17,7 +17,7 @@ function api_testcase_test(){
 			async : false,
 			success : function(data) {
 				let result = data["result"];
-				let mes = data["message"];
+				let msg = data["message"];
 				let html = [];
 				let mainObj = $('#tab_validations_form');
 				if(data["status"] === 0){
@@ -52,15 +52,13 @@ function api_testcase_test(){
 				} 
 				else {
 					clearInterval(interval);
-					$me.html(mes);
-					$mess.slideDown();
+					pop_error(msg);
 					$btn.button('reset');
 				}
 			},
 			error : function(data) {
 				 clearInterval(interval);
-				 $me.html("Oops!系统异常了");
-				 $mess.slideDown();
+				 pop_error("Oops!系统异常了");
 				 $btn.button('reset');
 			}
 		});

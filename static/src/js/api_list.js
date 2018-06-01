@@ -1,5 +1,3 @@
-var $me = $("#error_message");
-var $mess = $('#process_message');
 // 解码
 function decodeUnicode(str) {  
     str = str.replace(/\\/g, "%");  
@@ -49,20 +47,14 @@ function query(currPage, limit) {
                     createTable(currPage,limit,totalCount,data_content);
                   },
                   error : function(data) {
-                    $me.html("系统异常！");
-                    $mess.modal({
-                     keyboard: true
-                   });
+                    pop_error("系统异常！");
                   }
                 });
               }
             });
           },
           error : function(data) {
-           $me.html("系统异常！");
-           $mess.modal({
-             keyboard: true
-           });
+           pop_error("系统异常！");
           }
         });
   }  
