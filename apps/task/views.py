@@ -210,9 +210,10 @@ def plan_addinfo(request):
 def plan_addcase(request,plan_id):
     if request.method == 'GET':
         #dean 修改渲染界面配置2018-05-31 新增渲染plan_id 之后render 用例的时候建议优化下 -- start --
-        context = {}
-        context['plan_id'] = plan_id
-        return render(request,"plan_addcase.html",context)
+        p = plan.objects.get(id=plan_id,is_deleted=0)
+        apis = Api.objects.filter(proj=p.proj.id,is_deleted=0)
+        tags = Tag.objects.filter(is_deleted=0)
+        return render(request,"plan_addcase.html",{"plan_id":plan_id,"projs":p.proj.id,"apis":apis,"tags":tags})
         #dean 修改渲染界面配置2018-05-31 新增渲染plan_id -- end --
     else:
         return render(request,"403.html")
