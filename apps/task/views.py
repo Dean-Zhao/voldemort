@@ -52,20 +52,19 @@ def plan_addCase(request,plan_id):
     :return:
     '''
     if request.method == 'GET':
-        return JsonResponse({"status":-1,"msg":u"请求方式错误！"})
-    p = plan.objects.filter(id=int(plan_id),is_deleted=0)
+        return JsonResponse({"status": -1, "msg": u"请求方式错误！"})
+    p = plan.objects.filter(id=int(plan_id), is_deleted=0)
     if not p:
-        return JsonResponse({"status":1,"msg":u"方案不存在!"})
+        return JsonResponse({"status": 1, "msg": u"方案不存在!"})
     p = p[0]
-    case_list = request.POST.get("cases",'')
-    if case_list != '':
-        l = eval(case_list)
-        for c in l:
-            try:
-                p.cases.add(Case.objects.get(id=c))
-            except Exception:
-                continue
-    return JsonResponse({"status":0,"msg":u"添加成功！"})
+    cases = request.body.split('&')
+    case_list = [int(l.split('=')[1]) for l in cases]
+    for c in case_list:
+        try:
+            p.cases.add(Case.objects.get(id=c))
+        except Exception:
+            continue
+    return JsonResponse({"status": 0, "msg": u"添加成功！"})
 
 
 @login_required
