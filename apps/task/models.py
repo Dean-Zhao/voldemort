@@ -28,7 +28,7 @@ class plan(models.Model):
         _list = []
         for case in self.cases.all():
             if case.is_deleted == 0:
-                _dict = dict(api = case.api.name,path = case.api.path,name = case.name,para = case.parameter,user = case.user.username,create_time = case.create_time)
+                _dict = dict(id=case.id,api = case.api.name,path = case.api.path,name = case.name,para = case.parameter,tag = case.tag.name,user = case.user.username,create_time = case.create_time)
                 _list.append(_dict)
         return _list
 
