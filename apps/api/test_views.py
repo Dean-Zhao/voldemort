@@ -10,6 +10,8 @@ from .models import Api, Tag, Case, Proj, Result,verification,runtime_env
 from users.views import login_required, LoginRequiredView
 import hashlib
 import urllib
+from AESUtil import encrypt,decrypt
+
 from time import sleep
 
 def dealParam(para):
@@ -69,6 +71,40 @@ def enctype_1(env, para):
 
     return para
 
+
+def enctype_aes(env, para):
+    s = []
+
+    # temp_para = {}
+    para_aes={}
+    if env.app_id:
+        para["appId"] = env.app_id
+        para_aes["appId"] = env.app_id
+    else:
+        para["appId"] = ''
+        para_aes["appId"] = ''
+    tokenId= env.token_id
+    # for key,value in para.items():
+    #     para[key] = value
+    for key in sorted(para.keys()):
+        if key != 'appId':
+            res = encrypt(tokenId,para[key])
+        else:
+            res = para[key]
+        para_aes[key] = res.upper()
+        s.append(urllib.urlencode({key:para_aes[key]}))
+    p = '&'.join(s)
+    md5 = hashlib.md5()
+    if env.token_id:
+        md5.update(p+env.token_id)
+    else:
+        md5.update(p)
+    res = md5.hexdigest()
+    para_aes["sign"]=res.upper()
+    para_aes["appId"] = env.app_id
+
+    return para_aes
+
 def enctype_2(env, para,url):
     s = []
 
@@ -110,10 +146,14 @@ def test_case(env_id, case):
     if parameter:
         parameter = json.loads(parameter)
     enctype = case.encryption_type
-    if enctype == 1:
-        parameter = enctype_1(env,parameter)
-    elif enctype == 2:
-        parameter = enctype_2(env,parameter,url)
+    if env.uri == 'http://zx.tcredit.com':
+        parameter = enctype_aes(env, parameter)
+    else:
+        if enctype == 1:
+            parameter = enctype_1(env,parameter)
+        elif enctype == 2:
+            parameter = enctype_2(env,parameter,url)
+
 
     method = api.method
     if method == 'post':
