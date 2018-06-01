@@ -74,8 +74,12 @@ function createTable(currPage,limit, totalCount, data) {
           html.push('<td><span class="label label-primary">闲置</span></td>');
           html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
-        else{
+        else if(data[i].plan_status===1){
           html.push('<td><span class="label label-warning">任务中</span></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
+        }
+        else{
+          html.push('<td><span class="label label-warning"></span></td>');
           html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="apiEdit(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">创建任务</button></td>');
         }
         html.push('</tr>');

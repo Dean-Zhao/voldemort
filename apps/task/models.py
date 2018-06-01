@@ -33,7 +33,6 @@ class plan(models.Model):
         return _list
 
 
-
     def get_values(self,*fields):
         _dict = {}
         for field in fields:

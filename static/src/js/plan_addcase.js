@@ -10,9 +10,13 @@ function query(currPage, limit) {
     var currPage = 1;
     let keywords = $("#keywords").val();
     let project = $("#cases_list").attr("proj");
-    let api = $("#apis option:selected").attr("id");
-    let tag = $("#tags option:selected").attr("id");
+    let api = $("#apis option:selected").attr("value");
+    let tag = $("#tags option:selected").attr("value");
     // console.log(project);
+    console.log("关键字_"+keywords);
+    console.log("项目_"+project);
+    console.log("api_"+api);
+    console.log("tag_"+tag);
         $.ajax({
           type : "Get",
           url : "/api/cases/query",

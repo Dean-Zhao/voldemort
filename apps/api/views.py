@@ -318,7 +318,7 @@ class CaseQueryView(View):
         if pj!= "":
             proj = Proj.objects.get(id=int(pj))
             apis = Api.objects.filter(proj=proj,is_deleted=0)
-            case_all = Case.objects.filter(api__in=apis)
+            case_all = Case.objects.filter(api__in=apis,is_deleted=0)
         else:
             case_all = Case.objects.filter(is_deleted=0)
         # count = case_all.count()

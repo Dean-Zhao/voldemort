@@ -90,19 +90,19 @@
               <div class="form-group popinner_search">
                 <label for="apis">Api</label>
                 <select class="form-control selectpicker popinner_selects" data-live-search="true" id="apis" name="apis">
-                  <option value="0">请选择</option>
-                       <!--  {% for api in apis %}
-                        <option value="{{api.id}}">{{ api.name}}</option>
-                        {% endfor %} -->
+                  <option value="">请选择</option>
+                        {% for api in apis %}
+                        <option value="{{api.id}}">{{api.name}}</option>
+                        {% endfor %}
                   </select>
               </div>
               <div class="form-group popinner_search">
                 <label for="tags">Tag</label>
                 <select class="form-control selectpicker popinner_selects" data-live-search="true" id="tags" name="tags">
-                  <option value="0">请选择</option>
-                    <!--     {% for tag in tags %}
+                  <option value="">请选择</option>
+                        {% for tag in tags %}
                         <option value="{{tag.id}}">{{ tag.name}}</option>
-                        {% endfor %} -->
+                        {% endfor %}
                   </select>
               </div>
               <div class="form-group ">
