@@ -83,7 +83,7 @@ def plan_delete(request):
     return JsonResponse({"status":0,"msg":u"删除成功！"})
 
 
-# @login_required
+@login_required
 def get_plan(request,plan_id):
     '''
     获取plan_id计划的属性和计划中的测试用例
@@ -98,6 +98,19 @@ def get_plan(request,plan_id):
             return JsonResponse({"plan":p.get_values("name","description","user","task_count","create_time"),"cases":cases})
     except Exception as e:
         return JsonResponse({"msg":e.message,"status":0})
+
+@login_required
+def plan_check(request,plan_id):
+    if request.method == 'GET':
+        #dean 修改渲染界面配置2018-05-30 -- start --
+        plan = plan.objects.filter(id=int(plan_id),is_deleted=0)
+        if plan:
+            return render(request,"plan_check.html",{"plan":plan[0]})
+        else:
+            return render(request,"404.html")
+        #dean 修改渲染界面配置2018-05-30 -- end --
+    else:
+        return render(request,"403.html")
 
 class PlanQueryView(View):
     def get(self,request):
