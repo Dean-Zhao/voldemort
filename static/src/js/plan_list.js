@@ -241,16 +241,16 @@ function create_task(){
   let plan_id = $("#myModalLabel").attr("plan_id");
   let run_env = $("#envs option:selected").attr("value");
   $.ajax({
-    type : "Get",
-    url : "/plan/",
+    type : "Post",
+    url : "/plan/"+plan_id+"/exec",
     dataType : "json",
     data: {"plan_id":plan_id,"run_env":run_env},
-    success : function(data) {},
+    success : function(data) {
+        var msg = data["msg"];
+        pop_success(msg);
+    },
     error: function(data){
       pop_error("系统异常！"); 
     }
   });
 }
-
-
-
