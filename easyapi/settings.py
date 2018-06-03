@@ -15,6 +15,12 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import sys
 
+
+# 配置celery
+import djcelery
+djcelery.setup_loader()
+CELERY_BROKER_URL= 'localhost'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
@@ -50,6 +56,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 #     'corsheaders',
     'task',
+    'djcelery',
 ]
 
 MIDDLEWARE_CLASSES = [
