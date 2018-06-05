@@ -9,6 +9,7 @@ from api.test_views import test_case,save_result,save_exception
 from api.views import get_slice
 from users.views import login_required,LoginRequiredView
 from tasks import execute
+
 # Create your views here.
 
 @login_required
@@ -152,7 +153,6 @@ class PlanQueryView(View):
         return JsonResponse({"count": sum, "currentPage": page, "data": data1})
 
 
-@login_required
 def save_task(request,plan_id):
     t = task()
     t.plan = plan.objects.get(id=int(plan_id))
@@ -161,11 +161,10 @@ def save_task(request,plan_id):
     t.user = request.user
     t.save()
     t.plan.task_count += 1
-    t.plan.save()
+    t.save()
     return t.id
     # return JsonResponse({"msg":'sucess','status':0})
 
-@login_required
 def execute_task(task_id):
     t = task.objects.get(id=task_id)
     p = t.plan
@@ -173,30 +172,28 @@ def execute_task(task_id):
     for case in p.cases.all():
         try:
             r = test_case(env.id, case)
-            save_result(r, case, task_id)
+            save_result(r, case, task_id, env.id)
         except Exception as e:
             print "Exception...."
             print e.message
-            save_exception(e, case, task_id)
+            save_exception(e, case, task_id, env.id)
             continue
+
     t.status = 1
     t.save()
     return t.status
 
-    # except Exception as e2:
-    #     print 'e2...'
-    #     print e2.message
-    #     return -1
 
 
 
-class TaskView(View):
+class TaskView(LoginRequiredView,View,):
     def post(self,request,plan_id):
         task_id = save_task(request,plan_id)
         status = execute_task(task_id)
-        return JsonResponse({"status":status})
+        if status == 1:
+            return JsonResponse({"status":status,"msg":"sucess"})
 
-class ExecTask(View):
+class ExecTask(LoginRequiredView,View):
     def post(self,request,plan_id):
         task_id = save_task(request,plan_id)
         execute.delay(task_id)

@@ -237,19 +237,21 @@ function create_task_pop(id){
   $('#plan_createtask_pop').modal();
 }
 //创建任务
-function create_task(){
-  let plan_id = $("#myModalLabel").attr("plan_id");
-  let run_env = $("#envs option:selected").attr("value");
-  $.ajax({
-    type : "Post",
-    url : "/plan/"+plan_id+"/exec",
-    dataType : "json",
-    data: {"plan_id":plan_id,"run_env":run_env},
-    success : function(data) {
-        var msg = data["msg"];
-        pop_success(msg);
-    },
-    error: function(data){
-      pop_error("系统异常！"); 
-    }
-  });
+function create_task() {
+    let plan_id = $("#myModalLabel").attr("plan_id");
+    let run_env = $("#envs option:selected").attr("value");
+    $.ajax({
+        type: "Post",
+        // url: "/plan/" + plan_id + "/exec",
+        url: "/plan/" + plan_id + "/task",
+        dataType: "json",
+        data: {"plan_id": plan_id, "run_env": run_env},
+        success: function (data) {
+            var msg = data["msg"];
+            pop_success(msg);
+        },
+        error: function (data) {
+            pop_error("系统异常！");
+        }
+    });
+}

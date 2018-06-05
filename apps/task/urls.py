@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^(?P<plan_id>\w+)/addCase$',plan_addCase), #新建计划step2
     url(r'^delete/$',plan_delete),#删除计划
     url(r'^(?P<plan_id>\w+)/exec$',ExecTask.as_view(),name='execTask'),#异步执行
-    url(r'^(?P<plan_id>\w+)/task$',TaskView.as_view()),#
+    url(r'^(?P<plan_id>\w+)/task$',TaskView.as_view()),#同步调用
     url(r'^check/(?P<plan_id>\w+)/$',plan_check),#plan查看url
     url(r'^$',plan_list),
     #dean 修改路由配置2018-05-30 -- start --
