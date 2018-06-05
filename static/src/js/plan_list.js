@@ -70,15 +70,15 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('<td>'+data[i].update_time+'</td>');
         if(data[i].task_count===0){
           html.push('<td><span class="label label-primary">闲置</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
         }
         else if(data[i].task_count >=1){
           html.push('<td><span class="label label-warning">任务中</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
         }
         else{
           html.push('<td><span class="label label-warning"></span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="apiTestCase(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
         }
         html.push('</tr>');
       }
@@ -121,9 +121,9 @@ function planView(id){
     // console.log("1");
 }
 //跳转历史任务界面
-function planTaskList(id){
+function planTasks(id){
     let plan_id = $(id).parent().parent().children().eq(0).attr("id");
-     window.location.href = "/plan/"+plan_id+"/takes/";
+     window.location.href = "/plan/demo_test1/";
 }
 //新增计划
 function plan_addinfo(){
@@ -251,6 +251,7 @@ function create_task(){
     }
   });
 }
+
 
 
 

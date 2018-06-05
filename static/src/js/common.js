@@ -10,6 +10,7 @@ var $mess2 = $('#confirm_sucess');
 var $me3 = $("#warning_mess");
 var $mess3 = $('#confirm_warning');
 
+
 function creatmenu(){
 	let html=[];
 	html.push('<li class="active"><a href="/api/apiList/">API接口管理</a></li>');
@@ -105,3 +106,54 @@ function close_pop_error(){
  $("#logoff").click(function(){
    log_off();
  });
+//初始化日期输入框
+ function initial_data(start,end){
+  var time_start,time_end;
+     //加载日期插件
+     $('#'+start).datetimepicker({
+      weekStart: 1,
+      todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+      showMeridian: 1,
+      minView:2,
+      language: 'zh-CN',
+      rtl: false
+    });
+     $('#'+end).datetimepicker({
+      weekStart: 1,
+      todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+      showMeridian: 1,
+      minView:2,
+      language: 'zh-CN',
+      rtl: false
+    });
+     time_start = start;
+     time_end = end; 
+     // 控制日期选择，前后日期必须 a<=b 
+     $('#'+end).mouseover(function(){
+      var task_startTime=$("#"+start).val();
+      $('#'+end).datetimepicker('setStartDate', task_startTime);
+    });
+     $('#'+start).mouseover(function(){
+      var task_endTime=$("#"+end).val();
+      $('#'+start).datetimepicker('setEndDate', task_endTime);
+    });
+     //默认设置当前日期被选中
+     var myDate = new Date();
+     var year=myDate.getFullYear();
+     var month=myDate.getMonth()+1;
+     var date=myDate.getDate(); 
+     var now=year+"-"+p(month)+"-"+p(date);
+     $("#"+start).val(now);
+     $("#"+end).val(now);
+     function p(s) {
+      return s < 10 ? '0' + s: s;
+    }
+  }

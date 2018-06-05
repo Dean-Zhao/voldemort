@@ -1,0 +1,18 @@
+.main_search,.main_content,.page-header{
+	position: relative;
+	margin: 0px auto;
+	margin-bottom: 20px;
+	width: 66%;
+}
+.main_search,.main_content,.page-header{
+	
+}
+.datatimepicker{
+	width: 220px !important;
+	position: relative !important;
+	display: block;
+}
+/*.main ul, .main li{
+	    padding: 10px 15px!important;
+    margin-bottom: -1px !im; 
+}*/
