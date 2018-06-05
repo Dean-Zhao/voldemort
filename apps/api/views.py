@@ -383,3 +383,14 @@ def get_users(request):
     else:
         users = User.objects.all()
         return JsonResponse({"status":0,"data":list(users.values('id','username'))})
+    
+    
+def get_env(request):
+    env_all = runtime_env.objects.filter(is_deleted=0)
+    proj_id = int(request.GET.get('project','0'))
+    if proj_id == 0:
+        envs = env_all
+    else:
+        proj = Proj.objects.filter(id=proj_id)
+        envs = env_all.filter(Proj=proj)
+    return JsonResponse(dict(envs=list(envs.values('id','name'))))
