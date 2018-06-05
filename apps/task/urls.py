@@ -16,8 +16,7 @@ urlpatterns = [
     url(r'^(?P<plan_id>\w+)/task$',TaskView.as_view()),#同步调用
     url(r'^check/(?P<plan_id>\w+)/$',plan_check),#plan查看url
     url(r'^$',plan_list),
-    #dean 修改路由配置2018-05-30 -- start --
     url(r'^addinfo/$',plan_addinfo),
     url(r'^(?P<plan_id>\w+)/addcase/$', plan_addcase),
-    #dean 修改路由配置2018-05-30 -- end --
+    url(r'^(?P<plan_id>\w+)/history/$',get_tasks),
 ]
