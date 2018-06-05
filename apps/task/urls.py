@@ -12,8 +12,8 @@ urlpatterns = [
     url(r'^add/$',new_plan),#新建计划step1
     url(r'^(?P<plan_id>\w+)/addCase$',plan_addCase), #新建计划step2
     url(r'^delete/$',plan_delete),#删除计划
-    url(r'^(?P<plan_id>\w+)/exec$',TaskView.as_view(),name='execTask'),
-    url(r'^(?P<plan_id>\w+)/task$',ExecTask.as_view()),
+    url(r'^(?P<plan_id>\w+)/exec$',ExecTask.as_view(),name='execTask'),#异步执行
+    url(r'^(?P<plan_id>\w+)/task$',TaskView.as_view()),#
     url(r'^check/(?P<plan_id>\w+)/$',plan_check),#plan查看url
     url(r'^$',plan_list),
     #dean 修改路由配置2018-05-30 -- start --

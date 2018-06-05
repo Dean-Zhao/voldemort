@@ -11,11 +11,11 @@ def execute(task_id):
     for case in p.cases.all():
         try:
             r = test_case(env.id, case)
-            save_result(r, case, task_id)
+            save_result(r, case, task_id, env.id)
         except Exception as e:
             print "Exception...."
             print e.message
-            save_exception(e, case, task_id)
+            save_exception(e, case, task_id, env.id)
             continue
 
     t.status = 1

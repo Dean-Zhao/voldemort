@@ -193,18 +193,24 @@ def verify(result_id,valids):
         for item in v:
             l = item.key.split('.')
             key = 'response["' + '"]["'.join(l) + '"]'
-            try:
-                value = eval(key)
-                if value == float(item.exp_value):
-                    item.is_pass = 1
-            except KeyError:
-                value = 'NULL'
-            except ValueError:
+            value = eval(key)
+            item.value = value
+            if isinstance(item.exp_value,type(value)) :
                 if value == item.exp_value:
                     item.is_pass = 1
-            item.value = value
-            if item.is_pass == -1:
-                result.is_pass = -1
+                else :
+                    item.is_pass = -1
+            else:
+                try:
+                    if value == float(item.exp_value):
+                        item.is_pass = 1
+                except KeyError:
+                    value = 'NULL'
+                except ValueError:
+                    if value == item.exp_value:
+                        item.is_pass = 1
+                if item.is_pass == -1:
+                    result.is_pass = -1
             item.save()
 
     except ValueError:
