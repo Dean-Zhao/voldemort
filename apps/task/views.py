@@ -91,7 +91,7 @@ def get_plan(request,plan_id):
     :param plan_id: int
     :return:
     '''
-     try:
+    try:
         p = plan.objects.get(id=int(plan_id),is_deleted=0)
         case_all = p.get_cases()
         page = request.GET.get('currPage', 1)
