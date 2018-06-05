@@ -7,8 +7,9 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import JsonResponse,HttpResponse
 from .forms import *
-from .models import  Api,Tag,Case,Proj
+from .models import  Api,Tag,Case,Proj,runtime_env
 from django.contrib.auth.models import User
+from task.models import plan
 
 
 # Create your views here.
@@ -393,4 +394,10 @@ def get_env(request):
     else:
         proj = Proj.objects.filter(id=proj_id)
         envs = env_all.filter(Proj=proj)
+    plan_id = int(request.GET.get('planId','0'))
+    if plan_id == 0:
+        envs = envs
+    else:
+        p = plan.objects.filter(id=plan_id)
+        envs = envs.filter(Proj=p[0].proj)
     return JsonResponse(dict(envs=list(envs.values('id','name'))))
