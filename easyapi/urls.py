@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls import url,include
 # from django.contrib import admin
 from users.views import LoginView,LogoutView
-from api.views import get_projects,get_users
+from api.views import get_projects,get_users,get_env
 import xadmin
 
 urlpatterns = [
