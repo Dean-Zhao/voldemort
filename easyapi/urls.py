@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^projs/$',get_projects),
     url(r'^plan/',include("task.urls",namespace='plan')),
     url(r'^users/$',get_users),
+    url(r'^env/$',get_env),
 
 ]
 
