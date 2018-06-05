@@ -192,6 +192,8 @@ class TaskView(LoginRequiredView,View,):
         status = execute_task(task_id)
         if status == 1:
             return JsonResponse({"status":status,"msg":"sucess"})
+        else:
+            return JsonResponse({"status":-1,"msg":"wronggit "})
 
 class ExecTask(LoginRequiredView,View):
     def post(self,request,plan_id):
