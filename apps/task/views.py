@@ -91,13 +91,17 @@ def get_plan(request,plan_id):
     :param plan_id: int
     :return:
     '''
-    try:
+     try:
         p = plan.objects.get(id=int(plan_id),is_deleted=0)
-        cases = p.get_cases()
+        case_all = p.get_cases()
+        page = request.GET.get('currPage', 1)
+        sum = len(case_all)
+        low, high = get_slice(sum, int(page))
+        cases = case_all[low:high]
         if p:
-            return JsonResponse({"plan":p.get_values("name","description","user","task_count","create_time"),"cases":cases})
+            return JsonResponse({"count": sum, "currentPage": page, "data": cases})
     except Exception as e:
-        return JsonResponse({"msg":e.message,"status":0})
+        return JsonResponse({"msg":e.message,"status":-1})
 
 @login_required
 def plan_check(request,plan_id):
