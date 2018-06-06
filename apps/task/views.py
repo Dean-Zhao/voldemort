@@ -156,7 +156,8 @@ class PlanQueryView(View):
 def save_task(request,plan_id):
     t = task()
     t.plan = plan.objects.get(id=int(plan_id))
-    t.runtime_env = runtime_env.objects.get(id=1)
+    env_id = request.POST.get('run_env','0')
+    t.runtime_env = runtime_env.objects.get(id=int(env_id))
     t.status=0
     t.user = request.user
     t.save()
@@ -241,6 +242,6 @@ def plan_addcase(request,plan_id):
 def get_tasks(request,plan_id):
     p = plan.objects.filter(id=int(plan_id))[0]
     all_task = p.get_tasks()
-    tasks = [ i.get_values('id','create_time','status','user','runtime_env') for i in all_task ]
+    tasks = [ i.get_values('id','count','count_p','count_f','create_time','status','user','runtime_env') for i in all_task ]
     return JsonResponse({'status':0,'tasks':tasks})
 

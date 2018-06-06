@@ -84,7 +84,7 @@ class task(models.Model):
         verbose_name_plural = verbose_name
 
     def get_results(self):
-        all_result = Result.objects.filter(id=self.id)
+        all_result = Result.objects.filter(task_id=int(self.id))
         count = all_result.count()
         count_p = all_result.filter(is_pass=1).count()
         count_f = all_result.filter(is_pass=-1).count()
@@ -113,10 +113,10 @@ class task(models.Model):
                 elif field == 'cases':
                     _dict[field]=self.get_cases()
                 elif field == 'status':
-                    if _value == 1 and count == count_pass:
-                        _value = 2 #pass
+                    if _value == 1 and count_fail==0:
+                        _value = 1 #pass
                     elif _value == 1 and count_fail > 0:
-                        _value = 1 #fail
+                        _value = 2 #fail
 
                 elif field in ('create_time','update_time'):
                     _value = (_value+datetime.timedelta(0, 28799, 999986)).strftime("%Y-%m-%d %H:%M:%S") #北京时间
