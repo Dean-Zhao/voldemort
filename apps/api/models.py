@@ -155,6 +155,26 @@ class Result(models.Model):
     def get_all_valids(self):
         return self.verification_set.all()
 
+    def get_values(self,*fields):
+        _dict = {}
+        for field in fields:
+            if field == 'case_id':
+                _value = getattr(self,field)
+            else:
+                f= self._meta.get_field(field)
+                _value = getattr(self, field)
+                if _value is None:
+                    _value = ''
+                elif isinstance(f,models.ForeignKey) :
+                    if field != 'user':
+                        _value = _value.name
+                    else:
+                        _value = _value.username
+                elif field in ('create_time','update_time'):
+                    _value = (_value+datetime.timedelta(0, 28799, 999986)).strftime("%Y-%m-%d %H:%M:%S")
+
+            _dict[field] = _value
+        return _dict
 
     class Meta:
         verbose_name = u"测试"

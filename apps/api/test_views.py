@@ -188,14 +188,18 @@ def verify(result_id,valids):
 
     if result.desp != '' or result.status_code != 200:
         result.is_pass = -1
-
-    try:
+    else:
         response = json.loads(result.response)
         v = result.get_all_valids()
         for item in v:
             l = item.key.split('.')
             key = 'response["' + '"]["'.join(l) + '"]'
-            value = eval(key)
+            try:
+                value = eval(key)
+            except KeyError:
+                item.is_pass=-1
+                item.save()
+                continue
             item.value = value
             if isinstance(item.exp_value,type(value)) :
                 if value == item.exp_value:
@@ -215,8 +219,8 @@ def verify(result_id,valids):
                     result.is_pass = -1
             item.save()
 
-    except ValueError:
-        result.is_pass = -1
+    # except ValueError,KeyError:
+    #     result.is_pass = -1
 
     result.save()
 

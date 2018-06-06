@@ -5,7 +5,7 @@ from api.models import *
 from django.http import JsonResponse
 from django.views.generic.base import View
 from django.contrib.auth.models import User
-from api.test_views import test_case,save_result,save_exception
+from api.test_views import *
 from api.views import get_slice
 from users.views import login_required,LoginRequiredView
 from tasks import execute
@@ -94,7 +94,7 @@ def get_plan(request,plan_id):
     '''
     try:
         p = plan.objects.get(id=int(plan_id),is_deleted=0)
-        case_all = p.get_cases()
+        case_all = p.get_cases().order_by('-update_time')
         page = request.GET.get('currPage', 1)
         sum = len(case_all)
         low, high = get_slice(sum, int(page))
@@ -171,14 +171,20 @@ def execute_task(task_id):
     p = t.plan
     env = t.runtime_env
     for case in p.cases.all():
+        if case.validation == '':
+            valids = json.loads('{}')
+        else:
+            valids = json.loads(case.validation)
         try:
-            r = test_case(env.id, case)
-            save_result(r, case, task_id, env.id)
+            r = test_case(env_id, case)
+            result_id = save_result(r, case, task_id, env.id)
+            if len(valids.keys()) > 0:
+                verify(result_id,valids)
         except Exception as e:
-            print "Exception...."
-            print e.message
-            save_exception(e, case, task_id, env.id)
+            result_id = save_exception(e, case, task_id,env.id)
             continue
+
+
 
     t.status = 1
     t.save()
@@ -241,6 +247,8 @@ def plan_addcase(request,plan_id):
 
 def get_tasks(request,plan_id):
     p = plan.objects.filter(id=int(plan_id))[0]
-    all_task = p.get_tasks()
+    all_task = p.get_tasks().order_by('-update_time')
     tasks = [ i.get_values('id','count','count_p','count_f','create_time','status','user','runtime_env') for i in all_task ]
     return JsonResponse({'status':0,'tasks':tasks})
+
+

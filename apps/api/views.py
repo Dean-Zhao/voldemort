@@ -255,7 +255,7 @@ def get_caseslist(request):
             return render(request,'wrong.html')
         api = Api.objects.filter(id=int(api_id),is_deleted=0)
         if api:
-            cases = [ i.get_values("id",'name','tag','headers','cookies','parameter','user','update_time','validation') for i in api[0].get_all_case() ]
+            cases = [ i.get_values("id",'name','tag','headers','cookies','parameter','user','update_time','validation') for i in api[0].get_all_case().order_by('-update_time') ]
             return JsonResponse({"cases": cases})
         else:
             return render(request,'wrong.html')

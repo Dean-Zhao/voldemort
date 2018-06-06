@@ -18,6 +18,7 @@ from django.conf.urls import url,include
 # from django.contrib import admin
 from users.views import LoginView,LogoutView
 from api.views import get_projects,get_users,get_env
+from task.report import get_tasks,task_query,get_report,get_cases,get_result
 import xadmin
 
 urlpatterns = [
@@ -29,6 +30,12 @@ urlpatterns = [
     url(r'^plan/',include("task.urls",namespace='plan')),
     url(r'^users/$',get_users),
     url(r'^env/$',get_env),
+    url(r'^task/$',get_tasks),
+    url(r'^task/query$',task_query),
+    url(r'^task/(?P<task_id>\w+)/report$',get_report),
+    url(r'^task/(?P<task_id>\w+)/cases$',get_cases),
+    url(r'^task/(?P<task_id>\w+)/cases/(?P<case_id>\w+)$',get_result),
+
 
 ]
 
