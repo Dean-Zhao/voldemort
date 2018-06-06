@@ -1,0 +1,58 @@
+.main_content{
+	position: relative;
+}
+.sss{
+	height: 500px !important;
+	border:1px solid #eee;
+	border-radius: 5px;
+	height: 100%;
+	padding: 20px;
+	overflow-y: scroll;
+}
+.panel-group{
+	margin-bottom: 10px;
+}
+.panel{
+	margin-bottom: 20px;
+}
+.panel-heading{
+	padding-top: 10px ;
+	padding-bottom: 10px ;
+}
+.label{
+	line-height: 1.5;
+ 
+}
+.panel-title{
+	width: 500px;
+	position: relative;
+	display: inline-block;
+	padding-top: 5px;
+}
+.panel-title a{
+	max-width: 400px;
+	position: relative;
+	box-sizing: border-box;
+    word-wrap: break-word;
+    display: table-cell;
+    vertical-align: inherit;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.panel-status{
+	width: 50px;
+	float: right;
+	margin-top: 5px;
+}
+.collapse_ul li{
+	margin-right: 5px !important;
+}
+.plantasks_list_left{
+	width: 80%;
+	display: inline-block;
+}
+.plantasks_list_right{
+	float: right;
+	margin-top: 15px;
+}

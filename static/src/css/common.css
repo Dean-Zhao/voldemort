@@ -47,6 +47,12 @@ label{
 	height: 500px;
 	padding-top: 200px;
 }
+/*区域加载图表*/
+.loading1{
+	height: 500px;
+	padding-top: 200px;
+	padding-left: 150px;
+}
 .loading_message{
 	text-align: center;
 }

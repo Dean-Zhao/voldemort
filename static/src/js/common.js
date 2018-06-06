@@ -39,6 +39,17 @@ function loading(id){
     $(".loading").css("display","none");
   }  
 }
+//区域加载方法
+function loading1(id){
+  if(id===0){
+    $(".loading1").css("display","block");
+    $("#plan_tasks").css("display","none");      
+  } 
+  else if(id===1){
+    $("#plan_tasks").css("display","block");
+    $(".loading1").css("display","none");
+  }  
+}
 // 退出登陆
 function log_off(){
   $.ajax({

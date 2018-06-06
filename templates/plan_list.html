@@ -18,6 +18,8 @@
 <link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/api_list.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/plan_list.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/plan_tasks.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
  <div class="container_all">
@@ -75,11 +77,26 @@
            </ul>      
           </div>
          </div>
-       <div class="main_content" >
-          <div id="center_content_table" class="center_content_table">          
+       <div class="main_content row">
+        <div class="col-md-8 sss">
+          <div  class="center_content_table" >  
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+           </div>        
           </div>
           <div class="pagination1">
-       <nav style="text-align: center" id="fenye"></nav></div>
+             <nav style="text-align: center" id="fenye"></nav>
+          </div>
+        </div>
+        <div class="col-md-4 sss">
+          <div class="loading1" style="display:none;">
+            <div class="loading_message1">
+              <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
+            </div>
+          </div>
+          <div id="plan_tasks">
+
+        </div>
+        </div>      
        </div>
      </div>
    </div>
@@ -120,13 +137,7 @@
       </div>
       <div class="modal-body">
          <form >
-              <div class="form-group">
-                <label for="tags">测试环境</label>
-                <select class="form-control selectpicker" data-live-search="true" id="envs" name="envs">
-                        {% for env in envs %}
-                        <option value="{{env.id}}">{{ env.name}}</option>
-                        {% endfor %}
-                  </select>
+              <div class="form-group" id="env">       
               </div>
           </form>
       </div>

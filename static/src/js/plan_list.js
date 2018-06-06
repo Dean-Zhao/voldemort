@@ -42,14 +42,15 @@ function query(currPage, limit) {
                   },
                   error : function(data) {
                     pop_error("系统异常！");
-                    // query(currPage,limit);
+                    loading(1); 
                   }
                 });
               }
             });
           },
           error : function(data) {
-           pop_error("系统异常！");  
+           pop_error("系统异常！"); 
+           loading(1); 
           }
         });
   }  
@@ -59,36 +60,68 @@ function createTable(currPage,limit, totalCount, data) {
     if (totalCount - (currPage * limit) < 0) {
       showNum = totalCount - ((currPage - 1) * limit);  
     }                          
-    html.push('<table class="table table-hover">');
-    html.push('<thead><tr><th style="width:300px;">计划名称</th><th style="width:150px;">所属项目</th><th style="width:100px;">创建人</th><th style="width:190px;">备注</th><th style="width:190px;">最近测试时间</th><th style="width:100px;">状态</th><th style="width:220px;">操作</th></tr></thead><tbody>');
-    for (let i = 0; i < showNum; i++) {
-      if (i < data.length) {
-        html.push('<tr><td id='+data[i].id+'>'+data[i].name+'</td>');
-        html.push('<td>'+data[i].proj+'</td>');
-        html.push('<td>'+data[i].user+'</td>');
-        html.push('<td>'+data[i].description+'</td>');
-        html.push('<td>'+data[i].update_time+'</td>');
-        if(data[i].task_count===0){
-          html.push('<td><span class="label label-primary">闲置</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+    // html.push('<table class="table table-hover">');
+    // html.push('<thead><tr><th style="width:300px;">计划名称</th><th style="width:150px;">所属项目</th><th style="width:100px;">创建人</th><th style="width:190px;">备注</th><th style="width:190px;">最近测试时间</th><th style="width:100px;">状态</th><th style="width:220px;">操作</th></tr></thead><tbody>');
+    // for (let i = 0; i < showNum; i++) {
+    //   if (i < data.length) {
+    //     html.push('<tr><td id='+data[i].id+'>'+data[i].name+'</td>');
+    //     html.push('<td>'+data[i].proj+'</td>');
+    //     html.push('<td>'+data[i].user+'</td>');
+    //     html.push('<td>'+data[i].description+'</td>');
+    //     html.push('<td>'+data[i].update_time+'</td>');
+    //     if(data[i].task_count===0){
+    //       html.push('<td><span class="label label-primary">闲置</span></td>');
+    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+    //     }
+    //     else if(data[i].task_count >=1){
+    //       html.push('<td><span class="label label-warning">任务中</span></td>');
+    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+    //     }
+    //     else{
+    //       html.push('<td><span class="label label-warning"></span></td>');
+    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
+    //     }
+    //     html.push('</tr>');
+    //   }
+    // }
+    // html.push('</tbody></table>');            
+     for (let i = 0; i < showNum; i++) {
+        if (i < data.length) {
+        html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'"><div class="panel-title">');
+        html.push('<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'" plan_id="'+data[i].id+'" id="plan_count'+i+'">'+data[i].name+'</a></div>');
+          if(data[i].task_count===0){
+              html.push('<div class="panel-status"><span class="label label-primary pull-right">闲置</span></div></div>');
+          }
+          else if(data[i].task_count >=1){
+              html.push('<div class="panel-status"><span class="label label-warning pull-right">任务中</span></div></div>');
+          }
+          else{
+              html.push('<div class="panel-status"><span class="label label-warning pull-right"></span></div></div>');
+          }
+        html.push('<div id="collapse'+i+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+i+'" aria-expanded="false"><div class="panel-body">');
+        html.push('<p><span class="board_info">项目:</span> '+data[i].proj+'</p>');
+        html.push('<p><span class="board_info">创建者:</span> '+data[i].user+'</p>');
+        html.push('<p><span class="board_info">描述:</span> '+data[i].description+'</p>');
+        html.push('<p><span class="board_info">更新时间:</span> '+data[i].update_time+'</p>');
+        html.push('<ul class="list-inline collapse_ul">');
+        html.push('<li><button class="btn btn-danger" onClick="plan_delete_pop(this)" num_id="'+i+'">删除</button></li>');
+        html.push('<li><button class="btn btn-info" onClick="planView(this)" num_id="'+i+'">查看</button></li>');
+        html.push('<li><button class="btn btn-default" onClick="planTasks(this)" num_id="'+i+'">历史任务</button></li>');
+        html.push('<li><button class="btn btn-success" onClick="create_task_pop(this)" num_id="'+i+'">新建任务</button></li>');
+        html.push('</ul></div></div></div>');
         }
-        else if(data[i].task_count >=1){
-          html.push('<td><span class="label label-warning">任务中</span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
-        }
-        else{
-          html.push('<td><span class="label label-warning"></span></td>');
-          html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
-        }
-        html.push('</tr>');
-      }
     }
-    html.push('</tbody></table>');
-    let mainObj = $('#center_content_table');
+    
+    let mainObj = $('#accordion');
     mainObj.empty();
     mainObj.html(html.join(''));
     loading(1);
 };
+//获取plan_id
+function get_planid(id){
+  let plan_id = $("#plan_count"+id).attr("plan_id");
+  return plan_id;
+}
 //创建查看计划列表中用例列表
 function createTable_plancase(currPage,limit, totalCount, cases) {
     let html = [], showNum = limit;
@@ -116,14 +149,75 @@ function planAdd(){
 }
 //跳转查看界面
 function planView(id){
-    let plan_id = $(id).parent().parent().children().eq(0).attr("id");
+    let plan_id = get_planid($(id).attr("num_id"));
      window.location.href = "/plan/check/"+plan_id+"/"; 
-    // console.log("1");
 }
-//跳转历史任务界面
+//获取历史任务
 function planTasks(id){
-    let plan_id = $(id).parent().parent().children().eq(0).attr("id");
-     window.location.href = "/plan/demo_test1/";
+    loading1(0);
+    let plan_id = get_planid($(id).attr("num_id"));
+    $.ajax({
+    type : "Get",
+    url : "/plan/"+plan_id+"/history/",
+    dataType : "json",
+    success : function(data) {
+       if (data["status"]==0) {
+          creat_plantasks(data["tasks"]);
+       }
+       else{
+         pop_error("查询失败！");
+         loading1(1); 
+       }
+        
+    },
+    error: function(data){
+      pop_error("系统异常！"); 
+      loading1(1); 
+    }
+  });
+}
+//插入历史任务列表
+function creat_plantasks(data){
+  let html = [];                 
+  for (let i = 0; i < data.length; i++) {
+    html.push('<div class="list-group">');
+    switch (data[i]["status"]) {
+      case 0 :
+        html.push('<a href="#" class="list-group-item list-group-item-warning" task_id="'+data[i]["id"]+'">');
+        break;
+      case 1 :
+        html.push('<a href="#" class="list-group-item list-group-item-success" task_id="'+data[i]["id"]+'">');
+        break;
+      case 2 :
+        html.push('<a href="#" class="list-group-item list-group-item-danger" task_id="'+data[i]["id"]+'">');
+        break;
+      default:
+        html.push('<a href="#" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
+    }
+    html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
+    html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
+    html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
+    html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li>');
+    html.push('</ul></div><div class="plantasks_list_right">');
+    switch (data[i]["status"]) {
+      case 0 :
+        html.push('<i class="fa fa-exclamation fa-2x" aria-hidden="true"></i>');
+        break;
+      case 1 :
+        html.push('<i class="fa fa-check fa-2x" aria-hidden="true"></i>');
+        break;
+      case 2 :
+        html.push('<i class="fa fa-close fa-2x" aria-hidden="true"></i>');
+        break;
+      default:
+        html.push('<i class="fa fa-meh-o fa-2x" aria-hidden="true"></i>');
+    }
+    html.push('</div></a></div>');
+  }
+  let mainObj = $('#plan_tasks');
+  mainObj.empty();
+  mainObj.html(html.join(''));
+  loading1(1);
 }
 //新增计划
 function plan_addinfo(){
@@ -159,7 +253,7 @@ function plan_addinfo(){
 }
 //删除计划弹出框
 function plan_delete_pop(id){
-  let plan_id = $(id).parent().parent().children().eq(0).attr("id");
+  let plan_id = get_planid($(id).attr("num_id"));
   $me3.attr("data",plan_id);
   $mess3.slideDown();
 }
@@ -199,42 +293,76 @@ function plan_view(){
   url : "/plan/"+plan_id,
   dataType : "json",
   success : function(data) {
-    var data_content = data["cases"];
-            var totalCount = data_content.length;//数据总条数
+    var data_content = data["data"];
+            var totalCount = data["count"];//数据总条数
             var showCount = 10;//显示的页数
             var limit = 10;//每页显示的数据条数
             createTable_plancase(1, limit, totalCount, data_content);
-            // $("#fenye").extendPagination(
-            // {
-            //   totalCount : totalCount,
-            //   showCount : showCount,
-            //   limit : limit,
-            //   callback : function(currPage,limit,totalCount) {
-            //     $.ajax({
-            //       type : "Get",
-            //       url : "/plan/"+plan_id,
-            //       dataType : "json",
-            //       success : function(data) {
-            //         let data_content1 = data["cases"];
-            //         createTable_plancase(currPage,limit,totalCount,data_content1);
-            //       },
-            //       error : function(data) {
-            //         pop_error("系统异常！");
-            //       }
-            //     });
-            //   }
-            // });
+            $("#fenye").extendPagination(
+            {
+              totalCount : totalCount,
+              showCount : showCount,
+              limit : limit,
+              callback : function(currPage,limit,totalCount) {
+                $.ajax({
+                  type : "Get",
+                  url : "/plan/"+plan_id,
+                  dataType : "json",
+                  success : function(data) {
+                    let data_content1 = data["data"];
+                    createTable_plancase(currPage,limit,totalCount,data_content1);
+                  },
+                  error : function(data) {
+                    pop_error("系统异常！");
+                    loading(1);
+                  }
+                });
+              }
+            });
           },
           error : function(data) {
-           pop_error("系统异常！");  
+           pop_error("系统异常！"); 
+           loading(1); 
          }
        });
 }
 //创建任务弹出框
 function create_task_pop(id){
-  let plan_id = $(id).parent().parent().children().eq(0).attr("id");
+  let plan_id = get_planid($(id).attr("num_id"));
+  get_task_env(plan_id);
   $("#myModalLabel").attr("plan_id",plan_id);
   $('#plan_createtask_pop').modal();
+}
+//获取任务选择环境
+function get_task_env(id){
+  $.ajax({
+    type : "Get",
+    url : "/env/",
+    dataType : "json",
+    data: {"plan_id":id},
+    success : function(data) {
+        var envs = data["envs"];
+        creat_task_env(envs);
+    },
+    error: function(data){
+      pop_error("系统异常！"); 
+    }
+  });
+}
+//插入任务选择环境
+function creat_task_env(data){
+  let html = [];   
+  console.log(data);   
+  html.push('<label for="tags">测试环境</label>');    
+  html.push('<select class="form-control" id="envs" name="envs">');              
+  for (let i = 0; i < data.length; i++) {
+    html.push('<option value="'+data[i]["id"]+'">'+data[i]["name"]+'</option>');
+    console.log(data[i]["name"]); 
+  }
+  html.push('</select');
+  let mainObj = $('#env');
+  mainObj.empty();
+  mainObj.html(html.join(''));
 }
 //创建任务
 function create_task(){
@@ -253,3 +381,4 @@ function create_task(){
       pop_error("系统异常！"); 
     }
   });
+}
