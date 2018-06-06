@@ -50,6 +50,14 @@ function loading1(id){
     $(".loading1").css("display","none");
   }  
 }
+//无数据显示图片
+function nodata_img(string){
+  let html = [];
+  html.push('<img src="/static/images/nodata.png" class="nodata_img">');
+  let mainObj = $('#'+string);
+  mainObj.empty();
+  mainObj.html(html.join(''));
+}
 // 退出登陆
 function log_off(){
   $.ajax({

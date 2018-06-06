@@ -87,8 +87,8 @@ function createTable(currPage,limit, totalCount, data) {
     // html.push('</tbody></table>');            
      for (let i = 0; i < showNum; i++) {
         if (i < data.length) {
-        html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'"><div class="panel-title">');
-        html.push('<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'" plan_id="'+data[i].id+'" id="plan_count'+i+'">'+data[i].name+'</a></div>');
+        html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'"><div class="panel-title">');
+        html.push('<a class="collapsed"  plan_id="'+data[i].id+'" id="plan_count'+i+'">'+data[i].name+'</a></div>');
           if(data[i].task_count===0){
               html.push('<div class="panel-status"><span class="label label-primary pull-right">闲置</span></div></div>');
           }
@@ -178,45 +178,50 @@ function planTasks(id){
 }
 //插入历史任务列表
 function creat_plantasks(data){
-  let html = [];                 
-  for (let i = 0; i < data.length; i++) {
-    html.push('<div class="list-group">');
-    switch (data[i]["status"]) {
-      case 0 :
+  let html = [];  
+  if (data.length>=1) {              
+    for (let i = 0; i < data.length; i++) {
+      html.push('<div class="list-group">');
+      switch (data[i]["status"]) {
+        case 0 :
         html.push('<a href="#" class="list-group-item list-group-item-warning" task_id="'+data[i]["id"]+'">');
         break;
-      case 1 :
+        case 1 :
         html.push('<a href="#" class="list-group-item list-group-item-success" task_id="'+data[i]["id"]+'">');
         break;
-      case 2 :
+        case 2 :
         html.push('<a href="#" class="list-group-item list-group-item-danger" task_id="'+data[i]["id"]+'">');
         break;
-      default:
+        default:
         html.push('<a href="#" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
-    }
-    html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
-    html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
-    html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
-    html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li>');
-    html.push('</ul></div><div class="plantasks_list_right">');
-    switch (data[i]["status"]) {
-      case 0 :
+      }
+      html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
+      html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
+      html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
+      html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li>');
+      html.push('</ul></div><div class="plantasks_list_right">');
+      switch (data[i]["status"]) {
+        case 0 :
         html.push('<i class="fa fa-exclamation fa-2x" aria-hidden="true"></i>');
         break;
-      case 1 :
+        case 1 :
         html.push('<i class="fa fa-check fa-2x" aria-hidden="true"></i>');
         break;
-      case 2 :
+        case 2 :
         html.push('<i class="fa fa-close fa-2x" aria-hidden="true"></i>');
         break;
-      default:
+        default:
         html.push('<i class="fa fa-meh-o fa-2x" aria-hidden="true"></i>');
+      }
+      html.push('</div></a></div>');
     }
-    html.push('</div></a></div>');
+    let mainObj = $('#plan_tasks');
+    mainObj.empty();
+    mainObj.html(html.join(''));
   }
-  let mainObj = $('#plan_tasks');
-  mainObj.empty();
-  mainObj.html(html.join(''));
+  else{
+    nodata_img("plan_tasks");
+  }
   loading1(1);
 }
 //新增计划

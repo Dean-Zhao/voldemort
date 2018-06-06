@@ -174,3 +174,8 @@ label{
 	color: #959595 !important;
 	font-weight: 700 !important;
 }
+/*无数据显示图片*/
+.nodata_img{
+	display: block;
+	margin:150px auto;
+}

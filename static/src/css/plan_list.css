@@ -18,6 +18,7 @@
 .panel-heading{
 	padding-top: 10px ;
 	padding-bottom: 10px ;
+	cursor:pointer;
 }
 .label{
 	line-height: 1.5;
