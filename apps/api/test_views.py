@@ -33,6 +33,8 @@ def save_result(r, case, task_id, env_id):
     result.url = r.url
     result.task_id = task_id
     result.runtime_env = runtime_env.objects.get(id=(env_id))
+    if r.status_code != 200:
+        result.is_pass = -1
     result.save()
     return result.id
 
@@ -44,6 +46,7 @@ def save_exception(e, case, task_id, env_id):
     result.task_id = task_id
     result.runtime_env = runtime_env.objects.get(id=(env_id))
     result.desp = e.message
+    result.is_pass = -1
     result.save()
     return result.id
 
@@ -170,7 +173,6 @@ def test_case(env_id, case):
 
 def verify(result_id,valids):
     result = Result.objects.get(id=int(result_id))
-    result.is_pass = 1
     for item in valids.keys():
         val = verification()
         val.Result = result

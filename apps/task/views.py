@@ -9,6 +9,7 @@ from api.test_views import test_case,save_result,save_exception
 from api.views import get_slice
 from users.views import login_required,LoginRequiredView
 from tasks import execute
+
 # Create your views here.
 
 @login_required
@@ -119,10 +120,10 @@ def plan_check(request,plan_id):
 class PlanQueryView(View):
     def get(self,request):
         sortType = request.GET.get("sortType", "desc")
-        pj = request.GET.get("project", "")
+        pj = int(request.GET.get("project", 0))
         kw = request.GET.get("kw", "")
         page = request.GET.get('currPage', 1)
-        userId = request.GET.get('userId','')
+        userId = int(request.GET.get('userId',0))
         plan_all = plan.objects.filter(is_deleted=0)
         if kw != '':
             plan_all = plan_all.filter(name__contains=kw)
@@ -130,19 +131,19 @@ class PlanQueryView(View):
             plan_all = plan_all.order_by("-update_time")
         elif sortType == 'asc':
             plan_all = plan_all.order_by("update_time")
-        if userId != '':
+        if userId != 0:
             user = User.objects.filter(id=int(userId))
-        if user:
-            plan_all = plan_all.filter(user=user[0])
+            if user:
+                plan_all = plan_all.filter(user=user[0])
 
-        if pj != '':
+        if pj != 0:
             proj = Proj.objects.filter(id=int(pj), deleted=0)
-        if proj:
-            plan_all = plan_all.filter(proj=proj[0])
+            if proj:
+                plan_all = plan_all.filter(proj=proj[0])
         sum = plan_all.count()
         low, high = get_slice(sum, int(page))
         plans = plan_all[low:high]
-        data1 = [i.get_values('id', 'name','proj','description', 'user', 'update_time') for i in plans]
+        data1 = [i.get_values('id', 'name','proj','description','status', 'user', 'update_time') for i in plans]
         #dean 传出接口附带task_count 2018-06-01 -- start --
         for i in range(len(data1)):
             t = task.objects.filter(plan=int(data1[i]['id']),status=0) 
@@ -152,20 +153,19 @@ class PlanQueryView(View):
         return JsonResponse({"count": sum, "currentPage": page, "data": data1})
 
 
-@login_required
 def save_task(request,plan_id):
     t = task()
     t.plan = plan.objects.get(id=int(plan_id))
-    t.runtime_env = runtime_env.objects.get(id=1)
+    env_id = request.POST.get('run_env','0')
+    t.runtime_env = runtime_env.objects.get(id=int(env_id))
     t.status=0
     t.user = request.user
     t.save()
     t.plan.task_count += 1
-    t.plan.save()
+    t.save()
     return t.id
     # return JsonResponse({"msg":'sucess','status':0})
 
-@login_required
 def execute_task(task_id):
     t = task.objects.get(id=task_id)
     p = t.plan
@@ -173,30 +173,30 @@ def execute_task(task_id):
     for case in p.cases.all():
         try:
             r = test_case(env.id, case)
-            save_result(r, case, task_id)
+            save_result(r, case, task_id, env.id)
         except Exception as e:
             print "Exception...."
             print e.message
-            save_exception(e, case, task_id)
+            save_exception(e, case, task_id, env.id)
             continue
+
     t.status = 1
     t.save()
     return t.status
 
-    # except Exception as e2:
-    #     print 'e2...'
-    #     print e2.message
-    #     return -1
 
 
 
-class TaskView(View):
+class TaskView(LoginRequiredView,View,):
     def post(self,request,plan_id):
         task_id = save_task(request,plan_id)
         status = execute_task(task_id)
-        return JsonResponse({"status":status})
+        if status == 1:
+            return JsonResponse({"status":status,"msg":"sucess"})
+        else:
+            return JsonResponse({"status":-1,"msg":"wronggit "})
 
-class ExecTask(View):
+class ExecTask(LoginRequiredView,View):
     def post(self,request,plan_id):
         task_id = save_task(request,plan_id)
         execute.delay(task_id)
@@ -239,5 +239,8 @@ def plan_addcase(request,plan_id):
     else:
         return render(request,"403.html")
 
-
-
+def get_tasks(request,plan_id):
+    p = plan.objects.filter(id=int(plan_id))[0]
+    all_task = p.get_tasks()
+    tasks = [ i.get_values('id','count','count_p','count_f','create_time','status','user','runtime_env') for i in all_task ]
+    return JsonResponse({'status':0,'tasks':tasks})

@@ -388,15 +388,15 @@ def get_users(request):
     
 def get_env(request):
     env_all = runtime_env.objects.filter(is_deleted=0)
-    proj_id = int(request.GET.get('project','0'))
-    if proj_id == 0:
-        envs = env_all
-    else:
-        proj = Proj.objects.filter(id=proj_id)
-        envs = env_all.filter(Proj=proj)
+    # proj_id = int(request.GET.get('project','0'))
+    # if proj_id == 0:
+    #     envs = env_all
+    # else:
+    #     proj = Proj.objects.filter(id=proj_id)
+    #     envs = env_all.filter(Proj=proj)
     plan_id = int(request.GET.get('planId','0'))
     if plan_id == 0:
-        envs = envs
+        envs = env_all
     else:
         p = plan.objects.filter(id=plan_id)
         envs = envs.filter(Proj=p[0].proj)
