@@ -176,16 +176,13 @@ def execute_task(task_id):
         else:
             valids = json.loads(case.validation)
         try:
-            r = test_case(env_id, case)
+            r = test_case(env.id, case)
             result_id = save_result(r, case, task_id, env.id)
             if len(valids.keys()) > 0:
                 verify(result_id,valids)
         except Exception as e:
             result_id = save_exception(e, case, task_id,env.id)
             continue
-
-
-
     t.status = 1
     t.save()
     return t.status
@@ -224,7 +221,6 @@ def plan_list(request):
 @login_required
 def plan_addinfo(request):
     if request.method == 'GET':
-        print "1111"
         #dean 修改渲染界面配置2018-05-30 -- start --
         projs = Proj.objects.filter(deleted=0)
         return render(request,"plan_addinfo.html",{"projs":projs})

@@ -173,6 +173,10 @@ def test_case(env_id, case):
 
 def verify(result_id,valids):
     result = Result.objects.get(id=int(result_id))
+    if len(valids.keys()) > 0:
+        result.is_pass = 1
+    else:
+        result.is_pass = 0
     for item in valids.keys():
         val = verification()
         val.Result = result
