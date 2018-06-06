@@ -91,7 +91,7 @@ def get_plan(request,plan_id):
     :param plan_id: int
     :return:
     '''
-     try:
+    try:
         p = plan.objects.get(id=int(plan_id),is_deleted=0)
         case_all = p.get_cases()
         page = request.GET.get('currPage', 1)
@@ -238,4 +238,6 @@ def plan_addcase(request,plan_id):
         #dean 修改渲染界面配置2018-05-31 新增渲染plan_id -- end --
     else:
         return render(request,"403.html")
+
+
 
