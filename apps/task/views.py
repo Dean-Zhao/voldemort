@@ -94,7 +94,7 @@ def get_plan(request,plan_id):
     '''
     try:
         p = plan.objects.get(id=int(plan_id),is_deleted=0)
-        case_all = p.get_cases().order_by('-update_time')
+        case_all = p.get_cases()
         page = request.GET.get('currPage', 1)
         sum = len(case_all)
         low, high = get_slice(sum, int(page))
