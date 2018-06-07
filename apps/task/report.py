@@ -24,7 +24,9 @@ def get_tasks(request):
 @login_required
 def get_report(request,task_id):
     if request.method == 'GET':
-        return render(request,"task_report.html",{"task_id":task_id})
+        t = task.objects.get(id=int(task_id))
+        data = t.get_values('plan','create_time','user')
+        return render(request,"task_report.html",{"task_id":task_id,"data":data})
     else:
         return render(request,"403.html")
 
