@@ -143,12 +143,12 @@ class PlanQueryView(View):
         sum = plan_all.count()
         low, high = get_slice(sum, int(page))
         plans = plan_all[low:high]
-        data1 = [i.get_values('id', 'name','proj','description','status', 'user', 'update_time') for i in plans]
+        data1 = [i.get_values('id', 'name','proj','task_count','description','status', 'user', 'update_time') for i in plans]
         #dean 传出接口附带task_count 2018-06-01 -- start --
-        for i in range(len(data1)):
-            t = task.objects.filter(plan=int(data1[i]['id']),status=0) 
-            task_cout = t.count()
-            data1[i]['task_count'] = task_cout
+#         for i in range(len(data1)):
+#             t = task.objects.filter(plan=int(data1[i]['id']),status=0) 
+#             task_cout = t.count()
+#             data1[i]['task_count'] = task_cout
         #dean 传出接口附带task_count 2018-06-01 -- end --
         return JsonResponse({"count": sum, "currentPage": page, "data": data1})
 
