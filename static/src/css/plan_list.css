@@ -55,5 +55,14 @@
 }
 .plantasks_list_right{
 	float: right;
-	margin-top: 15px;
+	margin-top: 5px;
+}
+.plantasks_list_left  li{
+
+	padding-right: 5px !important;
+}
+.panel-default>.panel-heading .badge{
+	color:#fff;
+	background-color: #3c763d;
+	font-size: 14px;
 }

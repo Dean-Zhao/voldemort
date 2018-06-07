@@ -23,9 +23,9 @@ function creat_plantasks(currPage,limit, totalCount,data){
           html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
         }
         html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
-        html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
-        html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
-        html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li>');
+        html.push('<li><ul class="list-inline"><li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
+        html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li></ul></li>');
+        html.push('<li><p class="list-group-item-text">'+data[i]["plan"]+'</p></li>');
         html.push('</ul></div><div class="plantasks_list_right">');
         switch (data[i]["status"]) {
           case 0 :
@@ -132,10 +132,10 @@ function creat_single_cases(data,status_code){
     html.push('</pre></div>');
     html.push('</tbody></table></div>');
     html.push('<div class="cases_validation"><table class="table table-striped"><thead><tr>');
-    html.push('<th style="width:30%">key</th>');
-    html.push('<th style="width:30%">exp_value</th>');
-    html.push('<th style="width:30%">value</th>');
-    html.push('<th style="width:10%">result</th>');
+    html.push('<th style="width:20%">检查点</th>');
+    html.push('<th style="width:35%">期望值</th>');
+    html.push('<th style="width:35%">实际值</th>');
+    html.push('<th style="width:10%">结果</th>');
     html.push('</tr></thead><tbody>');
      for (let i = 0; i < data["validations"].length; i++) {
         html.push('<tr><td>'+data["validations"][i]["key"]+'</td><td>'+data["validations"][i]["exp_value"]+'</td><td>'+data["validations"][i]["value"]+'</td>');

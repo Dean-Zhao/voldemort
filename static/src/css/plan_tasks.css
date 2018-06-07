@@ -21,4 +21,12 @@
 .list-unstyled{
 	margin-bottom: 0px;
 }
+.table-striped th,td{
+	text-align: center;
+
+}
+.table-striped th{
+		color: #959595;
+	font-weight: 400;
+}
 

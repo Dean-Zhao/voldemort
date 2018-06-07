@@ -64,15 +64,7 @@ function createTable(currPage,limit, totalCount, data) {
         if (i < data.length) {
         html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'"><div class="panel-title">');
         html.push('<a class="collapsed"  plan_id="'+data[i].id+'" id="plan_count'+i+'">'+data[i].name+'</a></div>');
-          if(data[i].task_count===0){
-              html.push('<div class="panel-status"><span class="label label-primary pull-right">闲置</span></div></div>');
-          }
-          else if(data[i].task_count >=1){
-              html.push('<div class="panel-status"><span class="label label-warning pull-right">任务中</span></div></div>');
-          }
-          else{
-              html.push('<div class="panel-status"><span class="label label-warning pull-right"></span></div></div>');
-          }
+        html.push('<div class="panel-status"><span class="badge">'+data[i].task_count+'</div></div>');
         html.push('<div id="collapse'+i+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+i+'" aria-expanded="false"><div class="panel-body">');
         html.push('<p><span class="board_info">项目:</span> '+data[i].proj+'</p>');
         html.push('<p><span class="board_info">创建者:</span> '+data[i].user+'</p>');
@@ -81,7 +73,7 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('<ul class="list-inline collapse_ul">');
         html.push('<li><button class="btn btn-danger" onClick="plan_delete_pop(this)" num_id="'+i+'">删除</button></li>');
         html.push('<li><button class="btn btn-info" onClick="planView(this)" num_id="'+i+'">查看</button></li>');
-        html.push('<li><button class="btn btn-default" onClick="planTasks(this)" num_id="'+i+'">历史任务</button></li>');
+        html.push('<li><button class="btn btn-warning" onClick="planTasks(this)" num_id="'+i+'">历史任务</button></li>');
         html.push('<li><button class="btn btn-success" onClick="create_task_pop(this)" num_id="'+i+'">新建任务</button></li>');
         html.push('</ul></div></div></div>');
         }
@@ -171,9 +163,9 @@ function creat_plantasks(data){
         html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
       }
       html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
-      html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
-      html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
-      html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li>');
+       html.push('<li><ul class="list-inline"><li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');
+        html.push('<li><p class="list-group-item-text">'+data[i]["user"]+'</p></li></ul></li>');
+        html.push('<li><p class="list-group-item-text">'+data[i]["runtime_env"]+'</p></li>');
       html.push('</ul></div><div class="plantasks_list_right">');
       switch (data[i]["status"]) {
         case 0 :
