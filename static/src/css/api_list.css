@@ -1,13 +1,19 @@
-.main_content,.main_search{
+.main_content,.main_search,.main_search_nobg{
 	width: 1250px;
 	margin:10px auto;
 	position: relative;
 }
-.main_search{
+.main_search,.main_search_nobg{
 	height: 70px;
 	margin-bottom: 10px;
-	background: #f7f7f7;
 	padding-top: 20px;
+}
+.main_search{
+	background: #f7f7f7;
+}
+/*无背景颜色的main_search*/
+.main_search_nobg{
+	background: #fff;
 }
 .main_search_content{
 	height: 35px;

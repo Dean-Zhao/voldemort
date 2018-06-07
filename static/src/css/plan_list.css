@@ -63,6 +63,10 @@
 }
 .panel-default>.panel-heading .badge{
 	color:#fff;
-	background-color: #3c763d;
+	background-color: #777;
 	font-size: 14px;
+}
+.list-group-item-text{
+	word-wrap: break-word;
+	word-break: break-all;
 }

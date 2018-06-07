@@ -10,21 +10,6 @@ function close_pop_plancase(){
     $(".alert").slideUp();
     window.location.href="/plan";
  }
-//弹出成功提示框并且自动三秒关闭
-function pop_success_plancase(mes){
-  $me2.html(mes);
-  $mess2.slideDown(); 
-  let hehe1=function(){
-    $mess2.slideUp(); 
-    let hehe2=function(){
-      console.log("refresh");
-    window.location.href="/plan";
-  }
-  console.log("upup");
-  setTimeout(hehe2,500); 
-  }
-  setTimeout(hehe1,2000);
-}
 // 查询测试用例方法
 function query(currPage, limit) {
     var currPage = 1;
@@ -188,11 +173,7 @@ function add_cases(){
           var msg = data["msg"];
           if (Status==0){
             $("#add_cases_btn").prop("disabled","disabled");
-            pop_success_plancase(msg);
-            let hehe2=function(){
-              window.location.href="/plan";
-            }
-            setTimeout(hehe2,2000); 
+            pop_success_reload(msg,"/plan");
           }
           else{
            pop_error(msg); 

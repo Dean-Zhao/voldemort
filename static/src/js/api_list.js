@@ -63,7 +63,8 @@ function createTable(currPage,limit, totalCount, data) {
     let html = [], showNum = limit;
     if (totalCount - (currPage * limit) < 0) {
       showNum = totalCount - ((currPage - 1) * limit);  
-    }                          
+    }
+    if (data.length >= 1) {                        
     html.push('<table class="table table-hover">');
     html.push('<thead><tr><th style="width:150px;">所属项目</th><th style="width:250px;">接口名称</th><th style="width:100px;">接口类型</th><th style="width:330px;">URL</th><th style="width:200px;">更新时间</th><th style="width:220px;">操作</th></tr></thead><tbody>');
     for (let i = 0; i < showNum; i++) {
@@ -81,7 +82,11 @@ function createTable(currPage,limit, totalCount, data) {
     let mainObj = $('#center_content_table');
     mainObj.empty();
     mainObj.html(html.join(''));
-    loading(1);
+  }
+  else{
+    nodata_img("center_content_table",1);
+  }
+  loading(1);
 };
 //跳转新增界面
 function apiAdd(){

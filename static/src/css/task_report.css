@@ -1,5 +1,15 @@
+.main_search_nobg{
+	height: 40px;
+	padding-top: 0px;
+	padding-left: 20px;
+}
+.main_search_nobg h3{
+	margin-right: 15px;
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
 .sss{
-	height: 663px !important;
+	height: 613px !important;
 	border:1px solid #eee;
 	border-radius: 5px;
 	height: 100%;
@@ -20,7 +30,6 @@
 	
 }
 .plantasks_list_left p{
-	height: 20px;
 	max-width: 250px;
 	position: relative;
 	box-sizing: border-box;

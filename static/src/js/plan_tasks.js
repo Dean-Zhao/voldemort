@@ -48,7 +48,7 @@ function creat_plantasks(currPage,limit, totalCount,data){
     mainObj.html(html.join(''));
   }
   else{
-    nodata_img("plan_tasks");
+    nodata_img("plan_tasks",0);
   }
   loading(1);
 }
@@ -103,7 +103,7 @@ function creat_taskscases(currPage,limit, totalCount,data){
     mainObj.html(html.join(''));
   }
   else{
-    nodata_img("task_id_store");
+    nodata_img("task_id_store",0);
   }
   loading(1);
 }

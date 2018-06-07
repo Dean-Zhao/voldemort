@@ -62,9 +62,17 @@ function loading2(id){
   }  
 }
 //无数据显示图片
-function nodata_img(string){
+function nodata_img(string,key){
+  //1:管理列表页；0:任务条目页
   let html = [];
-  html.push('<img src="/static/images/nodata.png" class="nodata_img">');
+  switch(key){
+    case 0:
+      html.push('<img src="/static/images/nodata.png" class="nodata_img">');
+      break;
+    case 1:
+      html.push('<img src="/static/images/nodata.png" class="nodata_img_sm">');
+      break;
+  }
   let mainObj = $('#'+string);
   mainObj.empty();
   mainObj.html(html.join(''));
@@ -121,6 +129,21 @@ function pop_success(mes){
   $mess2.slideDown(); 
   let hehe1=function(){
     $mess2.slideUp(); 
+  }
+  setTimeout(hehe1,2000);
+}
+//弹出成功提示框并且自动三秒关闭 页面跳转
+function pop_success_reload(mes,string){
+  $me2.html(mes);
+  $mess2.slideDown(); 
+  let hehe1=function(){
+    $mess2.slideUp(); 
+    let hehe2=function(){
+      console.log("refresh");
+    window.location.href=string;
+  }
+  console.log("upup");
+  setTimeout(hehe2,500); 
   }
   setTimeout(hehe1,2000);
 }

@@ -59,7 +59,8 @@ function createTable(currPage,limit, totalCount, data) {
     let html = [], showNum = limit;
     if (totalCount - (currPage * limit) < 0) {
       showNum = totalCount - ((currPage - 1) * limit);  
-    }                                     
+    }
+    if (data.length >= 1) {                                    
      for (let i = 0; i < showNum; i++) {
         if (i < data.length) {
         html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'"><div class="panel-title">');
@@ -78,11 +79,14 @@ function createTable(currPage,limit, totalCount, data) {
         html.push('</ul></div></div></div>');
         }
     }
-    
     let mainObj = $('#accordion');
     mainObj.empty();
     mainObj.html(html.join(''));
-    loading(1);
+  }
+  else{
+    nodata_img("accordion",0);
+  }
+  loading(1);
 };
 //获取plan_id
 function get_planid(id){
@@ -187,7 +191,7 @@ function creat_plantasks(data){
     mainObj.html(html.join(''));
   }
   else{
-    nodata_img("plan_tasks");
+    nodata_img("plan_tasks",0);
   }
   loading1(1);
 }
@@ -348,7 +352,9 @@ function create_task() {
         data: {"plan_id": plan_id, "run_env": run_env},
         success: function (data) {
             var msg = data["msg"];
+            // pop_success_reload(msg,"/plan");
             pop_success(msg);
+            query(1,10);
         },
         error: function (data) {
             pop_error("系统异常！");
