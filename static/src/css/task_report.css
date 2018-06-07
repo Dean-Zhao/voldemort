@@ -1,0 +1,85 @@
+.sss{
+	height: 663px !important;
+	border:1px solid #eee;
+	border-radius: 5px;
+	height: 100%;
+	padding: 20px;
+	overflow-y: scroll;
+}
+.table{
+	word-break:break-all; 
+	word-wrap:break-all;
+}
+.table td{
+	border: 0px solid transparent !important;
+		position: relative;
+	box-sizing: border-box;
+    word-wrap: break-word;
+} 
+.list-unstyled li{
+	
+}
+.plantasks_list_left p{
+	height: 20px;
+	max-width: 250px;
+	position: relative;
+	box-sizing: border-box;
+    word-wrap: break-word;
+/*    display: table-cell;
+    vertical-align: inherit;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;*/
+}
+.collapsed{
+	margin-top:0px;
+	padding-bottom: 10px !important;
+}
+.http{
+	width: 40px;
+	height: 24px;
+}
+.http span{
+	display: block;
+}
+.http_status{
+	display: block;
+	margin-bottom: 10px !important;
+}
+.plantasks_list_right{
+	margin-top: 0px;
+}
+.cases_header,.cases_pam,.cases_validation ,.response{
+	width: 100%;
+	position: relative;
+	padding: 45px 15px 15px;
+	margin:0 -15px -15px;
+/*	border:1px solid #eee;*/
+}
+.cases_header:before{
+	content: 'Header:';
+}
+.cases_pam:before{
+	content: 'Parameters:';
+}
+.cases_validation:before{
+	content: 'Validation:';
+}
+.response:before{
+	content: 'Response:';
+}
+.cases_header:before,.cases_pam:before,.cases_validation:before,.response:before{
+	position:absolute;
+	top: 15px;
+	left: 15px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #959595;
+	letter-spacing: 1px;
+}
+/*json 解析样式*/
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }

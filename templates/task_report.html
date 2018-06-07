@@ -15,15 +15,12 @@
 {% load staticfiles %}
 <link href="/static/Font-Awesome-master4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="/static/bootstrap3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/dist/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/static/src/css/api_list.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/plan_list.css" rel="stylesheet" type="text/css" />
 <link href="/static/src/css/plan_tasks.css" rel="stylesheet" type="text/css" />
-<link href="/static/src/css/api_add.css" rel="stylesheet" type="text/css" />
-</head>
-<style type="text/css">
-</style>
-<script type="text/javascript">
-</script>
+<link href="/static/src/css/task_report.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
  <div class="container_all">
@@ -33,9 +30,9 @@
       <a class="navbar-brand logo">Voldemort</a>     
     </div> 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-          <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
-          <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
-          <p class="navbar-text navbar-right">{{ request.user.username }}</p>
+      <ul class="nav navbar-nav menu_list" id="menu_area"></ul>        
+      <p class="navbar-text navbar-right"><a href="javascript:void(0)" id="logoff"><i class="fa fa-sign-out fa-lg"></i></a></p>
+      <p class="navbar-text navbar-right">{{ request.user.username }}</p>
     </div>
    </div>
   </nav>
@@ -46,16 +43,25 @@
       </div>
     </div>
      <div class="main">
-       <div class="main_content" >
-        <div class="add_table"> 
-          <div class="add_table_title"><span>测试任务列表 <i class="fa fa-bars" aria-hidden="true"></i></span></div> 
-          <div class="add_table_content" id="plan_tasks">
-
-          </div> 
+       <div class="main_content row">
+        <div class="col-md-4 sss">
+          <div  class="center_content_table" task_id="{{task_id}}" id="task_id_store">       
+          </div>
           <div class="pagination1">
              <nav style="text-align: center" id="fenye"></nav>
-          </div>       
           </div>
+          </div>
+        <div class="col-md-8 sss">
+          <div class="loading2" style="display:none;">
+            <div class="loading_message1">
+              <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
+            </div>
+          </div>
+
+          <div id="plan_tasks">
+           <img src="/static/images/nodata.png" class="nodata_img">
+          </div>
+        </div>      
        </div>
      </div>
    </div>
@@ -65,7 +71,7 @@
     </div>
   </footer>
  </div>
-</div>
+ </div>
  <!-- 消息提示 -->
 <div class="alert alert-danger collapse fade in error_message" id="confirm_error" style="display: none;">
   <button  type="button" class="close" aria-label="Close" onclick="close_pop_error()">
@@ -83,6 +89,7 @@
 <script src="/static/bootstrap3.3.0/js/bootstrap.min.js" charset="utf-8"></script>
 <script src="/static/dist/js/extendPagination.js"></script>
 <script src="/static/src/js/common.js"></script>
+<script src="/static/src/js/plan_list.js"></script>
 <script src="/static/src/js/plan_tasks.js"></script>
 <script type="text/javascript">
  $(function(){
@@ -90,8 +97,7 @@
   loading(0);
   creatmenu();
   menu_current(3);
-  nodata_img("plan_tasks");
-  get_task_list();
+  get_cases();
  });
 
 </script>

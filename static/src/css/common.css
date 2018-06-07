@@ -53,6 +53,11 @@ label{
 	padding-top: 200px;
 	padding-left: 150px;
 }
+.loading2{
+	height: 500px;
+	padding-top: 200px;
+	padding-left: 350px;
+}
 .loading_message{
 	text-align: center;
 }

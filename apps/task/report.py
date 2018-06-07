@@ -4,6 +4,7 @@ __date__ = '2018/6/6 下午4:37'
 
 from models import *
 from api.models import *
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.base import View
 from django.contrib.auth.models import User
@@ -23,7 +24,7 @@ def get_tasks(request):
 @login_required
 def get_report(request,task_id):
     if request.method == 'GET':
-        return render(request,"task_report.html")
+        return render(request,"task_report.html",{"task_id":task_id})
     else:
         return render(request,"403.html")
 

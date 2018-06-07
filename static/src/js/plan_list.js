@@ -59,32 +59,7 @@ function createTable(currPage,limit, totalCount, data) {
     let html = [], showNum = limit;
     if (totalCount - (currPage * limit) < 0) {
       showNum = totalCount - ((currPage - 1) * limit);  
-    }                          
-    // html.push('<table class="table table-hover">');
-    // html.push('<thead><tr><th style="width:300px;">计划名称</th><th style="width:150px;">所属项目</th><th style="width:100px;">创建人</th><th style="width:190px;">备注</th><th style="width:190px;">最近测试时间</th><th style="width:100px;">状态</th><th style="width:220px;">操作</th></tr></thead><tbody>');
-    // for (let i = 0; i < showNum; i++) {
-    //   if (i < data.length) {
-    //     html.push('<tr><td id='+data[i].id+'>'+data[i].name+'</td>');
-    //     html.push('<td>'+data[i].proj+'</td>');
-    //     html.push('<td>'+data[i].user+'</td>');
-    //     html.push('<td>'+data[i].description+'</td>');
-    //     html.push('<td>'+data[i].update_time+'</td>');
-    //     if(data[i].task_count===0){
-    //       html.push('<td><span class="label label-primary">闲置</span></td>');
-    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
-    //     }
-    //     else if(data[i].task_count >=1){
-    //       html.push('<td><span class="label label-warning">任务中</span></td>');
-    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
-    //     }
-    //     else{
-    //       html.push('<td><span class="label label-warning"></span></td>');
-    //       html.push('<td><button type="button" class="btn btn-link table_btn_lef" id="account_pwd_reset" onClick="planView(this)">查看</button><button type="button" class="btn btn-link table_btn_lef" id="delete_account" onClick="plan_delete_pop(this)">删除</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="planTasks(this)">历史任务</button><button type="button" class="btn btn-link table_btn_mid" id="delete_account" onClick="create_task_pop(this)">创建任务</button></td>');
-    //     }
-    //     html.push('</tr>');
-    //   }
-    // }
-    // html.push('</tbody></table>');            
+    }                                     
      for (let i = 0; i < showNum; i++) {
         if (i < data.length) {
         html.push('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading'+i+'" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'"><div class="panel-title">');
@@ -177,23 +152,23 @@ function planTasks(id){
   });
 }
 //插入历史任务列表
-function creat_plantasks(data){
+function creat_plantasks(data){ 
   let html = [];  
   if (data.length>=1) {              
     for (let i = 0; i < data.length; i++) {
       html.push('<div class="list-group">');
       switch (data[i]["status"]) {
         case 0 :
-        html.push('<a href="#" class="list-group-item list-group-item-warning" task_id="'+data[i]["id"]+'">');
+        html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-warning" task_id="'+data[i]["id"]+'">');
         break;
         case 1 :
-        html.push('<a href="#" class="list-group-item list-group-item-success" task_id="'+data[i]["id"]+'">');
+        html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-success" task_id="'+data[i]["id"]+'">');
         break;
         case 2 :
-        html.push('<a href="#" class="list-group-item list-group-item-danger" task_id="'+data[i]["id"]+'">');
+        html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-danger" task_id="'+data[i]["id"]+'">');
         break;
         default:
-        html.push('<a href="#" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
+        html.push('<a href="/task/'+data[i]["id"]+'/report" class="list-group-item list-group-item-info" task_id="'+data[i]["id"]+'">');
       }
       html.push('<div class="plantasks_list_left"><ul class="list-unstyled">');
       html.push('<li><span class="list-group-item-heading">'+data[i]["create_time"]+'</span></li>');

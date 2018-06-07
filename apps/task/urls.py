@@ -18,5 +18,5 @@ urlpatterns = [
     url(r'^$',plan_list),
     url(r'^addinfo/$',plan_addinfo),
     url(r'^(?P<plan_id>\w+)/addcase/$', plan_addcase),
-    url(r'^(?P<plan_id>\w+)/history/$',get_tasks),
+    url(r'^(?P<plan_id>\w+)/history/$',get_tasks),  
 ]
