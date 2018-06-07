@@ -29,6 +29,10 @@
 .list-unstyled li{
 	
 }
+pre{
+	 max-height: 500px;
+	 overflow-y: scroll;
+}
 .plantasks_list_left p{
 	max-width: 250px;
 	position: relative;

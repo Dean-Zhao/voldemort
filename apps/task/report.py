@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from api.test_views import test_case,save_result,save_exception
 from api.views import get_slice
 from users.views import login_required,LoginRequiredView
-
+import json
 
 
 @login_required
@@ -63,8 +63,10 @@ def get_result(request,task_id,case_id):
         return JsonResponse({"status": -1, "data": ""})
     r = res[0]
     validations = r.get_all_valids()
+    if r.status_code == 404:
+        resp = r.response
+    else:
+        resp = json.JSONDecoder().decode(r.response)   
     vals = list(validations.values("key", "exp_value", "value", "is_pass"))
-    return JsonResponse({"status":0,"data":{"response":r.response,"request_headers":r.request_headers,"validations":vals}})
-
-
+    return JsonResponse({"status":0,"data":{"response":resp,"request_headers":r.request_headers,"validations":vals}})
 
