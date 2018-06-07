@@ -155,14 +155,15 @@ class PlanQueryView(View):
 
 def save_task(request,plan_id):
     t = task()
-    t.plan = plan.objects.get(id=int(plan_id))
+    p = plan.objects.get(id=int(plan_id))
+    t.plan = p
     env_id = request.POST.get('run_env','0')
     t.runtime_env = runtime_env.objects.get(id=int(env_id))
     t.status=0
     t.user = request.user
     t.save()
-    t.plan.task_count += 1
-    t.save()
+    p.task_count = 1 + p.task_count
+    p.save()
     return t.id
     # return JsonResponse({"msg":'sucess','status':0})
 
@@ -193,6 +194,7 @@ def execute_task(task_id):
 class TaskView(LoginRequiredView,View,):
     def post(self,request,plan_id):
         task_id = save_task(request,plan_id)
+        p = plan.objects.get(id=int(plan_id))
         status = execute_task(task_id)
         if status == 1:
             return JsonResponse({"status":status,"msg":"sucess"})
