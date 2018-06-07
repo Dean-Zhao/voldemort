@@ -108,39 +108,56 @@ function creat_taskscases(currPage,limit, totalCount,data){
   loading(1);
 }
 //插入单个用例执行结果
-function creat_single_cases(data,key){ 
+function creat_single_cases(data,status_code){ 
   let html = [];  
-
-      html.push('<div class="cases_header"><table class="table table-striped"><thead><tr>');
-      html.push('<th style="width:40%">key</th>');
-      html.push('<th style="width:60%">value</th>');
-      html.push('</tr></thead><tbody>');
-     for (var key in data["request_headers"]) {
-        html.push('<tr><td>'+key+'</td><td>'+data["request_headers"][key]+'</td></tr>');
-    }
-      html.push('</tbody></table></div>');
-      html.push('<div class="cases_validation"><table class="table table-striped"><thead><tr>');
-      html.push('<th style="width:30%">key</th>');
-      html.push('<th style="width:30%">exp_value</th>');
-      html.push('<th style="width:30%">value</th>');
-      html.push('<th style="width:10%">result</th>');
-      html.push('</tr></thead><tbody>');
+  let n = data["request_headers"];
+  let w = n.replace(/'/g, '"');
+  // let m = JSON.stringify(w);
+  // console.log(m);
+      // html.push('<div class="cases_header"><table class="table table-striped"><thead><tr>');
+      // html.push('<th style="width:40%">key</th>');
+      // html.push('<th style="width:60%">value</th>');
+      // html.push('</tr></thead><tbody>');
+    //  for (var ss in w) {
+    //     html.push('<tr><td>'+ss+'</td><td>'+w[ss]+'</td></tr>');
+    // }
+    // $.each(JSON.parse(w),function(name,value) {
+    //   console.log(name);
+    //   console.log(value);
+    //   html.push('<tr><td>'+name+'</td><td>'+value+'</td></tr>');
+    // });
+    html.push('<div class="cases_header">');
+    html.push('<pre>');
+    html.push(w);
+    html.push('</pre></div>');
+    html.push('</tbody></table></div>');
+    html.push('<div class="cases_validation"><table class="table table-striped"><thead><tr>');
+    html.push('<th style="width:30%">key</th>');
+    html.push('<th style="width:30%">exp_value</th>');
+    html.push('<th style="width:30%">value</th>');
+    html.push('<th style="width:10%">result</th>');
+    html.push('</tr></thead><tbody>');
      for (let i = 0; i < data["validations"].length; i++) {
         html.push('<tr><td>'+data["validations"][i]["key"]+'</td><td>'+data["validations"][i]["exp_value"]+'</td><td>'+data["validations"][i]["value"]+'</td>');
-        if (data["validations"][i]["key"]===1) {
+        if (data["validations"][i]["is_pass"]===1) {
           html.push('<td><i class="fa fa-check-circle" aria-hidden="true"></i></td>');
         }
-        html.push('<td><i class="fa fa-exclamation-circle" aria-hidden="true"></i></td>');
+        else{
+          html.push('<td><i class="fa fa-exclamation-circle" aria-hidden="true"></i></td>');
+        }
+        
         html.push('</tr>');
     }
       html.push('</tbody></table></div>');
       html.push('<div class="response">');
-      switch (key){
+      switch (parseInt(status_code)){
         case 0:
           html.push('<pre></pre>');
           break;
         case 200:
-          html.push('<pre>'+syntaxHighlight(data["response"])+'</pre>');
+          html.push('<pre>');
+          html.push(syntaxHighlight(data["response"]));
+          html.push('</pre>');
           break;
         case 404:
           html.push('<pre><xmp>'+data["response"]+'</xmp></pre>');
