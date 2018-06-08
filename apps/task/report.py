@@ -63,10 +63,15 @@ def get_result(request,task_id,case_id):
         return JsonResponse({"status": -1, "data": ""})
     r = res[0]
     validations = r.get_all_valids()
-    if r.status_code == 404:
+    try:
+        resp = json.JSONDecoder().decode(r.response)
+    except ValueError:
         resp = r.response
-    else:
-        resp = json.JSONDecoder().decode(r.response)   
+
+    try:
+        headers = json.loads(r.request_headers.replace('\'','"'))
+    except ValueError:
+        headers = r.request_headers
     vals = list(validations.values("key", "exp_value", "value", "is_pass"))
-    return JsonResponse({"status":0,"data":{"response":resp,"request_headers":r.request_headers,"validations":vals}})
+    return JsonResponse({"status":0,"data":{"response":resp,"request_headers":headers,"validations":vals}})
 
