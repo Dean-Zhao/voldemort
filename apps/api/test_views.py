@@ -203,6 +203,7 @@ def verify(result_id,valids):
             except KeyError:
                 item.is_pass=-1
                 item.save()
+                result.is_pass = -1
                 continue
             item.value = value
             if isinstance(item.exp_value,type(value)) :
@@ -210,15 +211,21 @@ def verify(result_id,valids):
                     item.is_pass = 1
                 else :
                     item.is_pass = -1
+                    result.is_pass = -1
             else:
                 try:
                     if value == float(item.exp_value):
                         item.is_pass = 1
+                    else:
+                        item.is_pass = -1
                 except KeyError:
                     value = 'NULL'
+                    item.is_pass = -1
                 except ValueError:
                     if value == item.exp_value:
                         item.is_pass = 1
+                    else:
+                        item.is_pass = -1
                 if item.is_pass == -1:
                     result.is_pass = -1
             item.save()
