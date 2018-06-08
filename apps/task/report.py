@@ -65,13 +65,17 @@ def get_result(request,task_id,case_id):
     validations = r.get_all_valids()
     try:
         resp = json.JSONDecoder().decode(r.response)
+        resp_status = 0
     except ValueError:
         resp = r.response
+        resp_status = 1
 
     try:
         headers = json.loads(r.request_headers.replace('\'','"'))
+        headers_status = 0
     except ValueError:
         headers = r.request_headers
+        headers_status = 1
     vals = list(validations.values("key", "exp_value", "value", "is_pass"))
-    return JsonResponse({"status":0,"data":{"response":resp,"request_headers":headers,"validations":vals}})
+    return JsonResponse({"status":0,"data":{"response":{"data":resp,"status":resp_status},"request_headers":{"data":headers,"status":headers_status},"validations":vals}})
 
