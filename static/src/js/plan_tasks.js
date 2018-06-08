@@ -110,25 +110,9 @@ function creat_taskscases(currPage,limit, totalCount,data){
 //插入单个用例执行结果
 function creat_single_cases(data,status_code){ 
   let html = [];  
-  let n = data["request_headers"];
-  let w = n.replace(/'/g, '"');
-  // let m = JSON.stringify(w);
-  // console.log(m);
-      // html.push('<div class="cases_header"><table class="table table-striped"><thead><tr>');
-      // html.push('<th style="width:40%">key</th>');
-      // html.push('<th style="width:60%">value</th>');
-      // html.push('</tr></thead><tbody>');
-    //  for (var ss in w) {
-    //     html.push('<tr><td>'+ss+'</td><td>'+w[ss]+'</td></tr>');
-    // }
-    // $.each(JSON.parse(w),function(name,value) {
-    //   console.log(name);
-    //   console.log(value);
-    //   html.push('<tr><td>'+name+'</td><td>'+value+'</td></tr>');
-    // });
     html.push('<div class="cases_header">');
     html.push('<pre>');
-    html.push(w);
+    html.push(data["request_headers"]);
     html.push('</pre></div>');
     html.push('</tbody></table></div>');
     html.push('<div class="cases_validation"><table class="table table-striped"><thead><tr>');
