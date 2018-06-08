@@ -109,11 +109,18 @@ function creat_taskscases(currPage,limit, totalCount,data){
 }
 //插入单个用例执行结果
 function creat_single_cases(data,status_code){ 
-  let html = [];  
+  let html = [];
+  let h = data["request_headers"];
+  let h_s = h["data"];
+  let r = data["response"];
+  let r_s = r["data"];
     html.push('<div class="cases_header">');
-    html.push('<pre>');
-    html.push(data["request_headers"]);
-    html.push('</pre></div>');
+    if (h["status"]===0) {
+      html.push('<pre>'+syntaxHighlight(h_s)+'</pre></div>');
+    }
+    else{
+      html.push('<pre>'+syntaxHighlight(rebuildstring(h_s))+'</pre></div>');
+    }
     html.push('</tbody></table></div>');
     html.push('<div class="cases_validation"><table class="table table-striped"><thead><tr>');
     html.push('<th style="width:20%">检查点</th>');
@@ -134,25 +141,14 @@ function creat_single_cases(data,status_code){
     }
       html.push('</tbody></table></div>');
       html.push('<div class="response">');
-      switch (parseInt(status_code)){
-        case 0:
-          html.push('<pre></pre>');
-          break;
-        case 200:
-          html.push('<pre>');
-          html.push(syntaxHighlight(data["response"]));
-          html.push('</pre>');
-          break;
-        case 404:
-          html.push('<pre><xmp>'+data["response"]+'</xmp></pre>');
-          break;
-        case 500:
-          html.push('<pre><xmp>'+data["response"]+'</xmp></pre>');
-          break;
+      if (r["status"]===0) {
+        html.push('<pre>'+syntaxHighlight(r_s)+'</pre></div>');
       }
-
+      else{
+        html.push('<pre>'+r_s+'</pre></div>');
+      }
       html.push('</div>');
-    let mainObj = $('#plan_tasks');
+      let mainObj = $('#plan_tasks');
     mainObj.empty();
     mainObj.html(html.join(''));
     loading2(1);
@@ -261,6 +257,33 @@ function get_single_cases(id,case_id){
       loading2(1); 
     }
   });
+}
+//格式化string
+function rebuildstring(string){
+  m = JSON.stringify(string);
+   let x = [],y = [],z = [],e=[];
+   let d ={},f={};
+   x = m.split('{').join('');
+   y = x.split('}').join('');
+   z = y.replace(/\u'/g, '').replace(/\'/g, '').replace(/\"/g, '').replace(/\ /g, '').split(',');
+   d["count"] = z.length;
+   for (var i=0;i<z.length;i++){
+     if (z[i].indexOf(":")!= -1){
+        let p1 = z[i].split(':');
+        d["k"+i]=p1[0];
+        d["v"+i]=p1[1];
+     }
+     else{
+      let g=i-1;
+      let n = d["v"+g];
+      d["k"+i]=d["k"+g];
+      d["v"+i]=n+","+" "+z[i];
+     }
+   }
+    for(o=0;o<d["count"];o++){  
+        f[d["k"+o]]=d["v"+o]; 
+    } 
+    return f; 
 }
 //格式化json
 function syntaxHighlight(json) {
