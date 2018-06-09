@@ -145,7 +145,7 @@ function creat_single_cases(data,status_code){
         html.push('<pre>'+syntaxHighlight(r_s)+'</pre></div>');
       }
       else{
-        html.push('<pre>'+r_s+'</pre></div>');
+        html.push('<pre><xmp>'+r_s+'</xmp></pre></div>');
       }
       html.push('</div>');
       let mainObj = $('#plan_tasks');
