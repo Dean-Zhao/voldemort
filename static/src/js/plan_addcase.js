@@ -173,10 +173,14 @@ function add_cases(){
           var msg = data["msg"];
           if (Status==0){
             $("#add_cases_btn").prop("disabled","disabled");
-            pop_success_reload(msg,"/plan");
+            pop_success_reload(msg,"/plan",0,"");
           }
           else{
            pop_error(msg); 
+           let resetbtn = function(){
+            $("#add_cases_btn").removeAttr("disabled");
+          }
+          setTimeout(resetbtn,2500);
          }
        },
        error:function(data) 

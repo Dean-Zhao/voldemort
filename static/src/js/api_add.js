@@ -28,6 +28,10 @@ function api_add(){
       }
       else{
         pop_error(Data); 
+        let resetbtn = function(){
+          $("#api_add_btn").removeAttr("disabled");
+        }
+        setTimeout(resetbtn,2500);
       }           
     },
     error:function(data)
@@ -64,6 +68,10 @@ function api_edit(){
       }
       else{
         pop_error(Data); 
+        let resetbtn = function(){
+          $("#api_add_btn").removeAttr("disabled");
+        }
+        setTimeout(resetbtn,2500);
       }           
     },
     error:function(data)

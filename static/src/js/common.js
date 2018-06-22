@@ -133,14 +133,19 @@ function pop_success(mes){
   setTimeout(hehe1,2000);
 }
 //弹出成功提示框并且自动三秒关闭 页面跳转
-function pop_success_reload(mes,string){
+function pop_success_reload(mes,string,id,others){
+  //id=0: 没有参数，否则有参数
   $me2.html(mes);
   $mess2.slideDown(); 
   let hehe1=function(){
     $mess2.slideUp(); 
     let hehe2=function(){
       console.log("refresh");
-    window.location.href=string;
+      if(id===0){
+        window.location.href=string;
+      }else{
+        window.location.href=string+id+others;
+      }
   }
   console.log("upup");
   setTimeout(hehe2,500); 

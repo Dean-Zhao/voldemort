@@ -1,5 +1,3 @@
-var $me = $("#error_message");
-var $mess = $('#process_message');
 // 操作key value 的新增与删除
 //获取profile内容
 function profile_getpams(){
@@ -164,6 +162,7 @@ function case_getpams(){
 	let $b = $("#tab_profile_form");
 	$b.data("bootstrapValidator").validate();  
 	let flag = $b.data("bootstrapValidator").isValid();
+	let api_id = $("#api_id").attr("data-id");
 	if(flag){
 		let map={},result={};
 		let a=$("#t_case_name").val();
@@ -172,7 +171,7 @@ function case_getpams(){
 		map["cookies"]=cookies_getpams();
 		map["parameters"]=pams_getpams();
 		map["validations"]=validations_getpams();
-		map["api_id"]=$("#api_id").attr("data-id");
+		map["api_id"]= api_id
 		map["case_id"]=$("#case_id").attr("data-id");
 		let res=JSON.stringify(map);
 		console.log(res);
@@ -184,13 +183,21 @@ function case_getpams(){
 				data : res,
 				dataType : "json",
 				async : false,
-				success : function(data) {
+				success : function(data) {	
+					var Status = data["status"];
+					var msg = data["msg"];
 					$("#case_add_btn").attr("disabled","disabled");
-					pop_success(data["msg"]); 
-					let hehe2=function(){
-						location.reload();
+					if (Status==0){
+						
+						pop_success_reload(msg,"/api/",api_id,"/cases/");
 					}
-					setTimeout(hehe2,2000); 
+					else{
+						pop_error(msg);
+						let resetbtn = function(){
+							$("#case_add_btn").removeAttr("disabled");
+						}
+						setTimeout(resetbtn,2500);
+					}
 				},
 				error : function(data) {
 					pop_error("系统异常！");  
