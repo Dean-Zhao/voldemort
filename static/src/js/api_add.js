@@ -18,13 +18,10 @@ function api_add(){
     {
       var Data = data["msg"];
       var Status = data["status"];
+      $("#api_add_btn").attr("disabled","disabled");
       if (Status===0){
-        $("#api_add_btn").attr("disabled","disabled");
-        pop_success(Data); 
-        let hehe2=function(){
-          location.reload();
-        }
-        setTimeout(hehe2,2000);  
+        
+       pop_success_reload(Data,"/api/apiList/",0,"");  
       }
       else{
         pop_error(Data); 
@@ -58,13 +55,10 @@ function api_edit(){
     {
       var Data = data["msg"];
       var Status = data["status"];
+      $("#api_add_btn").attr("disabled","disabled");
       if (Status===0){
-        $("#api_add_btn").attr("disabled","disabled");
-        pop_success(Data); 
-        let hehe2=function(){
-          location.reload();
-        }
-        setTimeout(hehe2,2000);  
+        
+        pop_success_reload(Data,"/api/apiList/",0,""); 
       }
       else{
         pop_error(Data); 
