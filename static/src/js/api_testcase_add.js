@@ -188,7 +188,7 @@ function case_getpams(){
 					var msg = data["msg"];
 					$("#case_add_btn").attr("disabled","disabled");
 					if (Status==0){
-						
+		
 						pop_success_reload(msg,"/api/",api_id,"/cases/");
 					}
 					else{

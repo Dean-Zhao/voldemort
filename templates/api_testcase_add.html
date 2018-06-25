@@ -203,7 +203,11 @@
               validators:{
                 notEmpty:{
                   message:'用例名称不能为空'
-                }
+                },
+                regexp: {
+                            regexp: /^[^&]+$/,
+                            message: '不可以输入&连接符'
+                        }
               }
             }                  
           }        

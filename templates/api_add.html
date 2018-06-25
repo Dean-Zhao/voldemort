@@ -124,7 +124,11 @@
               validators:{
                 notEmpty:{
                   message:'API名称不能为空'
-                         }
+                         },
+                  regexp: {
+                            regexp: /^[^&]+$/,
+                            message: '不可以输入&连接符'
+                        }
                          }
                      },
               path:{     //密码校验
@@ -132,7 +136,11 @@
               validators:{
                 notEmpty:{
                   message:'请求路径不能为空'
-                         }
+                         },
+                  regexp: {
+                            regexp: /^[^&]+$/,
+                            message: '不可以输入&连接符'
+                        }
                          }
                          }                   
                      }        
