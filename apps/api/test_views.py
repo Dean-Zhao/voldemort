@@ -92,9 +92,10 @@ def enctype_aes(env, para):
     for key in sorted(para.keys()):
         if key != 'appId':
             res = encrypt(tokenId,para[key])
+            para_aes[key]=res.upper()
         else:
             res = para[key]
-        para_aes[key] = res.upper()
+            para_aes[key] = res
         s.append(urllib.urlencode({key:para_aes[key]}))
     p = '&'.join(s)
     md5 = hashlib.md5()
@@ -153,7 +154,7 @@ def test_case(env_id, case):
         parameter = enctype_aes(env, parameter)
     else:
         if enctype == 1:
-            parameter = enctype_1(env,parameter)
+            parameter = enctype_aes(env,parameter)
         elif enctype == 2:
             parameter = enctype_2(env,parameter,url)
 
