@@ -11,6 +11,7 @@ from users.views import login_required, LoginRequiredView
 import hashlib
 import urllib
 from AESUtil import encrypt,decrypt
+import re
 
 from time import sleep
 
@@ -24,15 +25,32 @@ def save_result(r, case, task_id, env_id):
     result.case = case
     result.response_headers = r.headers.__str__()
     # result.response_cookies = r.cookies.__str__()
-    if r.headers._store['content-type'][1] == 'application/json':
-        result.response = r.text.decode("unicode-escape")
-    else:
-        result.response = r.text
+
     result.status_code = r.status_code
     result.request_headers = r.request.headers.__str__()
     result.url = r.url
     result.task_id = task_id
     result.runtime_env = runtime_env.objects.get(id=(env_id))
+
+    if r.headers._store['content-type'][1] == 'application/json':
+        res = r.text.decode("unicode-escape")
+    else:
+        res = r.text
+    # 风云诀加密时，对返回结果进行解密
+    if case.encryption_type == 1 and r.status_code == 200:
+        res_json = json.loads(res)
+        data = res_json.get("data", "")
+        if res_json["status"] == 0 and data != "":
+            r_env = runtime_env.objects.get(id=int(env_id))
+            data_decrypt = decrypt(r_env.token_id, data)
+            data_decrypt = re.findall(r'{.*}',data_decrypt)[0].decode('utf-8')
+            res_json["data"]= json.loads(data_decrypt)
+            result.response = json.dumps(res_json).decode("unicode-escape")
+        else:
+            result.response = res
+    else:
+        result.response = res
+
     if r.status_code != 200:
         result.is_pass = -1
     result.save()
@@ -150,13 +168,10 @@ def test_case(env_id, case):
     if parameter:
         parameter = json.loads(parameter)
     enctype = case.encryption_type
-    if env.uri == 'http://zx.tcredit.com':
-        parameter = enctype_aes(env, parameter)
-    else:
-        if enctype == 1:
-            parameter = enctype_aes(env,parameter)
-        elif enctype == 2:
-            parameter = enctype_2(env,parameter,url)
+    if enctype == 1:
+        parameter = enctype_aes(env,parameter)
+    elif enctype == 2:
+        parameter = enctype_2(env,parameter,url)
 
 
     method = api.method
@@ -305,10 +320,12 @@ class CaseTestView(LoginRequiredView, View):
             else:
                 vals = []
 
+
+
         if r.status_code == 200:
             return JsonResponse({"status": 0, "message": u"测试成功",
-                                 "result": {"status_code": r.status_code, "url": r.url, "response": r.json(),"count":len(vals),
+                                 "result": {"status_code": result.status_code, "url": result.url, "response": result.response,"count":len(vals),
                                             "vals": vals }})
         else:
-            return JsonResponse({"status": 0, "message":u"测试失败","result":{"status_code": r.status_code, "url": r.url, "response": r.text,"count":len(vals),
+            return JsonResponse({"status": 0, "message":u"测试失败","result":{"status_code": result.status_code, "url": result.url, "response": result.response,"count":len(vals),
                                             "vals": vals }})
