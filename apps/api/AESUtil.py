@@ -27,7 +27,7 @@ def encrypt(key,plaintext):
 def decrypt(key,encode):
 	obj = AES.new(a2b_hex(key))
 	res = obj.decrypt(a2b_hex(encode))
-	return b2a_hex(res)
+	return res
 
 # print encrypt(key, plaintext)
 
