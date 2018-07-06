@@ -5,7 +5,6 @@ function api_testcase_test(){
 	let api_no = $("#api_id").attr("data-id");
 	let case_no = $("#case_id").attr("data-id");
 	let env = $("#get_env option:selected").attr("value");
-	console.log(env);
 	// let v_count = $("#tab_validations_form").children("div").length;
 	let $btn = $("#testButton").button('loading');
 	let interval = setInterval(function(){
@@ -18,15 +17,17 @@ function api_testcase_test(){
 			success : function(data) {
 				let result = data["result"];
 				let msg = data["message"];
-				let html = [];
-				let mainObj = $('#tab_validations_form');
+				let html = [],html1=[];
+				let mainObj = $('#tab_validations_form'),mainObj1 = $('#response_area');
 				if(data["status"] === 0){
-					console.log("111");
 					clearInterval(interval);
 					//处理测试结果；
 					let count = result["count"];
-					let response = JSON.stringify(data["result"]["response"]);
-					$("#case_response").html(response);
+					// let response = JSON.stringify(data["result"]["response"]);
+					// $("#case_response").html(response);
+					html1.push('<pre><xmp>'+data["result"]["response"]+'</xmp></pre>');
+					mainObj1.empty();
+					mainObj1.html(html1.join(''));
 					for (var i = 0; i < count; i++) {
 						let desc = result["vals"][i]["is_pass"];
 						if (desc == 1) {
