@@ -65,3 +65,7 @@ span{
 	margin-bottom: 0px;
 /*	padding-top: 25px;
 */}
+pre{
+	background-color: none;
+	border:none;
+}
